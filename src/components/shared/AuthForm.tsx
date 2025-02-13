@@ -25,6 +25,7 @@ import { FIELD_NAMES, FIELD_TYPES } from "@/constants";
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 import { RiLoader5Line } from "react-icons/ri";
+import { useRouter } from "next/navigation";
 
 interface AuthFormProps<T extends FieldValues> {
   type: "signin" | "signup";
@@ -40,6 +41,7 @@ const AuthForm = <T extends FieldValues>({
   onSubmit,
 }: AuthFormProps<T>) => {
   const { toast } = useToast();
+  const router = useRouter();
   const isSignIn = type === "signin";
 
   const form: UseFormReturn<T> = useForm({
@@ -63,6 +65,7 @@ const AuthForm = <T extends FieldValues>({
         title: "Success",
         description: res.message,
       });
+      router.push("/");
     } catch (error: any) {
       toast({
         title: "Error",

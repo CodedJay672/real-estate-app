@@ -8,16 +8,16 @@ import {
   MdClose,
   MdOutlineHome,
   MdOutlineLogin,
-  MdOutlineLogout,
   MdOutlineMenu,
-  MdOutlineStackedLineChart,
   MdPersonOutline,
 } from "react-icons/md";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { Session } from "next-auth";
 import { getInitials } from "@/lib/utils";
-import { signOut } from "@/auth";
+import { logOut } from "@/lib/actions/auth";
+import { RiListView } from "react-icons/ri";
+import CustomSheet from "../shared/CustomSheet";
 
 const Header = ({ session }: { session: Session | null }) => {
   const authRef = useRef<HTMLAnchorElement>(null);
@@ -59,25 +59,38 @@ const Header = ({ session }: { session: Session | null }) => {
           <Link href="/">Blogs</Link>
         </li>
       </ul>
-
-      <div className="hidden md:flex gap-[6px] items-center">
-        <Link href="/auth/sign-in">Sign in</Link>
-        <Button
-          className="bg-blue-300 text-subtle-light"
-          onClick={handleAuthClick}
+      {session ? (
+        <div
+          className="hidden w-28 h-10 p-1 rounded-full border border-blue-200 lg:flex items-center gap-1 cursor-pointer"
+          onClick={logOut}
         >
-          Sign Up
-        </Button>
-        <Link href="/auth/sign-up" ref={authRef} className="hidden">
-          Sign Up
-        </Link>
-      </div>
+          <Avatar className="w-8 h-8">
+            <AvatarFallback>{getInitials(session?.user?.name!)}</AvatarFallback>
+          </Avatar>
+          <span className="text-blue-300 font-medium">Logout</span>
+        </div>
+      ) : (
+        <div className="hidden md:flex gap-[6px] items-center">
+          <Link href="/auth/sign-in">Sign in </Link>
+          <Button
+            className="bg-blue-300 text-subtle-light"
+            onClick={handleAuthClick}
+          >
+            Sign Up
+          </Button>
+          <Link href="/auth/signup" ref={authRef} className="hidden">
+            Sign Up
+          </Link>
+        </div>
+      )}
+
+      {/** Mobile Menu */}
       <div className="flex items-center gap-2 md:hidden">
-        {session?.user?.name && (
+        {session && (
           <Link href="/profile-page">
             <Avatar className="size-8 md:size-10">
               <AvatarFallback className="text-subtle-light bg-blue-300 font-semibold text-sm md:text-base">
-                {getInitials(session.user.name)}
+                {getInitials(session?.user?.name!)}
               </AvatarFallback>
             </Avatar>
           </Link>
@@ -96,46 +109,45 @@ const Header = ({ session }: { session: Session | null }) => {
           />
         )}
       </div>
-      {showMenu && (
-        <div className="absolute flex flex-col items-end w-44 max-w-sm h-96 bg-subtle-light top-10 right-1 p-1 rounded-lg shadow-md shadow-blue-200 md:hidden">
-          <div className="w-full flex-1 justify-center items-end flex flex-col gap-6 p-1">
-            <Link href="/" className="flex items-center gap-[6px]">
-              <span className="text-blue-300">Home</span>
-              <MdOutlineHome size={24} className="text-blue-300" />
-            </Link>
-            <Link href="/" className="flex items-center gap-[6px]">
-              <span>Listings</span>
-              <MdOutlineStackedLineChart size={24} className="text-blue-300" />
-            </Link>
-            <Link href="/" className="flex items-center gap-[6px]">
-              <span>About Us</span>
-              <MdPersonOutline size={24} className="text-blue-300" />
-            </Link>
+      <CustomSheet open={showMenu} onOpenChange={setShowMenu}>
+        <div className="w-full flex-1 justify-center items-end flex flex-col gap-6 p-1">
+          <Link href="/" className="flex items-center gap-[6px]">
+            <span className="text-blue-300">Home</span>
+            <MdOutlineHome size={24} className="text-blue-300" />
+          </Link>
+          <Link href="/" className="flex items-center gap-[6px]">
+            <span>Listings</span>
+            <RiListView size={24} className="text-blue-300" />
+          </Link>
+          <Link href="/" className="flex items-center gap-[6px]">
+            <span>About Us</span>
+            <MdPersonOutline size={24} className="text-blue-300" />
+          </Link>
 
-            <Link href="/" className="flex items-center gap-[6px]">
-              <span>Blogs</span>
-              <MdChatBubbleOutline size={24} className="text-blue-300" />
-            </Link>
-          </div>
-          {session?.user ? (
-            <div
-              className="w-full flex items-center justify-end gap-1 cursor-pointer p-1 bg-blue-300"
-              onClick={() => signOut()}
-            >
-              <span>Logout</span>
-              <MdOutlineLogout size={24} className="text-blue-300" />
-            </div>
-          ) : (
-            <Link
-              href="/auth/sign-in"
-              className="w-full flex items-center gap-[6px] justify-end p-1"
-            >
-              <span className="text-blue-300 text-sm font-medium">Sign In</span>
-              <MdOutlineLogin size={24} />
-            </Link>
-          )}
+          <Link href="/" className="flex items-center gap-[6px]">
+            <span>Blogs</span>
+            <MdChatBubbleOutline size={24} className="text-blue-300" />
+          </Link>
         </div>
-      )}
+        {session ? (
+          <form action={logOut}>
+            <Button
+              type="submit"
+              className="w-full h-10 bg-transparent text-blue-300 hover:bg-transparent hover:text-blue-300 "
+            >
+              Sign Out
+            </Button>
+          </form>
+        ) : (
+          <Link
+            href="/auth/sign-in"
+            className="w-full flex items-center gap-[6px] justify-end p-1"
+          >
+            <span className="text-blue-300 text-sm font-medium">Sign In</span>
+            <MdOutlineLogin size={24} />
+          </Link>
+        )}
+      </CustomSheet>
     </nav>
   );
 };

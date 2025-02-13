@@ -1,13 +1,10 @@
-import { auth } from "@/auth";
-import Header from "@/components/container/Header";
+import Topbar from "@/components/container/Topbar";
 import { ReactNode } from "react";
 
 const HomeLayout = async ({ children }: { children: ReactNode }) => {
-  const session = await auth();
-
   return (
     <main className="min-h-screen bg-subtle-light">
-      <Header session={session} />
+      <Topbar />
       {children}
     </main>
   );

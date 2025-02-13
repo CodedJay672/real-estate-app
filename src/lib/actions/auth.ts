@@ -4,7 +4,7 @@ import { db } from "@/db/drizzle";
 import { signInSchema, signUpSchema } from "../validations/schema";
 import { usersTable } from "@/db/schema";
 import bcryptjs from "bcryptjs";
-import { signIn } from "@/auth";
+import { signIn, signOut } from "@/auth";
 import { eq } from "drizzle-orm";
 
 export const signInWithCreds = async ({
@@ -86,4 +86,8 @@ export const signUp = async ({
   } catch (error: any) {
     throw new Error(error);
   }
+};
+
+export const logOut = async () => {
+  await signOut();
 };
