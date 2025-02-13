@@ -1,6 +1,6 @@
 import NextAuth, { CredentialsSignin, User } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import { db } from "./db";
+import { db } from "./db/drizzle";
 import { usersTable } from "./db/schema";
 import { eq } from "drizzle-orm";
 import { compare } from "bcryptjs";

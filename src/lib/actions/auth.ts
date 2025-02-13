@@ -1,6 +1,6 @@
 "use server";
 
-import { db } from "@/db";
+import { db } from "@/db/drizzle";
 import { signInSchema, signUpSchema } from "../validations/schema";
 import { usersTable } from "@/db/schema";
 import bcryptjs from "bcryptjs";
