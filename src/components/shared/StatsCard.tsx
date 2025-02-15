@@ -1,6 +1,6 @@
 import React from "react";
 
-const StatsCard = ({ title, value }: { title: string; value: string }) => {
+const StatsCard = ({ title, value }: { title: string; value: number }) => {
   return (
     <article className="w-full p-4 shadow-md rounded-xl border">
       <h2 className="text-sm lg:text-lg font-normal">{title}</h2>
