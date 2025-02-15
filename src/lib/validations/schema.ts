@@ -12,3 +12,21 @@ export const signUpSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6),
 });
+
+export const productSchema = z.object({
+  name: z.string(),
+  title: z.string(),
+  description: z.string(),
+  price: z.coerce.number(),
+  location: z.string(),
+  propertyType: z.enum(["house", "land"]),
+  bedrooms: z.coerce.number().min(1),
+  bathrooms: z.coerce.number().min(1),
+  size: z.coerce.number(),
+  listingStatus: z.enum(["selling", "sold out", "reopened"]),
+  imageUrl: z.string(),
+  amenities: z.string(),
+  landmarks: z.string(),
+});
+
+export type productType = z.infer<typeof productSchema>; // infer the type of the schema
