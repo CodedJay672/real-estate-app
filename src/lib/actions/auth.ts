@@ -11,6 +11,7 @@ import { productsTable, usersTable } from "@/db/schema";
 import bcryptjs from "bcryptjs";
 import { auth, signIn, signOut } from "@/auth";
 import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 
 export const signInWithCreds = async ({
   email,
@@ -136,5 +137,60 @@ export const uploadProducts = async (data: productType) => {
     return { success: true, message: "Product uploaded successfully" };
   } catch (error: any) {
     throw new Error(`Error uploading product: ${error.message}`);
+  }
+};
+
+export const deleteProduct = async (id: string) => {
+  const session = await auth();
+
+  if (!session) {
+    return { success: false, message: "User not authenticated" };
+  }
+
+  try {
+    const response = await db
+      .delete(productsTable)
+      .where(eq(productsTable.id, id));
+
+    if (!response) {
+      return { success: false, message: "Error deleting product" };
+    }
+
+    revalidatePath("/admin");
+    return { success: true, message: "Product deleted successfully" };
+  } catch (error: any) {
+    throw new Error(`Error deleting product: ${error.message}`);
+  }
+};
+
+export const getAllProducts = async () => {
+  try {
+    const products = await db.select().from(productsTable);
+
+    if (!products) {
+      return { success: false, message: "Error fetching products" };
+    }
+
+    return { success: true, data: products };
+  } catch (error: any) {
+    throw new Error(`something went wrong: ${error.message}`);
+  }
+};
+
+export const getUser = async (email: string) => {
+  try {
+    const user = await db
+      .select()
+      .from(usersTable)
+      .where(eq(usersTable.email, email))
+      .limit(1);
+
+    if (!user) {
+      return { success: false, message: "Error fetching user" };
+    }
+
+    return { success: true, data: user };
+  } catch (error: any) {
+    throw new Error(`Error fetching user: ${error.message}`);
   }
 };

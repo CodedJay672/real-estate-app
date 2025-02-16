@@ -1,8 +1,6 @@
 import { auth } from "@/auth";
 import Sidebar from "@/components/container/Sidebar";
-import { db } from "@/db/drizzle";
-import { usersTable } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { getUser } from "@/lib/actions/auth";
 import { redirect } from "next/navigation";
 import React, { ReactNode } from "react";
 
@@ -12,17 +10,14 @@ const AdminLayout = async ({ children }: { children: ReactNode }) => {
   let user;
 
   if (session) {
-    user = await db
-      .select()
-      .from(usersTable)
-      .where(eq(usersTable.email, session?.user?.email ?? ""))
-      .limit(1);
+    const response = await getUser(session?.user?.email!);
 
-    if (user.length === 0) {
-      return null;
+    if (!response.success) {
+      return;
     }
 
-    const isAdmin = user[0].role === "admin";
+    user = response.data;
+    const isAdmin = user?.[0].role === "admin";
 
     if (!isAdmin) {
       redirect("/");

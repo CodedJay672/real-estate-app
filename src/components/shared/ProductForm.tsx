@@ -20,9 +20,11 @@ import { Textarea } from "../ui/textarea";
 import FileUploader from "./FileUploader";
 import { useToast } from "@/hooks/use-toast";
 import { uploadProducts } from "@/lib/actions/auth";
+import { useRouter } from "next/navigation";
 
 const ProductForm = () => {
   const { toast } = useToast();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof productSchema>>({
     resolver: zodResolver(productSchema),
@@ -39,7 +41,6 @@ const ProductForm = () => {
       listingStatus: "selling",
       imageUrl: "",
       amenities: "",
-      landmarks: "",
     },
   });
 
@@ -59,6 +60,7 @@ const ProductForm = () => {
         title: "Success!!",
         description: response.message,
       });
+      router.push("/admin");
     } catch (error: any) {
       toast({
         title: "An error occurred",

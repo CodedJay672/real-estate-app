@@ -26,7 +26,6 @@ export const productSchema = z.object({
   listingStatus: z.enum(["selling", "sold out", "reopened"]),
   imageUrl: z.string(),
   amenities: z.string(),
-  landmarks: z.string(),
 });
 
 export type productType = z.infer<typeof productSchema>; // infer the type of the schema

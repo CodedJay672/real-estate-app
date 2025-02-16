@@ -8,6 +8,20 @@
       "when": 1739582588626,
       "tag": "0000_normal_otto_octavius",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1739634341397,
+      "tag": "0001_chief_hydra",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1739654335879,
+      "tag": "0003_freezing_norrin_radd",
+      "breakpoints": true
     }
   ]
 }

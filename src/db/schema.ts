@@ -1,5 +1,7 @@
+import { sql } from "drizzle-orm";
 import {
   integer,
+  jsonb,
   pgEnum,
   pgTable,
   text,
@@ -36,9 +38,15 @@ export const productsTable = pgTable("products", {
   listingStatus: LISTING_STATUS("status").notNull().default("selling"),
   price: integer("price").notNull(),
   description: text("description").notNull(),
+  bedrooms: integer("bedrooms"),
+  bathrooms: integer("bathrooms"),
   size: integer("size").notNull(),
   imageUrl: text("image_url").notNull(),
   amenities: text("amenities"),
+  likes: text("likes")
+    .array()
+    .notNull()
+    .default(sql`ARRAY[]::text[]`),
   createdBy: uuid("created_by")
     .notNull()
     .references(() => usersTable.id),

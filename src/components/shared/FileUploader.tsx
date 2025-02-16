@@ -61,6 +61,7 @@ const FileUploader = ({
         ref={fileUploadRef}
         onSuccess={onSuccess}
         onError={onError}
+        folder={"/product-listings"}
       />
 
       <button

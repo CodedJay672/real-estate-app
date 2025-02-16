@@ -23,7 +23,10 @@ const Sidebar = ({ fullName }: Partial<Props>) => {
 
   return (
     <nav className="w-14 lg:w-64 h-screen bg-blue-50 border-r border-gray-200 flex flex-col justify-between items-center pt-4 pb-2 sticky left-0 top-0">
-      <div className="p-2 w-full rounded-full flex justify-center lg:justify-start items-center">
+      <Link
+        href="/"
+        className="p-2 w-full rounded-full flex justify-center lg:justify-start items-center"
+      >
         <Image
           src="/assets/logo.png"
           alt="clean beautiful properties"
@@ -35,7 +38,7 @@ const Sidebar = ({ fullName }: Partial<Props>) => {
           <h3 className="text-[18px] tracking-widest font-bold">CLEAN &</h3>
           <p className="text-[9px] font-semibold -mt-1">Beautiful Properties</p>
         </div>
-      </div>
+      </Link>
       <ul className="flex-1 mt-10 w-full p-1 space-y-3">
         <li className="">
           <Link

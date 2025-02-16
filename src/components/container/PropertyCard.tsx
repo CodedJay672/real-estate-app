@@ -2,31 +2,28 @@
 
 import { Session } from "next-auth";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { CiHeart } from "react-icons/ci";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { IKImage } from "imagekitio-next";
+import { RiHeart2Fill } from "react-icons/ri";
 
 interface cardProps {
   id: number;
   name: string;
   description: string;
   price: number;
-  address: string;
-  city: string;
-  state: string;
-  zipCode: number;
-  country: string;
+  location: string;
   propertyType: string;
   bedrooms: number;
   bathrooms: number;
-  squareFeet: number;
-  lotSize: number;
-  yearBuilt: number;
-  listingStatus: string;
-  listingDate: string;
-  images: string[];
-  amenities: string[];
+  size: number;
+  createdAt: Date;
+  status: string;
+  imageUrl: string;
+  amenities: string;
+  likes: string[];
   session: Session | null;
 }
 
@@ -35,67 +32,79 @@ const PropertyCard = ({
   name,
   description,
   price,
-  address,
-  city,
-  state,
-  zipCode,
-  country,
+  location,
   propertyType,
   bedrooms,
   bathrooms,
-  squareFeet,
-  lotSize,
-  yearBuilt,
-  listingStatus,
-  listingDate,
-  images,
+  size,
+  status,
+  createdAt,
+  imageUrl,
   amenities,
+  likes,
   session,
 }: cardProps) => {
   const router = useRouter();
+  const [totalLikes, setTotalLikes] = useState(0);
 
-  const likeProperty = async (id: number) => {
+  const handleLikeProperty = async (id: number) => {
     if (!session?.user) {
       router.push("/auth/sign-in");
     }
 
-    // const res = await addToLikes(id);
+    //check if the user has already liked the property
+    //if yes, remove the like
+    //if no, add the like
   };
 
   return (
     <article className="w-full shadow-md rounded-lg overflow-hidden bg-subtle-light border border-blue-200">
       <div className="w-full overflow-hidden relative">
         <Image
-          src={images[0]}
+          src={imageUrl}
           alt={name}
-          width={800}
-          height={500}
+          width={600}
+          height={400}
           className="object-cover"
         />
+
         <div className="absolute left-5 bottom-2 bg-blue-200 border border-blue-300 rounded-full size-10 flex justify-center items-center cursor-pointer">
-          <CiHeart
-            size={24}
-            className="text-blue-300"
-            onClick={() => likeProperty(id)}
-          />
+          {likes.length > 0 ? (
+            <RiHeart2Fill
+              size={24}
+              className="text-blue-300 fill-blue-300"
+              onClick={() => handleLikeProperty(id)}
+            />
+          ) : (
+            <CiHeart
+              size={24}
+              className="text-blue-300"
+              onClick={() => handleLikeProperty(id)}
+            />
+          )}
         </div>
       </div>
       <Link href={`/details/${id}`} className="inline-block w-full px-4 py-8">
-        <h2 className="text-base font-semibold">{name}</h2>
-        <p className="text-base text-gray-400 mt-2 line-clamp-2">
-          {description}
-        </p>
-        <div className="flex justify-between items-center mt-4 gap-4">
-          <p className="text-3xl font-semibold">${price.toLocaleString()}</p>
-          <p className="text-sm text-gray-400">{`${bedrooms} BR | ${bathrooms} BA | ${squareFeet} Sq Ft`}</p>
+        <h2 className="text-sm font-semibold">{name}</h2>
+        <p className="text-sm text-gray-400 mt-2 line-clamp-2">{description}</p>
+        <div className="flex items-center mt-4 gap-4">
+          <p className="text-xl font-bold">
+            {price.toLocaleString("en-NG", {
+              style: "currency",
+              currency: "NGN",
+            })}
+          </p>
+          <p className="text-sm text-gray-300">{`${bedrooms ?? "N/A"} BR | ${
+            bathrooms ?? "N/A"
+          } BA | ${size ?? "N/A"} Sqm`}</p>
         </div>
         <div className="flex items-start flex-wrap mt-4 gap-2">
-          {amenities.map((amenity, index) => (
+          {amenities.split(",").map((amenity, index) => (
             <span
               key={index}
               className="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded-lg text-center"
             >
-              {amenity}
+              {amenity.trim()}
             </span>
           ))}
         </div>
