@@ -14,11 +14,14 @@ export type listings = {
   listingStatus: string;
   likes: string[];
   createdAt: Date;
+  updatedAt?: Date;
+  imageUrl?: string;
+  description?: string;
 };
 
 const columnHelper = createColumnHelper<listings>();
 
-export const columns: ColumnDef<listings>[] = [
+export const productColumns: ColumnDef<listings>[] = [
   {
     accessorKey: "id",
     cell: (props) => <span>{props.row.index + 1}</span>,

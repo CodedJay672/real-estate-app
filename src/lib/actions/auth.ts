@@ -194,3 +194,17 @@ export const getUser = async (email: string) => {
     throw new Error(`Error fetching user: ${error.message}`);
   }
 };
+
+export const getAllUsers = async () => {
+  try {
+    const users = await db.select().from(usersTable);
+
+    if (!users) {
+      return { success: false, message: "Error fetching users" };
+    }
+
+    return { success: true, data: users };
+  } catch (error: any) {
+    throw new Error(`Error fetching users: ${error.message}`);
+  }
+};
