@@ -37,7 +37,7 @@ const Listings = async () => {
               type="search"
               name="search"
               placeholder="Search products..."
-              className="text-sm w-1/3 placeholder:text-sm placeholder:text-blue-50 border-b focus:ring-0 focus:outline-0 focus:border-blue-300 transition-all"
+              className="text-sm w-1/3 placeholder:text-sm placeholder:text-blue-50 focus:ring-0 focus:outline-0 focus:border-b-blue-300 transition-all"
             />
           </div>
           <DataTable columns={productColumns} data={data!} />

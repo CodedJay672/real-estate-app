@@ -6,6 +6,7 @@ import {
 } from "@/components/table/listings/definition";
 import { userColumn } from "@/components/table/users/definition";
 import { getAllProducts, getAllUsers } from "@/lib/actions/auth";
+import { cache } from "react";
 
 const AdminPage = async () => {
   const response = await getAllProducts();

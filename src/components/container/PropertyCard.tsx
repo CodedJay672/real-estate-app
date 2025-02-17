@@ -1,29 +1,20 @@
 "use client";
 
 import { Session } from "next-auth";
-import Image from "next/image";
 import React, { useState } from "react";
 import { CiHeart } from "react-icons/ci";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { IKImage } from "imagekitio-next";
 import { RiHeart2Fill } from "react-icons/ri";
+import { listings } from "../table/listings/definition";
+import config from "@/lib/config";
+import { formatTime } from "@/lib/utils";
 
-interface cardProps {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  location: string;
-  propertyType: string;
-  bedrooms: number;
+interface cardProps extends Partial<listings> {
   bathrooms: number;
-  size: number;
-  createdAt: Date;
-  status: string;
-  imageUrl: string;
+  bedrooms: number;
   amenities: string;
-  likes: string[];
   session: Session | null;
 }
 
@@ -37,17 +28,16 @@ const PropertyCard = ({
   bedrooms,
   bathrooms,
   size,
-  status,
-  createdAt,
+  listingStatus,
   imageUrl,
   amenities,
   likes,
+  createdAt,
   session,
 }: cardProps) => {
   const router = useRouter();
-  const [totalLikes, setTotalLikes] = useState(0);
 
-  const handleLikeProperty = async (id: number) => {
+  const handleLikeProperty = async (id: string) => {
     if (!session?.user) {
       router.push("/auth/sign-in");
     }
@@ -59,37 +49,53 @@ const PropertyCard = ({
 
   return (
     <article className="w-full shadow-md rounded-lg overflow-hidden bg-subtle-light border border-blue-200">
-      <div className="w-full overflow-hidden relative">
-        <Image
-          src={imageUrl}
-          alt={name}
-          width={600}
-          height={400}
+      <div className="w-full min-h-48 overflow-hidden relative">
+        <div className="absolute top-0 left-0 p-2 z-10">
+          <span className="text-xs bg-green-600 text-subtle-light rounded-lg p-1">
+            {listingStatus}
+          </span>
+          <span className="text-gray-700 text-xs p-1 rounded-md">
+            {propertyType}
+          </span>
+        </div>
+        <IKImage
+          path={imageUrl}
+          urlEndpoint={config.env.imagekit.urlEndpoint}
+          alt={name!}
+          fill
+          lqip={{ active: true }}
+          loading="lazy"
           className="object-cover"
         />
 
         <div className="absolute left-5 bottom-2 bg-blue-200 border border-blue-300 rounded-full size-10 flex justify-center items-center cursor-pointer">
-          {likes.length > 0 ? (
+          {likes && likes.length > 0 ? (
             <RiHeart2Fill
               size={24}
               className="text-blue-300 fill-blue-300"
-              onClick={() => handleLikeProperty(id)}
+              onClick={() => handleLikeProperty(id!)}
             />
           ) : (
             <CiHeart
               size={24}
               className="text-blue-300"
-              onClick={() => handleLikeProperty(id)}
+              onClick={() => handleLikeProperty(id!)}
             />
           )}
         </div>
       </div>
       <Link href={`/details/${id}`} className="inline-block w-full px-4 py-8">
-        <h2 className="text-sm font-semibold">{name}</h2>
+        <small className="text-xs text-gray-500 mb-2 inline-block">
+          {formatTime(createdAt)}
+        </small>
+        <div className="flex items-center justify-between">
+          <h2 className="text-sm font-semibold">{name}</h2>
+          <p className="text-sm text-gray-400">{location}</p>
+        </div>
         <p className="text-sm text-gray-400 mt-2 line-clamp-2">{description}</p>
         <div className="flex items-center mt-4 gap-4">
           <p className="text-xl font-bold">
-            {price.toLocaleString("en-NG", {
+            {price?.toLocaleString("en-NG", {
               style: "currency",
               currency: "NGN",
             })}
