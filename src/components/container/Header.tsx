@@ -110,7 +110,7 @@ const Header = ({ session }: { session: Session | null }) => {
         )}
       </div>
       <CustomSheet open={showMenu} onOpenChange={setShowMenu}>
-        <div className="w-full flex-1 justify-center items-end flex flex-col gap-6 p-1">
+        <div className="w-full flex-1 justify-start items-end flex flex-col gap-6 p-1">
           <Link href="/" className="flex items-center gap-[6px]">
             <span className="text-blue-300">Home</span>
             <MdOutlineHome size={24} className="text-blue-300" />
