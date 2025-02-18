@@ -21,6 +21,7 @@ const Actions = (id: string) => {
           description: res.message,
           variant: "destructive",
         });
+        return;
       }
 
       toast({
@@ -35,9 +36,10 @@ const Actions = (id: string) => {
       });
     }
   };
+
   return (
     <div className="w-full flex gap-2 items-center">
-      <Link href={`listings/update/${id}`}>
+      <Link href={`admin/listings/update/${id}`}>
         <MdOutlineEdit size={16} className="cursor-pointer" />
       </Link>
       <MdOutlineDelete
