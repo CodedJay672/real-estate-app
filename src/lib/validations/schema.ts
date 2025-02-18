@@ -28,4 +28,10 @@ export const productSchema = z.object({
   amenities: z.string(),
 });
 
+export const contactSchema = z.object({
+  name: z.string().nonempty(),
+  email: z.string().email(),
+  message: z.string().nonempty(),
+});
+
 export type productType = z.infer<typeof productSchema>; // infer the type of the schema

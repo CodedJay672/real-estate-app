@@ -12,6 +12,7 @@ import bcryptjs from "bcryptjs";
 import { auth, signIn, signOut } from "@/auth";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { cache } from "react";
 
 export const signInWithCreds = async ({
   email,
@@ -208,3 +209,21 @@ export const getAllUsers = async () => {
     throw new Error(`Error fetching users: ${error.message}`);
   }
 };
+
+export const getProductById = cache(async (id: string) => {
+  try {
+    const product = await db
+      .select()
+      .from(productsTable)
+      .where(eq(productsTable.id, id))
+      .limit(1);
+
+    if (!product) {
+      return { success: false, message: "Error fetching product" };
+    }
+
+    return { success: true, data: product };
+  } catch (error) {
+    throw new Error(`Error fetching product: ${error}`);
+  }
+});

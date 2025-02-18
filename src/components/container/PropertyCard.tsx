@@ -84,7 +84,10 @@ const PropertyCard = ({
           )}
         </div>
       </div>
-      <Link href={`/details/${id}`} className="inline-block w-full px-4 py-8">
+      <Link
+        href={`listings/details/${id}`}
+        className="inline-block w-full px-4 py-8"
+      >
         <small className="text-xs text-gray-500 mb-2 inline-block">
           {formatTime(createdAt)}
         </small>
@@ -100,9 +103,15 @@ const PropertyCard = ({
               currency: "NGN",
             })}
           </p>
-          <p className="text-sm text-gray-300">{`${bedrooms ?? "N/A"} BR | ${
-            bathrooms ?? "N/A"
-          } BA | ${size ?? "N/A"} Sqm`}</p>
+          <p className="text-sm text-gray-300">
+            {Boolean(bedrooms) && `${bedrooms} BR`}
+          </p>
+          <p className="text-sm text-gray-300">
+            {Boolean(bathrooms) && `${bathrooms} BA`}
+          </p>
+          <p className="text-sm text-gray-300">
+            {Boolean(size) && `${size} SQM`}
+          </p>
         </div>
         <div className="flex items-start flex-wrap mt-4 gap-2">
           {amenities.split(",").map((amenity, index) => (

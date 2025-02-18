@@ -8,9 +8,12 @@ import { userColumn } from "@/components/table/users/definition";
 import { getAllProducts, getAllUsers } from "@/lib/actions/auth";
 import { cache } from "react";
 
+const cachedData = cache(getAllProducts);
+const cachedUsers = cache(getAllUsers);
+
 const AdminPage = async () => {
-  const response = await getAllProducts();
-  const users = await getAllUsers();
+  const response = await cachedData();
+  const users = await cachedUsers();
 
   if (!response.success || !users.success) {
     return <div>Error fetching data</div>;
