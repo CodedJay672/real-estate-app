@@ -1,3 +1,4 @@
+import AdminListing from "@/components/container/AdminListing";
 import Back from "@/components/shared/Back";
 import { DataTable } from "@/components/table/DataTable";
 import { productColumns } from "@/components/table/listings/definition";
@@ -17,8 +18,10 @@ const Listings = async () => {
   return (
     <section className="flex-1 p-6 overflow-hidden">
       <div className="w-full lg:max-w-screen-md">
-        <h1 className="text-xl font-semibold">Product listings</h1>
-
+        <h1 className="text-xl lg:text-2xl font-bold">Product listings</h1>
+        <p className="text-sm lg:text-base font-normal text-blue-300">
+          Manage your listed products here.
+        </p>
         <div className="w-full flex justify-between items-center mt-10">
           <Back />
           <Link
@@ -40,6 +43,22 @@ const Listings = async () => {
               className="text-sm w-1/3 placeholder:text-sm placeholder:text-blue-50 focus:ring-0 focus:outline-0 focus:border-b-blue-300 transition-all"
             />
           </div>
+        </div>
+
+        {/** Posting Details and Management */}
+        <div className="flex flex-col space-y-8 mt-4">
+          {data?.length &&
+            data.map((product) => (
+              <AdminListing
+                key={product.id}
+                name={product.name}
+                title={product.title}
+                location={product.location}
+                price={product.price}
+                imageUrl={product.imageUrl}
+                id={product.id}
+              />
+            ))}
         </div>
       </div>
     </section>

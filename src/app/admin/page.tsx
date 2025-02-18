@@ -33,6 +33,14 @@ const AdminPage = async () => {
 
   return (
     <section className="flex-1 p-6 bg-subtle-light flex flex-col gap-4 overflow-hidden">
+      <div className="w-full lg:max-w-screen-md mb-4">
+        <h1 className="text-xl lg:text-2xl font-semibold text-blue-300">
+          Welcome!{" "}
+        </h1>
+        <p className="text-sm lg:text-base font-normal text-blue-300">
+          Here's a quick overview of your activities
+        </p>
+      </div>
       <div className="w-full flex lg:max-w-screen-md justify-between items-center gap-2">
         <StatsCard title="Total Users" value={users?.data?.length!} />
         <StatsCard title="Total Listings" value={data?.length!} />
