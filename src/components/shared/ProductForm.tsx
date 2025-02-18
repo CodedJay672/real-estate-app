@@ -34,17 +34,18 @@ const ProductForm = () => {
       description: "",
       price: 0,
       location: "",
-      propertyType: "house",
+      propertyType: "land",
       bedrooms: 0,
       bathrooms: 0,
       size: 0,
-      listingStatus: "selling",
+      listingStatus: "sold out",
       imageUrl: "",
       amenities: "",
     },
   });
 
   const handleSubmit = async (values: z.infer<typeof productSchema>) => {
+    console.log(values);
     try {
       const response = await uploadProducts(values);
 
@@ -166,8 +167,8 @@ const ProductForm = () => {
                   <CustomSelect
                     options={[
                       { value: "selling", label: "Selling" },
-                      { value: "soldOut", label: "Sold Out" },
-                      { value: "reOpened", label: "Sales Reopened" },
+                      { value: "sold out", label: "Sold Out" },
+                      { value: "reopened", label: "Sales Reopened" },
                     ]}
                     onChange={field.onChange}
                   />

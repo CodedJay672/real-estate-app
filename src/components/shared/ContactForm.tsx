@@ -1,14 +1,7 @@
 "use client";
 
 import React from "react";
-import {
-  DefaultValues,
-  FieldValues,
-  Path,
-  SubmitHandler,
-  useForm,
-  UseFormReturn,
-} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -20,10 +13,7 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { FIELD_NAMES, FIELD_TYPES } from "@/constants";
-import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
-import { RiLoader5Line } from "react-icons/ri";
 import { useRouter } from "next/navigation";
 import { contactSchema } from "@/lib/validations/schema";
 import { z } from "zod";
@@ -66,7 +56,7 @@ const ContactForm = ({ className }: { className: string }) => {
               <FormControl>
                 <Input
                   {...field}
-                  className={`${className} w-full p-2 rounded-md`}
+                  className={`${className} w-full h-14 lg:h-16 rounded-md`}
                 />
               </FormControl>
               <FormMessage />
@@ -84,7 +74,7 @@ const ContactForm = ({ className }: { className: string }) => {
               <FormControl>
                 <Input
                   {...field}
-                  className={`${className} w-full p-2 rounded-md`}
+                  className={`${className} w-full h-14 lg:h-16 rounded-md`}
                 />
               </FormControl>
               <FormMessage />
@@ -112,7 +102,7 @@ const ContactForm = ({ className }: { className: string }) => {
         />
         <Button
           type="submit"
-          className="w-full h-14 bg-gold text-white text-lg font-semibold"
+          className="w-full h-14 text-white text-lg font-semibold"
         >
           Send Message
         </Button>

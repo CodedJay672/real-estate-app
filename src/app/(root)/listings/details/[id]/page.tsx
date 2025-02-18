@@ -10,7 +10,7 @@ import {
 } from "react-icons/md";
 import { getProductById } from "@/lib/actions/auth";
 import DisplayImage from "@/components/shared/DisplayImage";
-import { RiHotelBedLine } from "react-icons/ri";
+import { RiShape2Line } from "react-icons/ri";
 import { Button } from "@/components/ui/button";
 import ContactForm from "@/components/shared/ContactForm";
 
@@ -30,8 +30,8 @@ const PropertyDetails = async ({
 
   return (
     <section className="w-full px-2">
-      <div className="w-full flex justify-between items-center py-2">
-        <div className="flex gap-2 p-[6px] items-center">
+      <div className="w-full flex justify-between items-center py-2 gap-0 lg:gap-96">
+        <div className="flex-1 flex gap-2 p-[6px] items-center">
           <Back />
           <SearchBar />
         </div>
@@ -74,18 +74,29 @@ const PropertyDetails = async ({
               })}
             </h2>
             <div className="flex items-center space-x-2">
-              <p className="flex items-center gap-1 text-sm lg:text-base font-thin">
-                <span className="font-semibold">
-                  {property.data?.[0].bedrooms}{" "}
-                </span>
-                <MdKingBed size={20} className="text-gray-500" />
-              </p>
-              <p className="flex gap-1 text-sm lg:text-base font-thin">
-                <span className="font-semibold">
-                  {property.data?.[0].bathrooms}{" "}
-                </span>
-                <MdOutlineBathtub size={18} className="text-gray-500" />
-              </p>
+              {Boolean(property.data?.[0].size) ? (
+                <p className="flex items-center gap-1 text-sm lg:text-base font-thin">
+                  <span className="font-semibold">
+                    {property.data?.[0].size} SQM
+                  </span>
+                  <RiShape2Line size={20} className="text-gray-500" />
+                </p>
+              ) : (
+                <>
+                  <p className="flex items-center gap-1 text-sm lg:text-base font-thin">
+                    <span className="font-semibold">
+                      {property.data?.[0].bedrooms}{" "}
+                    </span>
+                    <MdKingBed size={20} className="text-gray-500" />
+                  </p>
+                  <p className="flex gap-1 text-sm lg:text-base font-thin">
+                    <span className="font-semibold">
+                      {property.data?.[0].bathrooms}{" "}
+                    </span>
+                    <MdOutlineBathtub size={18} className="text-gray-500" />
+                  </p>
+                </>
+              )}
             </div>
             <div className="flex items-center mb-2">
               <MdLocationPin size={20} className="text-gray-500" />
@@ -105,7 +116,7 @@ const PropertyDetails = async ({
             </Button>
           </div>
         </div>
-        <div className="hidden lg:block w-1/3 p-6 border shadow-md rounded-md">
+        <div className="hidden lg:block w-1/3 p-6 border shadow-md rounded-md max-h-max">
           <h2 className="text-lg lg:text-xl font-semibold mb-2">
             Find Out More!!
           </h2>
@@ -117,7 +128,7 @@ const PropertyDetails = async ({
         </div>
       </div>
       <footer className="w-full px-2 py-6 my-10 bg-blue-50">
-        <div className="w-full lg:w-1/2 mx-auto p-6 border border-blue-100 rounded-lg">
+        <div className="w-full lg:w-1/2 mx-auto p-6 border-none lg:border border-blue-100 rounded-lg">
           <h2 className="text-lg lg:text-xl font-semibold">Contact Realtor</h2>
           <p className="text-sm lg:text-base text-gray-500 font-light p-2">
             Are you interested in this property? Do you want to know more? Send
@@ -125,7 +136,7 @@ const PropertyDetails = async ({
             information you need to make the right choce.
           </p>
           <ContactForm className="bg-blue-100" />
-          <small className="text-xs text-gray-400 italic leading-4">
+          <small className="text-xs text-gray-500 italic leading-4 mt-4 inline-block">
             By sending this message, you agree that we can send emails, text and
             newsletters to you through the email that you submit in this form.
           </small>

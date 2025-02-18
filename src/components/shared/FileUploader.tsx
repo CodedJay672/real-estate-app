@@ -31,6 +31,7 @@ const FileUploader = ({
   const [file, setFile] = useState<{ filePath: string } | null>(null);
   const fileUploadRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
+  const [progress, setProgress] = useState<number | null>(null);
 
   const onSuccess = (res: any) => {
     setFile(res);
@@ -61,11 +62,20 @@ const FileUploader = ({
         ref={fileUploadRef}
         onSuccess={onSuccess}
         onError={onError}
+        useUniqueFileName={true}
+        validateFile={(file) => file.size < 1024 * 1024 * 3}
+        onUploadStart={() => setProgress(0)}
+        onUploadProgress={({ loaded, total }) => {
+          const percent = Math.round((loaded / total) * 100);
+
+          setProgress(percent);
+        }}
         folder={"/product-listings"}
+        accept="image/*"
       />
 
       <button
-        className="flex items-center justify-center w-full h-32 border-2 border-dashed border-light-200 rounded-lg"
+        className="flex items-center justify-center w-full h-16 border-2 border-dashed border-light-200 rounded-lg"
         onClick={(e) => {
           e.preventDefault();
           if (fileUploadRef) {
@@ -82,6 +92,13 @@ const FileUploader = ({
           alt={file?.filePath}
           width={500}
           height={250}
+        />
+      )}
+      {progress !== null && (
+        <progress
+          value={progress}
+          max="100"
+          className="w-full h-4 mt-2 bg-subtle-light rounded-lg"
         />
       )}
     </ImageKitProvider>

@@ -13,17 +13,13 @@ interface SelectProps {
 
 const CustomSelect = ({ options, onChange }: SelectProps) => {
   return (
-    <Select>
+    <Select onValueChange={onChange} defaultValue={options[0].value}>
       <SelectTrigger className="form-select p-2 w-[180px] lg:w-[340px]">
         <SelectValue placeholder="Type" />
       </SelectTrigger>
       <SelectContent>
         {options.map((option) => (
-          <SelectItem
-            key={option.value}
-            onClick={() => onChange(option.value)}
-            value={option.value}
-          >
+          <SelectItem key={option.value} value={option.value}>
             {option.label}
           </SelectItem>
         ))}
