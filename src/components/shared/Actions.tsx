@@ -5,6 +5,7 @@ import { deleteProduct } from "@/lib/actions/auth";
 import { useState } from "react";
 import { MdOutlineDelete, MdOutlineEdit } from "react-icons/md";
 import CustomAlertDialog from "./CustomAlertDialog";
+import Link from "next/link";
 
 const Actions = (id: string) => {
   const { toast } = useToast();
@@ -36,7 +37,9 @@ const Actions = (id: string) => {
   };
   return (
     <div className="w-full flex gap-2 items-center">
-      <MdOutlineEdit size={16} className="cursor-pointer" />
+      <Link href={`listings/update/${id}`}>
+        <MdOutlineEdit size={16} className="cursor-pointer" />
+      </Link>
       <MdOutlineDelete
         size={16}
         className="cursor-pointer"

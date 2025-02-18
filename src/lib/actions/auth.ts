@@ -211,6 +211,10 @@ export const getAllUsers = async () => {
 };
 
 export const getProductById = cache(async (id: string) => {
+  if (!id) {
+    return { success: false, message: "Create a new listing" };
+  }
+
   try {
     const product = await db
       .select()
@@ -227,3 +231,26 @@ export const getProductById = cache(async (id: string) => {
     throw new Error(`Error fetching product: ${error}`);
   }
 });
+
+export const updateProductById = async (id: string, data: productType) => {
+  try {
+    const parsedData = productSchema.safeParse(data);
+    if (!parsedData.success) {
+      return { success: false, message: parsedData.error.errors[0].message };
+    }
+
+    const response = await db
+      .update(productsTable)
+      .set({ ...data, updatedAt: new Date() })
+      .where(eq(productsTable.id, id))
+      .returning();
+
+    if (!response) {
+      return { success: false, message: "Error updating product" };
+    }
+
+    return { success: true, message: "Product updated successfully" };
+  } catch (error) {
+    throw new Error(`Error updating product: ${error}`);
+  }
+};

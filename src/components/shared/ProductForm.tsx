@@ -1,6 +1,6 @@
 "use client";
 
-import { productSchema } from "@/lib/validations/schema";
+import { productSchema, productType } from "@/lib/validations/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -19,35 +19,46 @@ import CustomSelect from "./CustomSelect";
 import { Textarea } from "../ui/textarea";
 import FileUploader from "./FileUploader";
 import { useToast } from "@/hooks/use-toast";
-import { uploadProducts } from "@/lib/actions/auth";
+import { updateProductById, uploadProducts } from "@/lib/actions/auth";
 import { useRouter } from "next/navigation";
 
-const ProductForm = () => {
+const ProductForm = ({
+  type,
+  product,
+  id,
+}: {
+  type: string;
+  product?: productType | null;
+  id?: string;
+}) => {
   const { toast } = useToast();
   const router = useRouter();
 
   const form = useForm<z.infer<typeof productSchema>>({
     resolver: zodResolver(productSchema),
     defaultValues: {
-      name: "",
-      title: "",
-      description: "",
-      price: 0,
-      location: "",
-      propertyType: "land",
-      bedrooms: 0,
-      bathrooms: 0,
-      size: 0,
-      listingStatus: "sold out",
-      imageUrl: "",
-      amenities: "",
+      name: product?.name || "",
+      title: product?.title || "",
+      description: product?.description || "",
+      price: product?.price || 0,
+      location: product?.location || "",
+      propertyType: product?.propertyType || "land",
+      bedrooms: product?.bedrooms || 0,
+      bathrooms: product?.bathrooms || 0,
+      size: product?.size || 0,
+      listingStatus: product?.listingStatus || "sold out",
+      imageUrl: product?.imageUrl || "",
+      amenities: product?.amenities || "",
     },
   });
 
   const handleSubmit = async (values: z.infer<typeof productSchema>) => {
     console.log(values);
     try {
-      const response = await uploadProducts(values);
+      const response =
+        type === "add-new " || !id
+          ? await uploadProducts(values)
+          : await updateProductById(id, values);
 
       if (!response.success) {
         toast({
@@ -320,7 +331,7 @@ const ProductForm = () => {
           {form.formState.isSubmitting && (
             <RiLoader5Line size={24} className="animate-spin mr-2" />
           )}
-          Add Product
+          {type === "add-new" ? "Add Product" : "Update Product"}
         </Button>
       </form>
     </Form>
