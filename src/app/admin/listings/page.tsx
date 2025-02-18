@@ -60,6 +60,9 @@ const Listings = async () => {
               />
             ))}
         </div>
+        <p className="text-sm font-light text-gray-300 mb-14 mt-2 text-center">
+          --The End--
+        </p>
       </div>
     </section>
   );

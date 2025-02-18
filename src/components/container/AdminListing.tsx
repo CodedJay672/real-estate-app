@@ -103,7 +103,7 @@ const AdminListing = ({
         }`}
       >
         <div
-          className="w-full flex justify-end p-2"
+          className="w-full flex justify-end p-2 cursor-pointer"
           onClick={() => setShowActions(false)}
         >
           <RiCloseLine size={12} />

@@ -7,21 +7,21 @@ import React, { ReactNode } from "react";
 const AdminLayout = async ({ children }: { children: ReactNode }) => {
   const session = await auth();
 
-  let user;
+  if (!session?.user) {
+    redirect("/auth/sign-in");
+  }
 
-  if (session) {
-    const response = await getUser(session?.user?.email!);
+  const response = await getUser(session?.user?.email!);
 
-    if (!response.success) {
-      return;
-    }
+  if (!response.success) {
+    redirect("/auth/sign-in");
+  }
 
-    user = response.data;
-    const isAdmin = user?.[0].role === "admin";
+  const user = response.data;
+  const isAdmin = user?.[0].role === "admin";
 
-    if (!isAdmin) {
-      redirect("/");
-    }
+  if (!isAdmin) {
+    redirect("/");
   }
 
   return (

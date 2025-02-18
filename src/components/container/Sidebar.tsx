@@ -18,14 +18,14 @@ interface Props {
   role: "user" | "admin";
 }
 
-const Sidebar = ({ fullName }: Partial<Props>) => {
+const Sidebar = ({ fullName, email }: Partial<Props>) => {
   const pathname = usePathname();
 
   return (
-    <nav className="w-14 lg:w-64 h-screen bg-blue-50 border-r border-gray-200 flex flex-col justify-between items-center pt-4 pb-2 sticky left-0 top-0">
+    <nav className="w-full md:w-16 md:h-screen lg:w-64 bg-blue-50 border-r border-gray-200 flex flex-row md:flex-col justify-between items-center p-2 md:pt-4 md:pb-2 fixed md:sticky bottom-0 md:top-0 z-10">
       <Link
         href="/"
-        className="p-2 w-full rounded-full flex justify-center lg:justify-start items-center"
+        className="p-2 flex justify-center lg:w-full lg:justify-start items-center"
       >
         <Image
           src="/assets/logo.png"
@@ -39,8 +39,8 @@ const Sidebar = ({ fullName }: Partial<Props>) => {
           <p className="text-[9px] font-semibold -mt-1">Beautiful Properties</p>
         </div>
       </Link>
-      <ul className="flex-1 mt-10 w-full p-1 space-y-3">
-        <li className="">
+      <ul className="md:mt-10 p-1 space-x-8 md:space-x-0 md:space-y-4 flex flex-row md:flex-col justify-center md:justify-start items-center md:items-start md:w-full md:flex-1">
+        <li className="w-full">
           <Link
             href="/admin"
             className={cn(
@@ -60,7 +60,7 @@ const Sidebar = ({ fullName }: Partial<Props>) => {
             <span className="hidden lg:inline-block">Dashboard</span>
           </Link>
         </li>
-        <li className="">
+        <li className="w-full">
           <Link
             href="/admin/listings"
             className={cn(
@@ -80,7 +80,7 @@ const Sidebar = ({ fullName }: Partial<Props>) => {
             <span className="hidden lg:inline-block">Listings</span>
           </Link>
         </li>
-        <li className="">
+        <li className="w-full">
           <Link
             href="/admin/users"
             className={cn(
@@ -108,9 +108,10 @@ const Sidebar = ({ fullName }: Partial<Props>) => {
             {getInitials(fullName as string)}
           </AvatarFallback>
         </Avatar>
-        <span className="text-sm font-semibold ml-1 hidden lg:inline-block">
-          {fullName}
-        </span>
+        <div className="w-full">
+          <p className="text-sm font-semibold hidden lg:block">{fullName}</p>
+          <p className="text-xs font-thin hidden lg:block">{email}</p>
+        </div>
       </div>
     </nav>
   );

@@ -22,7 +22,7 @@ const SignIn = () => {
             className="object-contain"
           />
         </div>
-        <div className="w-96 max-w-md mx-auto shadow-xl rounded-lg p-6 mt-8 lg:mt-0">
+        <div className="w-96 max-w-md max-h-max mx-auto shadow-xl rounded-lg p-6 mt-8 lg:mt-0">
           <AuthForm
             type="signin"
             schema={signInSchema}
