@@ -3,6 +3,13 @@ import Sidebar from "@/components/container/Sidebar";
 import { getUser } from "@/lib/actions/auth";
 import { redirect } from "next/navigation";
 import React, { ReactNode } from "react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Admin | Clean Beautiful Properties",
+  description:
+    "Clean beautiful properties is a real estate listing platform where you can find your next home or investment property.",
+};
 
 const AdminLayout = async ({ children }: { children: ReactNode }) => {
   const session = await auth();

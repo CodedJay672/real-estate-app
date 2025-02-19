@@ -42,3 +42,7 @@ export function formatTime(date: Date | undefined) {
     }`;
   }
 }
+
+export function getYear() {
+  return new Date().getFullYear();
+}

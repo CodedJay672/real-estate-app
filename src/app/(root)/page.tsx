@@ -1,3 +1,4 @@
+import FAQ from "@/components/container/FAQ";
 import FeaturedListings from "@/components/container/FeaturedListings";
 import Herosection from "@/components/container/HeroSection";
 import SpecialOffers from "@/components/container/SpecialOffers";
@@ -10,6 +11,7 @@ export default function Home() {
       <SpecialOffers />
       <FeaturedListings />
       <Testimonials />
+      <FAQ />
     </section>
   );
 }

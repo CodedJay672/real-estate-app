@@ -101,7 +101,7 @@ const AdminListing = ({
         <RiMore2Line size={24} />
       </div>
       <div
-        className={`absolute top-0 right-0 w-44 flex flex-col space-y-2 justify-center items-center bg-white shadow-lg p-2 rounded-md ${
+        className={`animate-in fade-in-5 absolute top-0 right-0 w-44 flex flex-col space-y-2 justify-center items-center bg-white shadow-lg p-2 rounded-md ${
           showActions ? "block z-20" : "hidden"
         }`}
       >
@@ -113,12 +113,12 @@ const AdminListing = ({
         </div>
         <Link
           href={`listings/update/${id}`}
-          className="text-sm md:text-base block  text-blue-300 bg-blue-100 p-1 px-5 rounded-md transition-all"
+          className="text-sm md:text-base block  text-blue-300 bg-blue-50 p-1 px-5 rounded-md transition-all"
         >
           Edit
         </Link>
         <button
-          className="text-sm md:text-base font-semibold text-red-600 bg-rose-200 p-1 px-3 rounded-md transition-all"
+          className="text-sm md:text-base font-semibold text-red-600 bg-rose-50 p-1 px-3 rounded-md transition-all"
           onClick={() => setShowModal(true)}
         >
           Delete
