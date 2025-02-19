@@ -36,11 +36,11 @@ const PropertyDetails = async ({
           <SearchBar />
         </div>
         <div className="flex items-center gap-2 p-[6px]">
-          <div className="size-10 rounded-full border shadow-md hover:shadow-lg cursor-pointer flex justify-center items-center transition-all">
-            <MdShare size={20} />
+          <div className="size-8 md:size-10 rounded-full border shadow-md hover:shadow-lg cursor-pointer flex justify-center items-center transition-all">
+            <MdShare className="size-4 md:size-6" />
           </div>
-          <div className="size-10 rounded-full border shadow-md hover:shadow-lg cursor-pointer flex justify-center items-center transition-all">
-            <FcLikePlaceholder size={24} />
+          <div className="size-8 md:size-10 rounded-full border shadow-md hover:shadow-lg cursor-pointer flex justify-center items-center transition-all">
+            <FcLikePlaceholder className="size-4 md:size-6" />
           </div>
         </div>
       </div>
