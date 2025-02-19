@@ -11,7 +11,7 @@ const ChooseItem = ({
 }) => {
   return (
     <div
-      className={`flex justify-center items-center p-4 w-full rounded-lg`}
+      className={`flex justify-start items-center p-4 w-full rounded-lg`}
       style={{ backgroundColor: bgColor }}
     >
       <div className="bg-blue-300 p-3 rounded-lg flex-center">
@@ -19,7 +19,7 @@ const ChooseItem = ({
           {title}
         </h2>
       </div>
-      <p className="text-left ml-2 font-bold">{text}</p>
+      <p className="text-left text-sm md:text-base ml-2 font-bold">{text}</p>
     </div>
   );
 };

@@ -5,7 +5,7 @@ const Herosection = () => {
   return (
     <section className="w-full h-[500px] max-h-screen flex justify-center items-center relative">
       <div className="w-full lg:w-4/5 mx-auto py-12 px-2 flex justify-center items-center flex-col relative z-10">
-        <div className="my-6">
+        <div className="my-6 p-2">
           <h1 className="text-blue-300 font-bold text-3xl md:text-3xl lg:text-6xl px-12 text-center">
             Find Your Dream Home With{" "}
           </h1>
@@ -17,17 +17,14 @@ const Herosection = () => {
           Connecting buyers and sellers with personalized expertise, market
           insights, and a commitment to excellence
         </p>
-        <form className="w-96 flex justify-center items-center space-y-6 relative">
+        <form className="w-full max-w-screen-sm px-2 flex justify-center items-center relative">
           <input
             type="search"
             name="query"
             placeholder="Location/Zip Code/Titles/Key Tags e.g Luxury..."
-            className="w-full p-3 pr-12 my-4 bg-blue-50 outline-blue-300 placeholder:text-sm rounded-full"
+            className="w-full p-2 md:p-3 pr-12 md:pr-14 my-4 text-xs md:text-sm bg-blue-50 outline-blue-300 placeholder:text-xs md:placeholder:text-sm rounded-full"
           />
-          <RiSearch2Line
-            size={24}
-            className="absolute top-1 right-4 text-blue-200"
-          />
+          <RiSearch2Line className="absolute bottom-6 md:bottom-7 right-6 md:right-8 text-blue-200 size-4 md:size-6" />
         </form>
       </div>
       <Image

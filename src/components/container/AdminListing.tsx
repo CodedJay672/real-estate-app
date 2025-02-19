@@ -66,11 +66,11 @@ const AdminListing = ({
         />
       </div>
       <div className="p-2 flex-1">
-        <h3 className="text-base font-semibold">{name}</h3>
-        <p className="text-xs lg:text-sm font-thin text-blue-300">
+        <h3 className="text-sm md:text-base font-semibold">{name}</h3>
+        <p className="text-xs md:text-sm font-thin text-gray-400">
           {location} | {title}
         </p>
-        <p className="text-base font-bold text-blue-300">
+        <p className="text-sm md:text-base font-bold text-blue-300">
           {price.toLocaleString("en-NG", {
             style: "currency",
             currency: "NGN",
@@ -79,11 +79,14 @@ const AdminListing = ({
       </div>
 
       <div className="hidden lg:flex flex-col space-y-2 justify-center items-center">
-        <Link href={`listings/update/${id}`} className="text-sm text-blue-300">
+        <Link
+          href={`listings/update/${id}`}
+          className="text-sm md:text-base block text-blue-300 hover:bg-blue-100 p-1 px-5 rounded-md transition-all"
+        >
           Edit
         </Link>
         <button
-          className="text-sm text-red-300"
+          className="text-sm md:text-base text-red-600 hover:bg-rose-200 p-1 px-3 rounded-md transition-all"
           onClick={() => setShowModal(true)}
         >
           Delete
@@ -108,11 +111,14 @@ const AdminListing = ({
         >
           <RiCloseLine size={12} />
         </div>
-        <Link href={`listings/update/${id}`} className="text-sm text-blue-300">
+        <Link
+          href={`listings/update/${id}`}
+          className="text-sm md:text-base block  text-blue-300 bg-blue-100 p-1 px-5 rounded-md transition-all"
+        >
           Edit
         </Link>
         <button
-          className="text-sm text-red-300"
+          className="text-sm md:text-base font-semibold text-red-600 bg-rose-200 p-1 px-3 rounded-md transition-all"
           onClick={() => setShowModal(true)}
         >
           Delete

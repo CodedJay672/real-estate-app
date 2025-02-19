@@ -61,7 +61,7 @@ const Header = ({ session }: { session: Session | null }) => {
       </ul>
       {session ? (
         <div
-          className="hidden w-28 h-10 p-1 rounded-full border border-blue-200 lg:flex items-center gap-1 cursor-pointer"
+          className="hidden w-28 h-10 p-1 rounded-full border border-blue-200 md:flex items-center gap-1 cursor-pointer"
           onClick={logOut}
         >
           <Avatar className="w-8 h-8">

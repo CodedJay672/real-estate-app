@@ -14,8 +14,8 @@ interface SelectProps {
 const CustomSelect = ({ options, onChange }: SelectProps) => {
   return (
     <Select onValueChange={onChange} defaultValue={options[0].value}>
-      <SelectTrigger className="form-select p-2 w-[180px] lg:w-[340px]">
-        <SelectValue placeholder="Type" />
+      <SelectTrigger className="w-full">
+        <SelectValue placeholder="Type" className="min-w-full" />
       </SelectTrigger>
       <SelectContent>
         {options.map((option) => (

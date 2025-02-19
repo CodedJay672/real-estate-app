@@ -4,11 +4,11 @@ import { Button } from "../ui/button";
 
 const FeaturedListings = () => {
   return (
-    <section className="flex-center flex-col bg-blue-50 max-h-max px-2 py-10 my-4">
+    <section className="flex-center flex-col bg-blue-50 max-h-max px-4 md:px-24 py-10 my-4">
       <h2 className="text-2xl md:text-3xl font-bold text-center">
         Why Choose Us?
       </h2>
-      <p className="text-center mt-4 w-full max-w-lg mx-auto my-10">
+      <p className="text-center mt-4 w-full max-w-lg mx-auto my-10 text-sm md:text-base">
         join real estate developers and investors all over the world to make
         your investment count. Invest with us and enjoy peace of mind
       </p>
@@ -34,11 +34,11 @@ const FeaturedListings = () => {
           bgColor="#D6C3A9A3"
         />
       </div>
-      <p className="text-center mt-4 w-full max-w-lg mx-auto my-10">
+      <p className="text-center mt-4 w-full max-w-lg mx-auto my-10 text-sm md:text-base">
         Ready to experience the difference? Schedule your consultation now!
       </p>
       <div className="mt-4 flex justify-center items-center">
-        <Button className="h-14 text-gold font-medium bg-blue-300">
+        <Button className="h-10 md:h-14 text-gold font-medium bg-blue-300">
           Schedule Consultation
         </Button>
       </div>

@@ -75,7 +75,7 @@ const FileUploader = ({
       />
 
       <button
-        className="flex items-center justify-center w-full h-16 border-2 border-dashed border-light-200 rounded-lg"
+        className="w-full p-2 border-2 border-dashed border-light-200 rounded-lg"
         onClick={(e) => {
           e.preventDefault();
           if (fileUploadRef) {
@@ -83,24 +83,30 @@ const FileUploader = ({
           }
         }}
       >
-        <MdUploadFile size={24} />
-        <span className="text-base text-light-100">click to upload file</span>
+        <div className="flex justify-center items-center w-full">
+          <MdUploadFile size={24} />
+          <span className="text-base text-light-100">
+            click to {file ? "change" : "upload"} file
+          </span>
+        </div>
+        <div className="w-full mt-2 flex flex-col items-center justify-center">
+          {file && (
+            <IKImage
+              path={file?.filePath}
+              alt={file?.filePath}
+              width={500}
+              height={250}
+            />
+          )}
+          {progress !== null && (
+            <progress
+              value={progress}
+              max="100"
+              className="w-full h-4 mt-2 bg-subtle-light rounded-lg"
+            />
+          )}
+        </div>
       </button>
-      {file && (
-        <IKImage
-          path={file?.filePath}
-          alt={file?.filePath}
-          width={500}
-          height={250}
-        />
-      )}
-      {progress !== null && (
-        <progress
-          value={progress}
-          max="100"
-          className="w-full h-4 mt-2 bg-subtle-light rounded-lg"
-        />
-      )}
     </ImageKitProvider>
   );
 };

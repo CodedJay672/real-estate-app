@@ -5,6 +5,7 @@ import { productColumns } from "@/components/table/listings/definition";
 import { Input } from "@/components/ui/input";
 import { getAllProducts } from "@/lib/actions/auth";
 import Link from "next/link";
+import { Md4kPlus, MdAdd } from "react-icons/md";
 
 const Listings = async () => {
   const response = await getAllProducts();
@@ -26,9 +27,12 @@ const Listings = async () => {
           <Back />
           <Link
             href="/admin/listings/add-new"
-            className="bg-blue-300 text-subtle-light inline-block px-4 py-2 rounded-md"
+            className="bg-blue-300 text-subtle-light p-2 rounded-md flex justify-center items-center gap-1"
           >
-            Add Product
+            <MdAdd size={20} className="text-subtle-light" />
+            <span className="text-subtle-light font-light text-sm hidden md:inline-block">
+              Product
+            </span>
           </Link>
         </div>
         <div className="mt-10 w-full overflow-hidden">
@@ -40,7 +44,7 @@ const Listings = async () => {
               type="search"
               name="search"
               placeholder="Search products..."
-              className="text-sm w-1/3 placeholder:text-sm placeholder:text-blue-50 focus:ring-0 focus:outline-0 focus:border-b-blue-300 transition-all"
+              className="text-sm w-1/3 placeholder:text-sm placeholder:text-blue-50 focus:ring-0 focus:outline-0 border-b-blue-300 transition-all"
             />
           </div>
         </div>

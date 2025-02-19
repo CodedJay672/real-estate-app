@@ -22,8 +22,8 @@ const AddProducts = async ({
   }
 
   return (
-    <section className="p-6 flex-1; max-w-screen-md">
-      <h2 className="text-xl font-semibold">
+    <section className="p-6 w-full max-w-screen-md mb-14 md:mb-0">
+      <h2 className="text-lg md:text-xl font-semibold">
         {!response.success ? "Add new" : "Update"} product
       </h2>
       <div className="w-full flex mt-10 mb-4">

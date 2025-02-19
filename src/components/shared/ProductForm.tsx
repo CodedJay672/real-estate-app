@@ -144,7 +144,7 @@ const ProductForm = ({
           )}
         />
 
-        <div className="flex justify-between items-center space-x-2">
+        <div className="flex items-center space-x-1 md:space-x-2">
           <FormField
             control={form.control}
             name="propertyType"
