@@ -1,7 +1,6 @@
 "use client";
 
 import { Session } from "next-auth";
-import React, { useState } from "react";
 import { CiHeart } from "react-icons/ci";
 import { useRouter } from "next/navigation";
 import Link from "next/link";

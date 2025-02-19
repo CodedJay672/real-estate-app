@@ -1,5 +1,3 @@
-import { properties } from "@/constants";
-import React from "react";
 import PropertyCard from "./PropertyCard";
 import { auth } from "@/auth";
 import { db } from "@/db/drizzle";
@@ -15,7 +13,8 @@ const SpecialOffers = async () => {
       <h2 className="text-2xl lg:text-2xl font-bold mb-8">Special Offers</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mx-auto gap-8 md:gap-4">
         {products ? (
-          products.map((property) => (
+          products.slice(0, 9).map((property) => (
+            //@ts-ignore
             <PropertyCard key={property.id} {...property} session={session} />
           ))
         ) : (

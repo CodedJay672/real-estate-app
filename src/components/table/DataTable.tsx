@@ -35,13 +35,10 @@ export function DataTable<TData, TValue>({
     pageIndex: 0,
     pageSize: 10,
   });
-  const column = useMemo(() => columns, []);
+  const column = useMemo(() => columns, [columns]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const defaultData = useMemo(() => [], []);
-
-  // state to control the sheet when table row is cicked
-  const [isOpen, setisOpen] = useState(false);
 
   // Create a table instance
   const table = useReactTable({

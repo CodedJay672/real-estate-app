@@ -1,11 +1,9 @@
 import AdminListing from "@/components/container/AdminListing";
 import Back from "@/components/shared/Back";
-import { DataTable } from "@/components/table/DataTable";
-import { productColumns } from "@/components/table/listings/definition";
 import { Input } from "@/components/ui/input";
 import { getAllProducts } from "@/lib/actions/auth";
 import Link from "next/link";
-import { Md4kPlus, MdAdd } from "react-icons/md";
+import { MdAdd } from "react-icons/md";
 
 const Listings = async () => {
   const response = await getAllProducts();

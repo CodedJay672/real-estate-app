@@ -59,8 +59,8 @@ const PropertyDetails = async ({
           </div>
           <div className="w-full relative">
             <DisplayImage
-              imageUrl={property.data?.[0].imageUrl!}
-              alt={property.data?.[0].name!}
+              imageUrl={property?.data?.[0].imageUrl!}
+              alt={property?.data?.[0].name!}
             />
           </div>
           <div className="w-full p-2 flex flex-col gap-2">

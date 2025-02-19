@@ -45,10 +45,10 @@ const AdminListing = ({
         title: "Success",
         description: response.message,
       });
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: "An error occurred while deleting property",
+        description: `An error occurred: ${error.message}`,
         variant: "destructive",
       });
     }
