@@ -7,6 +7,7 @@ import {
 import { userColumn } from "@/components/table/users/definition";
 import { getAllProducts, getAllUsers } from "@/lib/actions/auth";
 import { cache } from "react";
+import { MdOutlineImportExport } from "react-icons/md";
 
 const cachedData = cache(getAllProducts);
 const cachedUsers = cache(getAllUsers);
@@ -32,7 +33,7 @@ const AdminPage = async () => {
   })) as listings[];
 
   return (
-    <section className="flex-1 p-6 bg-subtle-light flex flex-col gap-4 overflow-hidden">
+    <section className="flex-1 p-6 bg-subtle-light flex flex-col gap-4 overflow-hidden mb-20 md:mb-0">
       <div className="w-full lg:max-w-screen-md mb-4">
         <h1 className="text-xl lg:text-2xl font-semibold text-blue-300">
           Welcome!{" "}
@@ -46,7 +47,16 @@ const AdminPage = async () => {
         <StatsCard title="Total Listings" value={data?.length!} />
       </div>
       <div className="w-full lg:max-w-screen-md rounded-xl border p-4 shadow-xl overflow-x-scroll">
-        <h2 className="text-sm lg:text-lg font-normal">Listings</h2>
+        <div className="flex justify-between items-center">
+          <h2 className="text-sm lg:text-lg font-normal">Listings</h2>
+          <div
+            className="text-sm md:text-base lg:text-lg font-normal text-blue-300 cursor-pointer hover:bg-blue-50 flex items-center p-1 rounded-md"
+            title="Export data"
+          >
+            <MdOutlineImportExport className="size-4 md:size-6 text-blue-300" />
+            <span className="hidden md:block">Export</span>
+          </div>
+        </div>
         <DataTable columns={productColumns} data={data} />
       </div>
       <div className="w-full lg:max-w-screen-md rounded-xl border p-4 shadow-xl">
