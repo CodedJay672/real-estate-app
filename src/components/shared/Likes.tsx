@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
 import { CgSpinner } from "react-icons/cg";
 import { CiHeart } from "react-icons/ci";
 import { FcLike } from "react-icons/fc";
@@ -15,24 +14,20 @@ interface LikesProps {
 }
 
 const Likes = ({
-  likes,
   userId,
+  likes,
   productId,
   onClick,
   isLiking,
   likesCount,
 }: LikesProps) => {
-  useEffect(() => {
-    console.log(likes.length);
-  }, []);
-
   return (
     <div className="absolute left-4 bottom-1 rounded-full size-10 flex justify-center items-center cursor-pointer">
       {likes && likes.length > 0 ? (
         <div className="flex items-center gap-1 bg-subtle-light/90 py-1 px-2 rounded-md">
           {isLiking ? (
             <CgSpinner size={24} className="animate-spin font-semibold" />
-          ) : likes.includes(userId!) ? (
+          ) : likes.includes(userId) ? (
             <FcLike
               size={24}
               className="text-blue-300 fill-blue-300"

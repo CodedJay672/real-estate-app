@@ -37,12 +37,14 @@ const PropertyCard = ({
   session,
 }: cardProps) => {
   const router = useRouter();
-  const [isLiking, setIsLiking] = useState(false);
+  const [likesArr, setLikesArr] = useState<string[] | undefined>(likes); // likes array
+  const [isLiking, setIsLiking] = useState<boolean>(false);
   const { toast } = useToast();
 
+  // update likes array when likes change
   useEffect(() => {
-    console.log("Likes component mounted");
-  }, []);
+    setLikesArr(likes);
+  }, [likes]);
 
   const handleLikeProperty = async (id: string) => {
     if (!session?.user) {
@@ -100,7 +102,7 @@ const PropertyCard = ({
         />
 
         <Likes
-          likes={likes!}
+          likes={likesArr!}
           userId={session?.user?.id!}
           productId={id!}
           onClick={handleLikeProperty}

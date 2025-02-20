@@ -259,7 +259,7 @@ export const updateProductById = async (id: string, data: productType) => {
 export const likeProduct = async (userId: string, productId: string) => {
   try {
     if (!userId || !productId) {
-      return { success: false, message: "User or product not found" };
+      return { success: false, message: "Sign in to like products." };
     }
 
     const product = await db
@@ -277,14 +277,15 @@ export const likeProduct = async (userId: string, productId: string) => {
 
     const hasLiked = product[0].likes.includes(userId);
 
-    await db
+    const res = await db
       .update(productsTable)
       .set({
         likes: hasLiked
           ? product[0].likes.filter((id: string) => id !== userId)
           : [...product[0].likes, userId],
       })
-      .where(eq(productsTable.id, productId));
+      .where(eq(productsTable.id, productId))
+      .returning();
 
     return {
       success: true,
