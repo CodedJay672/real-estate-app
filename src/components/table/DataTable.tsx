@@ -72,7 +72,7 @@ export function DataTable<TData, TValue>({
               return (
                 <TableHead
                   key={header.id}
-                  className="text-sm fontsemibold text-subtle-light text-center"
+                  className="text-sm font-semibold text-subtle-light text-left pl-2"
                 >
                   {header.isPlaceholder
                     ? null
@@ -92,12 +92,12 @@ export function DataTable<TData, TValue>({
             <TableRow
               key={row.id}
               data-state={row.getIsSelected() && "selected"}
-              className="p-4 cursor-pointer"
+              className="hover:bg-slate-50"
             >
               {row.getVisibleCells().map((cell) => (
                 <TableCell
                   key={cell.id}
-                  className="text-xs text-center font-thin text-gray-600"
+                  className="text-xs text-left font-thin text-gray-600 py-4 pl-2"
                 >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </TableCell>

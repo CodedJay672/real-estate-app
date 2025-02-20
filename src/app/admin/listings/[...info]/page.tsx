@@ -34,7 +34,7 @@ const AddProducts = async ({
         below
       </small>
 
-      <section className="mt-10 shadow-lg border p-4 rounded-lg">
+      <section className="mt-10 shadow-md p-4 rounded-lg bg-subtle-light">
         <h3 className="text-lg font-semibold mb-2">
           {!response.success ? "Enter" : "Update"} product details
         </h3>

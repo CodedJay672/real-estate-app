@@ -38,7 +38,7 @@ const Actions = (id: string) => {
   };
 
   return (
-    <div className="w-full flex gap-2 items-center">
+    <div className="w-full flex gap-6 items-center">
       <Link href={`admin/listings/update/${id}`}>
         <MdOutlineEdit size={16} className="cursor-pointer" />
       </Link>
