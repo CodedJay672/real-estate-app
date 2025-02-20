@@ -61,7 +61,6 @@ const AdminListing = ({
           path={imageUrl}
           urlEndpoint={config.env.imagekit.urlEndpoint}
           alt={name}
-          lqip={{ active: true }}
           loading="lazy"
         />
       </div>

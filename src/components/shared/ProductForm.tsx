@@ -21,6 +21,7 @@ import FileUploader from "./FileUploader";
 import { useToast } from "@/hooks/use-toast";
 import { updateProductById, uploadProducts } from "@/lib/actions/auth";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 const ProductForm = ({
   type,
@@ -53,7 +54,6 @@ const ProductForm = ({
   });
 
   const handleSubmit = async (values: z.infer<typeof productSchema>) => {
-    console.log(values);
     try {
       const response =
         type === "add-new " || !id
@@ -159,7 +159,9 @@ const ProductForm = ({
                       { value: "house", label: "House" },
                       { value: "land", label: "Land" },
                     ]}
+                    {...field}
                     onChange={field.onChange}
+                    defaultValue={field.value}
                   />
                 </FormControl>
                 <FormMessage />
@@ -181,7 +183,9 @@ const ProductForm = ({
                       { value: "sold out", label: "Sold Out" },
                       { value: "reopened", label: "Sales Reopened" },
                     ]}
+                    {...field}
                     onChange={field.onChange}
+                    defaultValue={field.value}
                   />
                 </FormControl>
                 <FormMessage />
@@ -190,12 +194,16 @@ const ProductForm = ({
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-2">
+        <div className="flex justify-between items-center gap-2">
           <FormField
             control={form.control}
             name="bedrooms"
             render={({ field }) => (
-              <FormItem>
+              <FormItem
+                className={cn("w-full hidden", {
+                  block: form.getValues("propertyType") === "house",
+                })}
+              >
                 <FormLabel className="capitalize font-light text-sm after:content-['*'] after:text-red-500 after:inline-block after:ml-1">
                   Bedrooms
                 </FormLabel>
@@ -215,7 +223,11 @@ const ProductForm = ({
             control={form.control}
             name="bathrooms"
             render={({ field }) => (
-              <FormItem>
+              <FormItem
+                className={cn("w-full hidden", {
+                  block: form.getValues("propertyType") === "house",
+                })}
+              >
                 <FormLabel className="capitalize font-light text-sm after:content-['*'] after:text-red-500 after:inline-block after:ml-1">
                   Bathrooms
                 </FormLabel>
@@ -230,12 +242,17 @@ const ProductForm = ({
               </FormItem>
             )}
           />
-
+        </div>
+        <div className="flex items-center justify-between gap-2">
           <FormField
             control={form.control}
             name="size"
             render={({ field }) => (
-              <FormItem>
+              <FormItem
+                className={cn("w-full block", {
+                  hidden: form.getValues("propertyType") === "house",
+                })}
+              >
                 <FormLabel className="capitalize font-light text-sm after:content-['*'] after:text-red-500 after:inline-block after:ml-1">
                   Square Feet
                 </FormLabel>
@@ -254,7 +271,7 @@ const ProductForm = ({
             control={form.control}
             name="price"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-full">
                 <FormLabel className="capitalize font-light text-sm after:content-['*'] after:text-red-500 after:inline-block after:ml-1">
                   Price
                 </FormLabel>
@@ -270,7 +287,6 @@ const ProductForm = ({
             )}
           />
         </div>
-
         <FormField
           control={form.control}
           name="description"

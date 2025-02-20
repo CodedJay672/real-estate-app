@@ -9,11 +9,12 @@ import {
 interface SelectProps {
   options: { value: string; label: string }[];
   onChange: (value: string) => void;
+  defaultValue?: string;
 }
 
-const CustomSelect = ({ options, onChange }: SelectProps) => {
+const CustomSelect = ({ options, onChange, defaultValue }: SelectProps) => {
   return (
-    <Select onValueChange={onChange} defaultValue={options[0].value}>
+    <Select onValueChange={onChange} defaultValue={defaultValue}>
       <SelectTrigger className="w-full">
         <SelectValue placeholder="Type" className="min-w-full" />
       </SelectTrigger>
