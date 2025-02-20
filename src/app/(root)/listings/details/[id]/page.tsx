@@ -1,7 +1,6 @@
 import Back from "@/components/shared/Back";
 import SearchBar from "@/components/shared/SearchBar";
 import { notFound } from "next/navigation";
-import { FcLikePlaceholder } from "react-icons/fc";
 import {
   MdKingBed,
   MdLocationPin,
@@ -13,6 +12,8 @@ import DisplayImage from "@/components/shared/DisplayImage";
 import { RiShape2Line } from "react-icons/ri";
 import { Button } from "@/components/ui/button";
 import ContactForm from "@/components/shared/ContactForm";
+import { auth } from "@/auth";
+import Likes from "@/components/shared/Likes";
 
 const PropertyDetails = async ({
   params,
@@ -20,6 +21,7 @@ const PropertyDetails = async ({
   params: Promise<{ id: string }>;
 }) => {
   const { id } = await params;
+  const session = await auth();
 
   if (!id) return notFound();
 
@@ -39,8 +41,12 @@ const PropertyDetails = async ({
           <div className="size-8 md:size-10 rounded-full border shadow-md hover:shadow-lg cursor-pointer flex justify-center items-center transition-all">
             <MdShare className="size-4 md:size-6" />
           </div>
-          <div className="size-8 md:size-10 rounded-full border shadow-md hover:shadow-lg cursor-pointer flex justify-center items-center transition-all">
-            <FcLikePlaceholder className="size-4 md:size-6" />
+          <div className=" rounded-full border shadow-md hover:shadow-lg cursor-pointer flex justify-center items-center transition-all">
+            <Likes
+              likes={property.data?.[0].likes!}
+              session={session}
+              productId={id}
+            />
           </div>
         </div>
       </div>

@@ -1,15 +1,11 @@
 "use client";
 
 import { Session } from "next-auth";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { IKImage } from "imagekitio-next";
 import { listings } from "../table/listings/definition";
 import config from "@/lib/config";
 import { formatTime } from "@/lib/utils";
-import { likeProduct } from "@/lib/actions/auth";
-import { useEffect, useState } from "react";
-import { useToast } from "@/hooks/use-toast";
 import Likes from "../shared/Likes";
 
 interface cardProps extends Partial<listings> {
@@ -36,47 +32,6 @@ const PropertyCard = ({
   createdAt,
   session,
 }: cardProps) => {
-  const router = useRouter();
-  const [likesArr, setLikesArr] = useState<string[] | undefined>(likes); // likes array
-  const [isLiking, setIsLiking] = useState<boolean>(false);
-  const { toast } = useToast();
-
-  const handleLikeProperty = async (id: string) => {
-    if (!session?.user) {
-      router.push("/auth/sign-in");
-    }
-
-    setIsLiking(true);
-
-    try {
-      const res = await likeProduct(session?.user?.id!, id);
-
-      if (!res.success) {
-        toast({
-          title: "Error",
-          description: res.message,
-          variant: "destructive",
-        });
-        return false;
-      }
-
-      setLikesArr([...res?.data?.[0].likes!]);
-      toast({
-        title: "Success",
-        description: res.message,
-      });
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "An error occured while liking property",
-        variant: "destructive",
-      });
-      console.error(error);
-    } finally {
-      setIsLiking(false);
-    }
-  };
-
   return (
     <article className="w-full shadow-md rounded-lg overflow-hidden bg-subtle-light border border-blue-200">
       <div className="w-full min-h-48 overflow-hidden relative">
@@ -97,13 +52,9 @@ const PropertyCard = ({
           className="object-cover"
         />
 
-        <Likes
-          likes={likesArr!}
-          userId={session?.user?.id!}
-          productId={id!}
-          onClick={handleLikeProperty}
-          isLiking={isLiking}
-        />
+        <div className="absolute left-4 bottom-1 rounded-full size-10 flex justify-center items-center cursor-pointer">
+          <Likes likes={likes!} session={session} productId={id!} />
+        </div>
       </div>
       <Link
         href={`listings/details/${id}`}
