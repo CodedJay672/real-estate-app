@@ -41,11 +41,6 @@ const PropertyCard = ({
   const [isLiking, setIsLiking] = useState<boolean>(false);
   const { toast } = useToast();
 
-  // update likes array when likes change
-  useEffect(() => {
-    setLikesArr(likes);
-  }, [likes]);
-
   const handleLikeProperty = async (id: string) => {
     if (!session?.user) {
       router.push("/auth/sign-in");
@@ -65,6 +60,7 @@ const PropertyCard = ({
         return false;
       }
 
+      setLikesArr([...res?.data?.[0].likes!]);
       toast({
         title: "Success",
         description: res.message,
@@ -107,7 +103,6 @@ const PropertyCard = ({
           productId={id!}
           onClick={handleLikeProperty}
           isLiking={isLiking}
-          likesCount={likes?.length}
         />
       </div>
       <Link

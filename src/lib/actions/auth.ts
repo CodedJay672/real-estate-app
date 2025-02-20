@@ -289,7 +289,8 @@ export const likeProduct = async (userId: string, productId: string) => {
 
     return {
       success: true,
-      message: `Product ${hasLiked ? "unliked" : "liked"}`,
+      message: `${hasLiked ? "Removed from Likes" : "Added to likes"}`,
+      data: res,
     };
   } catch (error) {
     throw new Error(`Error liking product: ${error}`);

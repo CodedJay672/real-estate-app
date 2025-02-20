@@ -10,17 +10,9 @@ interface LikesProps {
   productId: string;
   onClick: (productId: string) => void;
   isLiking: boolean;
-  likesCount?: number;
 }
 
-const Likes = ({
-  userId,
-  likes,
-  productId,
-  onClick,
-  isLiking,
-  likesCount,
-}: LikesProps) => {
+const Likes = ({ userId, likes, productId, onClick, isLiking }: LikesProps) => {
   return (
     <div className="absolute left-4 bottom-1 rounded-full size-10 flex justify-center items-center cursor-pointer">
       {likes && likes.length > 0 ? (
@@ -42,7 +34,7 @@ const Likes = ({
           )}
 
           <span className="text-center text-xs text-blue-300">
-            {likesCount}
+            {likes.length}
           </span>
         </div>
       ) : (
