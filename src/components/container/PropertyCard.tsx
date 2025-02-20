@@ -1,14 +1,16 @@
 "use client";
 
 import { Session } from "next-auth";
-import { CiHeart } from "react-icons/ci";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { IKImage } from "imagekitio-next";
-import { RiHeart2Fill } from "react-icons/ri";
 import { listings } from "../table/listings/definition";
 import config from "@/lib/config";
 import { formatTime } from "@/lib/utils";
+import { likeProduct } from "@/lib/actions/auth";
+import { useEffect, useState } from "react";
+import { useToast } from "@/hooks/use-toast";
+import Likes from "../shared/Likes";
 
 interface cardProps extends Partial<listings> {
   bathrooms: number;
@@ -35,15 +37,46 @@ const PropertyCard = ({
   session,
 }: cardProps) => {
   const router = useRouter();
+  const [isLiking, setIsLiking] = useState(false);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    console.log("Likes component mounted");
+  }, []);
 
   const handleLikeProperty = async (id: string) => {
     if (!session?.user) {
       router.push("/auth/sign-in");
     }
 
-    //check if the user has already liked the property
-    //if yes, remove the like
-    //if no, add the like
+    setIsLiking(true);
+
+    try {
+      const res = await likeProduct(session?.user?.id!, id);
+
+      if (!res.success) {
+        toast({
+          title: "Error",
+          description: res.message,
+          variant: "destructive",
+        });
+        return false;
+      }
+
+      toast({
+        title: "Success",
+        description: res.message,
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "An error occured while liking property",
+        variant: "destructive",
+      });
+      console.error(error);
+    } finally {
+      setIsLiking(false);
+    }
   };
 
   return (
@@ -62,26 +95,18 @@ const PropertyCard = ({
           urlEndpoint={config.env.imagekit.urlEndpoint}
           alt={name!}
           fill
-          lqip={{ active: true }}
           loading="lazy"
           className="object-cover"
         />
 
-        <div className="absolute left-5 bottom-2 bg-blue-200 border border-blue-300 rounded-full size-10 flex justify-center items-center cursor-pointer">
-          {likes && likes.length > 0 ? (
-            <RiHeart2Fill
-              size={24}
-              className="text-blue-300 fill-blue-300"
-              onClick={() => handleLikeProperty(id!)}
-            />
-          ) : (
-            <CiHeart
-              size={24}
-              className="text-blue-300"
-              onClick={() => handleLikeProperty(id!)}
-            />
-          )}
-        </div>
+        <Likes
+          likes={likes!}
+          userId={session?.user?.id!}
+          productId={id!}
+          onClick={handleLikeProperty}
+          isLiking={isLiking}
+          likesCount={likes?.length}
+        />
       </div>
       <Link
         href={`listings/details/${id}`}

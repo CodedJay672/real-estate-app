@@ -127,9 +127,10 @@ export const uploadProducts = async (data: productType) => {
 
     const userId = user[0].id;
 
-    const res = await db
-      .insert(productsTable)
-      .values({ ...data, createdBy: userId });
+    const res = await db.insert(productsTable).values({
+      ...data,
+      createdBy: userId,
+    });
 
     if (!res) {
       return { success: false, message: "Error uploading product" };
@@ -252,5 +253,44 @@ export const updateProductById = async (id: string, data: productType) => {
     return { success: true, message: "Product updated successfully" };
   } catch (error) {
     throw new Error(`Error updating product: ${error}`);
+  }
+};
+
+export const likeProduct = async (userId: string, productId: string) => {
+  try {
+    if (!userId || !productId) {
+      return { success: false, message: "User or product not found" };
+    }
+
+    const product = await db
+      .select()
+      .from(productsTable)
+      .where(eq(productsTable.id, productId))
+      .limit(1);
+
+    if (!product) {
+      return {
+        success: false,
+        message: "Product not found",
+      };
+    }
+
+    const hasLiked = product[0].likes.includes(userId);
+
+    await db
+      .update(productsTable)
+      .set({
+        likes: hasLiked
+          ? product[0].likes.filter((id: string) => id !== userId)
+          : [...product[0].likes, userId],
+      })
+      .where(eq(productsTable.id, productId));
+
+    return {
+      success: true,
+      message: `Product ${hasLiked ? "unliked" : "liked"}`,
+    };
+  } catch (error) {
+    throw new Error(`Error liking product: ${error}`);
   }
 };
