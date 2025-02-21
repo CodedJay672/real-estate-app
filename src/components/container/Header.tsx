@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { Avatar, AvatarFallback } from "../ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   MdChatBubbleOutline,
   MdClose,
@@ -90,13 +90,13 @@ const Header = ({ session }: { session: Session | null }) => {
         )}
         {showMenu ? (
           <MdClose
-            size={44}
+            size={32}
             onClick={() => setShowMenu(false)}
             className="cursor-pointer text-blue-300"
           />
         ) : (
           <MdOutlineMenu
-            size={44}
+            size={32}
             className="text-blue-300 cursor-pointer"
             onClick={() => setShowMenu(true)}
           />
@@ -105,16 +105,27 @@ const Header = ({ session }: { session: Session | null }) => {
       <CustomSheet open={showMenu} onOpenChange={setShowMenu}>
         <div className="w-full flex justify-between">
           <div className="flex-1">
-            <Link href="/profile-page">
-              <Avatar className="size-16">
-                <AvatarFallback className="text-subtle-light bg-blue-300 font-semibold text-xl">
-                  {getInitials(session?.user?.name!)}
-                </AvatarFallback>
-              </Avatar>
+            {!session?.user ? (
+              <>
+                <Avatar className="size-16">
+                  <AvatarImage src="/assets/avatar.png" />
+                </Avatar>
+                <p className="text-xs text-gray-400 mt-1">
+                  Sign in to see profile
+                </p>
+              </>
+            ) : (
+              <Link href="/profile-page">
+                <Avatar className="size-16">
+                  <AvatarFallback className="text-subtle-light bg-blue-300 font-semibold text-xl">
+                    {getInitials(session?.user?.name!)}
+                  </AvatarFallback>
+                </Avatar>
 
-              <p className="text-xs text-gray-700">{session?.user?.name}</p>
-              <p className="text-xs text-gray-400">{session?.user?.email}</p>
-            </Link>
+                <p className="text-xs text-gray-700">{session?.user?.name}</p>
+                <p className="text-xs text-gray-400">{session?.user?.email}</p>
+              </Link>
+            )}
           </div>
           <div className="p-2">
             {session ? (
