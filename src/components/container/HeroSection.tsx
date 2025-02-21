@@ -22,9 +22,9 @@ const Herosection = () => {
             type="search"
             name="query"
             placeholder="Location/Zip Code/Titles/Key Tags e.g Luxury..."
-            className="w-full p-2 md:p-3 pr-12 md:pr-14 my-4 text-xs md:text-sm bg-blue-50 outline-blue-300 placeholder:text-xs md:placeholder:text-sm rounded-full"
+            className="w-full p-3 pr-12 md:pr-14 my-4 text-xs md:text-sm bg-blue-50 outline-blue-300 placeholder:text-xs md:placeholder:text-sm rounded-full"
           />
-          <RiSearch2Line className="absolute bottom-6 md:bottom-7 right-6 md:right-8 text-blue-200 size-4 md:size-6" />
+          <RiSearch2Line className="absolute bottom-7 md:bottom-7 right-6 md:right-8 text-blue-200 size-4 md:size-6" />
         </form>
       </div>
       <Image
