@@ -15,7 +15,7 @@ const CustomSheet = ({
       <SheetOverlay className="bg-gray-900 bg-opacity-20">
         <SheetContent
           aria-describedby="modal-description"
-          className="flex flex-col justify-center items-center gap-10 pt-16"
+          className="flex flex-col justify-center items-center gap-10 0t-6"
         >
           <SheetTitle hidden>Menu</SheetTitle>
           {children}

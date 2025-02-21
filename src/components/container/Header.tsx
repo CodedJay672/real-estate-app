@@ -103,7 +103,7 @@ const Header = ({ session }: { session: Session | null }) => {
         )}
       </div>
       <CustomSheet open={showMenu} onOpenChange={setShowMenu}>
-        <div className="w-full flex justify-between">
+        <div className="w-full flex flex-col items-center gap-1">
           <div className="flex-1">
             {!session?.user ? (
               <>
@@ -115,7 +115,10 @@ const Header = ({ session }: { session: Session | null }) => {
                 </p>
               </>
             ) : (
-              <Link href="/profile-page">
+              <Link
+                href="/profile-page"
+                className="flex flex-col items-center justify-center gap-1"
+              >
                 <Avatar className="size-16">
                   <AvatarFallback className="text-subtle-light bg-blue-300 font-semibold text-xl">
                     {getInitials(session?.user?.name!)}
