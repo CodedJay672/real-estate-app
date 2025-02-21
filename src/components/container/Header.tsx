@@ -49,13 +49,13 @@ const Header = ({ session }: { session: Session | null }) => {
           <Link href="/">Home</Link>
         </li>
         <li>
-          <Link href="/">Listings</Link>
+          <Link href="/listings">Listings</Link>
         </li>
         <li>
-          <Link href="/">About Us</Link>
+          <Link href="/about-us">About Us</Link>
         </li>
         <li>
-          <Link href="/">Blogs</Link>
+          <Link href="/blogs">Blogs</Link>
         </li>
       </ul>
       {session ? (
@@ -110,7 +110,7 @@ const Header = ({ session }: { session: Session | null }) => {
                 <Avatar className="size-16">
                   <AvatarImage src="/assets/avatar.png" />
                 </Avatar>
-                <p className="text-xs text-gray-400 mt-1">
+                <p className="text-xs text-gray-400 mt-1 w-16 text-center">
                   Sign in to see profile
                 </p>
               </>
@@ -133,6 +133,7 @@ const Header = ({ session }: { session: Session | null }) => {
                 <Button
                   type="submit"
                   className="w-full h-10 bg-transparent text-blue-300 hover:bg-transparent hover:text-blue-300 "
+                  onClick={() => setShowMenu(false)}
                 >
                   Sign Out
                 </Button>
@@ -141,11 +142,12 @@ const Header = ({ session }: { session: Session | null }) => {
               <Link
                 href="/auth/sign-in"
                 className="w-full flex items-center gap-[6px] justify-end p-1"
+                onClick={() => setShowMenu(false)}
               >
                 <span className="text-blue-300 text-sm font-medium">
                   Sign In
                 </span>
-                <MdOutlineLogin size={24} />
+                <MdOutlineLogin size={24} className="text-blue-300" />
               </Link>
             )}
           </div>
