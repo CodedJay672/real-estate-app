@@ -6,14 +6,14 @@ const Herosection = () => {
     <section className="w-full h-[500px] max-h-screen flex justify-center items-center relative">
       <div className="w-full lg:w-4/5 mx-auto py-12 px-2 flex justify-center items-center flex-col relative z-10">
         <div className="my-6 p-2">
-          <h1 className="text-blue-300 font-bold text-3xl md:text-3xl lg:text-6xl px-12 text-center">
+          <h1 className="text-blue-300 font-bold text-3xl md:text-3xl lg:text-6xl px-2 text-center">
             Find Your Dream Home With{" "}
           </h1>
           <h1 className="text-gold font-bold text-5xl lg:text-6xl text-center">
             Trusted Experts.
           </h1>
         </div>
-        <p className="w-full lg:w-[650px] text-base md:text-lg text-center text-blue-50 font-semibold px-12 md:px-14 lg:px-16">
+        <p className="w-full lg:w-[650px] text-base md:text-lg text-center text-blue-50 font-semibold px-6 md:px-14 lg:px-16">
           Connecting buyers and sellers with personalized expertise, market
           insights, and a commitment to excellence
         </p>

@@ -18,7 +18,6 @@ import { cn, getInitials } from "@/lib/utils";
 import { logOut } from "@/lib/actions/auth";
 import { RiListView } from "react-icons/ri";
 import CustomSheet from "../shared/CustomSheet";
-import { SheetClose } from "../ui/sheet";
 import { usePathname } from "next/navigation";
 
 const Header = ({ session }: { session: Session | null }) => {
