@@ -1,6 +1,6 @@
 {
-  "id": "41536dda-9d01-4dda-81f5-e8d3d6f29b26",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "567916aa-22da-400b-aa53-e56edd335448",
+  "prevId": "e86c16bb-968e-4d77-83e2-21b33a4520de",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -22,15 +22,9 @@
           "notNull": true,
           "default": "'House'"
         },
-        "property_id": {
-          "name": "property_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "user_id": {
-          "name": "user_id",
-          "type": "uuid",
+        "description": {
+          "name": "description",
+          "type": "varchar(256)",
           "primaryKey": false,
           "notNull": true
         },
@@ -50,34 +44,7 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {
-        "categories_property_id_products_id_fk": {
-          "name": "categories_property_id_products_id_fk",
-          "tableFrom": "categories",
-          "tableTo": "products",
-          "columnsFrom": [
-            "property_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "categories_user_id_users_id_fk": {
-          "name": "categories_user_id_users_id_fk",
-          "tableFrom": "categories",
-          "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "categories_name_unique": {
@@ -92,8 +59,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.houses": {
-      "name": "houses",
+    "public.likes": {
+      "name": "likes",
       "schema": "",
       "columns": {
         "id": {
@@ -103,39 +70,20 @@
           "notNull": true,
           "default": "gen_random_uuid()"
         },
-        "bedroooms": {
-          "name": "bedroooms",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "bathrooms": {
-          "name": "bathrooms",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "garage": {
-          "name": "garage",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "property_id": {
-          "name": "property_id",
+        "user_id": {
+          "name": "user_id",
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
         },
+        "product": {
+          "name": "product",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
         "created_at": {
           "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "updated_at": {
-          "name": "updated_at",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
@@ -144,78 +92,25 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "houses_property_id_products_id_fk": {
-          "name": "houses_property_id_products_id_fk",
-          "tableFrom": "houses",
-          "tableTo": "products",
+        "likes_user_id_users_id_fk": {
+          "name": "likes_user_id_users_id_fk",
+          "tableFrom": "likes",
+          "tableTo": "users",
           "columnsFrom": [
-            "property_id"
+            "user_id"
           ],
           "columnsTo": [
             "id"
           ],
           "onDelete": "no action",
           "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.lands": {
-      "name": "lands",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
         },
-        "product_id": {
-          "name": "product_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "size": {
-          "name": "size",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "price": {
-          "name": "price",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "lands_product_id_products_id_fk": {
-          "name": "lands_product_id_products_id_fk",
-          "tableFrom": "lands",
+        "likes_product_products_id_fk": {
+          "name": "likes_product_products_id_fk",
+          "tableFrom": "likes",
           "tableTo": "products",
           "columnsFrom": [
-            "product_id"
+            "product"
           ],
           "columnsTo": [
             "id"
@@ -243,7 +138,7 @@
         },
         "name": {
           "name": "name",
-          "type": "varchar(255)",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },
@@ -267,9 +162,9 @@
           "notNull": true,
           "default": "'selling'"
         },
-        "price": {
-          "name": "price",
-          "type": "integer",
+        "type": {
+          "name": "type",
+          "type": "varchar(256)",
           "primaryKey": false,
           "notNull": true
         },
@@ -285,21 +180,38 @@
           "primaryKey": false,
           "notNull": true
         },
-        "likes": {
-          "name": "likes",
-          "type": "text[]",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "ARRAY[]::text[]"
-        },
-        "created_by": {
-          "name": "created_by",
+        "category_id": {
+          "name": "category_id",
           "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "bedrooms": {
+          "name": "bedrooms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "bathrooms": {
+          "name": "bathrooms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "size": {
+          "name": "size",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "price": {
+          "name": "price",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
-        "creted_at": {
-          "name": "creted_at",
+        "created_at": {
+          "name": "created_at",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
@@ -315,12 +227,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "products_created_by_users_id_fk": {
-          "name": "products_created_by_users_id_fk",
+        "products_category_id_categories_id_fk": {
+          "name": "products_category_id_categories_id_fk",
           "tableFrom": "products",
-          "tableTo": "users",
+          "tableTo": "categories",
           "columnsFrom": [
-            "created_by"
+            "category_id"
           ],
           "columnsTo": [
             "id"

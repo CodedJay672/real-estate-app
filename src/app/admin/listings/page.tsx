@@ -6,16 +6,12 @@ import Link from "next/link";
 import { MdAdd } from "react-icons/md";
 
 const Listings = async () => {
-  const response = await getAllProducts();
+  const res = await getAllProducts();
 
-  if (!response.success) {
-    return <div>{response.message}</div>;
-  }
-
-  const { data } = response;
+  const response = res.data;
 
   return (
-    <section className="flex-1 p-6 overflow-hidden">
+    <section className="wrapper">
       <div className="w-full lg:max-w-screen-md">
         <h1 className="text-xl lg:text-2xl font-bold">Product listings</h1>
         <p className="text-sm lg:text-base font-normal text-blue-300">
@@ -48,9 +44,9 @@ const Listings = async () => {
         </div>
 
         {/** Posting Details and Management */}
-        <div className="flex flex-col space-y-8 mt-4">
-          {data?.length &&
-            data.map((product) => (
+        <div className="flex flex-col space-y-8 mt-4 min-h-[50dvh] justify-center items-center">
+          {response && response?.length > 0 ? (
+            response.map((product) => (
               <AdminListing
                 key={product.id}
                 name={product.name}
@@ -60,7 +56,12 @@ const Listings = async () => {
                 imageUrl={product.imageUrl}
                 id={product.id}
               />
-            ))}
+            ))
+          ) : (
+            <p className="text-center text-sm text-gray-300">
+              Uploaded products will show here
+            </p>
+          )}
         </div>
         <p className="text-sm font-light text-gray-300 mb-14 mt-2 text-center">
           --The End--

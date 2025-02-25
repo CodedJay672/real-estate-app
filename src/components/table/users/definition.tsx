@@ -1,6 +1,6 @@
 "use client";
 
-import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
+import { ColumnDef } from "@tanstack/react-table";
 
 interface user {
   id: string;
@@ -9,8 +9,6 @@ interface user {
   role: string;
   createdAt: Date;
 }
-
-const columnHelper = createColumnHelper<user>();
 
 export const userColumn: ColumnDef<user>[] = [
   {

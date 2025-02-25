@@ -1,6 +1,6 @@
 {
-  "id": "41536dda-9d01-4dda-81f5-e8d3d6f29b26",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "e86c16bb-968e-4d77-83e2-21b33a4520de",
+  "prevId": "f462d7f0-c1db-416d-acb6-2bcf0ff6a4f0",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -126,20 +126,6 @@
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
         }
       },
       "indexes": {},
@@ -186,26 +172,6 @@
           "type": "integer",
           "primaryKey": false,
           "notNull": true
-        },
-        "price": {
-          "name": "price",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
         }
       },
       "indexes": {},
@@ -267,12 +233,6 @@
           "notNull": true,
           "default": "'selling'"
         },
-        "price": {
-          "name": "price",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
         "description": {
           "name": "description",
           "type": "text",
@@ -292,14 +252,20 @@
           "notNull": true,
           "default": "ARRAY[]::text[]"
         },
+        "price": {
+          "name": "price",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
         "created_by": {
           "name": "created_by",
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
         },
-        "creted_at": {
-          "name": "creted_at",
+        "created_at": {
+          "name": "created_at",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,

@@ -23,17 +23,15 @@ const AdminPage = async () => {
   const data = response?.data?.map((item) => ({
     id: item.id,
     name: item.name,
-    price: item.price,
     location: item.location,
-    propertyType: item.propertyType,
-    size: item.size,
+    title: item.title,
     listingStatus: item.listingStatus,
     likes: item.likes,
     createdAt: item.createdAt,
   })) as listings[];
 
   return (
-    <section className="flex-1 p-6 bg-gray-50 flex flex-col gap-4 overflow-hidden mb-20 md:mb-0">
+    <section className="wrapper">
       <div className="w-full lg:max-w-screen-md mb-4">
         <h1 className="text-xl lg:text-2xl font-semibold text-blue-300">
           Welcome!{" "}

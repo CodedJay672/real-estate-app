@@ -29,7 +29,7 @@ const Header = ({ session }: { session: Session | null }) => {
   };
 
   return (
-    <nav className="bg-gray-50 w-full p-2 flex justify-between items-center relative z-50">
+    <nav className="bg-gray-50 w-full p-2 flex justify-between items-center z-50 sticky top-0 backdrop-blur-md">
       <Link href="/" className="flex justify-center items-center gap-1">
         <Image
           src="/assets/logo.png"

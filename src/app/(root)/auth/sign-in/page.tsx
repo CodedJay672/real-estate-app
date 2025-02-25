@@ -1,6 +1,6 @@
 "use client";
 
-import AuthForm from "@/components/shared/AuthForm";
+import AuthForm from "@/components/forms/AuthForm";
 import { signInWithCreds } from "@/lib/actions/auth";
 import { signInSchema } from "@/lib/validations/schema";
 import Image from "next/image";

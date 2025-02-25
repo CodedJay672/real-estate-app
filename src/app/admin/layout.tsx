@@ -25,7 +25,7 @@ const AdminLayout = async ({ children }: { children: ReactNode }) => {
   }
 
   const user = response.data;
-  const isAdmin = user?.[0].role === "admin";
+  const isAdmin = user?.role === "admin";
 
   if (!isAdmin) {
     redirect("/");
@@ -33,7 +33,7 @@ const AdminLayout = async ({ children }: { children: ReactNode }) => {
 
   return (
     <main className="min-h-screen flex relative">
-      <Sidebar {...user?.[0]} />
+      <Sidebar {...user} />
       {children}
     </main>
   );

@@ -15,6 +15,9 @@ export default {
           200: "#BFD1D6",
           300: "#201E74",
         },
+        primary: {
+          DEFAULT: "#201E74",
+        },
         gold: "#E0B435",
         "subtle-light": "#FFFFFC",
       },

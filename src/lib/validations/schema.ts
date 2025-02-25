@@ -19,10 +19,10 @@ export const productSchema = z.object({
   description: z.string(),
   price: z.coerce.number(),
   location: z.string(),
-  propertyType: z.enum(["house", "land"]),
-  bedrooms: z.coerce.number().min(0).optional(),
-  bathrooms: z.coerce.number().min(0).optional(),
-  size: z.coerce.number().optional(),
+  bedrooms: z.coerce.number(),
+  bathrooms: z.coerce.number(),
+  size: z.coerce.number(),
+  type: z.string(),
   listingStatus: z.enum(["selling", "sold out", "reopened"]),
   imageUrl: z.string(),
   amenities: z.string(),
@@ -34,4 +34,9 @@ export const contactSchema = z.object({
   message: z.string().nonempty(),
 });
 
-export type productType = z.infer<typeof productSchema>; // infer the type of the schema
+export const categorySchema = z.object({
+  name: z.string().min(4, {
+    message: "Name should be at least 4 letters",
+  }),
+  description: z.string(),
+});

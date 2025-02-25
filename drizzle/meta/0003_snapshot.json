@@ -1,9 +1,207 @@
 {
-  "id": "4fcfc9e4-6049-4037-b69c-e360ec16a386",
-  "prevId": "0032d0cb-550e-4130-a0a2-d6c861431a2f",
+  "id": "f462d7f0-c1db-416d-acb6-2bcf0ff6a4f0",
+  "prevId": "37b167b1-6d57-4af1-879b-5553edcd593c",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
+    "public.categories": {
+      "name": "categories",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'House'"
+        },
+        "property_id": {
+          "name": "property_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "categories_property_id_products_id_fk": {
+          "name": "categories_property_id_products_id_fk",
+          "tableFrom": "categories",
+          "tableTo": "products",
+          "columnsFrom": [
+            "property_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "categories_user_id_users_id_fk": {
+          "name": "categories_user_id_users_id_fk",
+          "tableFrom": "categories",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "categories_name_unique": {
+          "name": "categories_name_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "name"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.houses": {
+      "name": "houses",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "bedroooms": {
+          "name": "bedroooms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "bathrooms": {
+          "name": "bathrooms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "garage": {
+          "name": "garage",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "property_id": {
+          "name": "property_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "houses_property_id_products_id_fk": {
+          "name": "houses_property_id_products_id_fk",
+          "tableFrom": "houses",
+          "tableTo": "products",
+          "columnsFrom": [
+            "property_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.lands": {
+      "name": "lands",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "product_id": {
+          "name": "product_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "size": {
+          "name": "size",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "price": {
+          "name": "price",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "lands_product_id_products_id_fk": {
+          "name": "lands_product_id_products_id_fk",
+          "tableFrom": "lands",
+          "tableTo": "products",
+          "columnsFrom": [
+            "product_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.products": {
       "name": "products",
       "schema": "",
@@ -33,14 +231,6 @@
           "primaryKey": false,
           "notNull": true
         },
-        "property_type": {
-          "name": "property_type",
-          "type": "type",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "'house'"
-        },
         "status": {
           "name": "status",
           "type": "status",
@@ -49,33 +239,9 @@
           "notNull": true,
           "default": "'selling'"
         },
-        "price": {
-          "name": "price",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
         "description": {
           "name": "description",
           "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "bedrooms": {
-          "name": "bedrooms",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "bathrooms": {
-          "name": "bathrooms",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "size": {
-          "name": "size",
-          "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
@@ -84,12 +250,6 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true
-        },
-        "amenities": {
-          "name": "amenities",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
         },
         "likes": {
           "name": "likes",
@@ -104,8 +264,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "creted_at": {
-          "name": "creted_at",
+        "created_at": {
+          "name": "created_at",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
@@ -178,8 +338,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "creted_at": {
-          "name": "creted_at",
+        "created_at": {
+          "name": "created_at",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
@@ -223,6 +383,79 @@
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
+    },
+    "public.watchlist": {
+      "name": "watchlist",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "property_id": {
+          "name": "property_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "creted_at": {
+          "name": "creted_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "watchlist_property_id_products_id_fk": {
+          "name": "watchlist_property_id_products_id_fk",
+          "tableFrom": "watchlist",
+          "tableTo": "products",
+          "columnsFrom": [
+            "property_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "watchlist_user_id_users_id_fk": {
+          "name": "watchlist_user_id_users_id_fk",
+          "tableFrom": "watchlist",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     }
   },
   "enums": {
@@ -233,14 +466,6 @@
         "selling",
         "sold out",
         "reopened"
-      ]
-    },
-    "public.type": {
-      "name": "type",
-      "schema": "public",
-      "values": [
-        "house",
-        "land"
       ]
     },
     "public.role": {

@@ -1,6 +1,6 @@
 {
-  "id": "41536dda-9d01-4dda-81f5-e8d3d6f29b26",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "37b167b1-6d57-4af1-879b-5553edcd593c",
+  "prevId": "787609da-b59e-4dfd-8c0a-66f22dce355b",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -267,12 +267,6 @@
           "notNull": true,
           "default": "'selling'"
         },
-        "price": {
-          "name": "price",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
         "description": {
           "name": "description",
           "type": "text",
@@ -297,20 +291,6 @@
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
-        },
-        "creted_at": {
-          "name": "creted_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
         }
       },
       "indexes": {},

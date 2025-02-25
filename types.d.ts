@@ -1,3 +1,6 @@
+import { addHouseSchema, addLandSchema } from "@/lib/validations/schema";
+import { z } from "zod";
+
 interface IProperties {
   id: number;
   name: string;
@@ -19,3 +22,6 @@ interface IProperties {
   images: string[];
   amenities: string[];
 }
+
+type AddLandProps = z.infer<typeof addLandSchema>;
+type AddHouseProps = z.infer<typeof addHouseSchema>;

@@ -56,7 +56,7 @@ const ContactForm = ({ className }: { className: string }) => {
               <FormControl>
                 <Input
                   {...field}
-                  className={`${className} w-full h-14 lg:h-16 rounded-md`}
+                  className={`${className} w-full h-10 lg:h-12 rounded-md`}
                 />
               </FormControl>
               <FormMessage />

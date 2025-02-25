@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import Link from "next/link";
-import { MdDashboard, MdList } from "react-icons/md";
+import { MdCategory, MdDashboard, MdList } from "react-icons/md";
 import { RiUser2Line } from "react-icons/ri";
 import { cn, getInitials } from "@/lib/utils";
 import { usePathname } from "next/navigation";
@@ -98,6 +98,26 @@ const Sidebar = ({ fullName, email }: Partial<Props>) => {
               })}
             />
             <span className="hidden lg:inline-block">Users</span>
+          </Link>
+        </li>
+        <li className="w-full">
+          <Link
+            href="/admin/categories"
+            className={cn(
+              "w-full text-blue-300 p-2 flex justify-center items-center lg:justify-start lg:items-start gap-1 rounded-md hover:bg-slate-200 cursor-pointer",
+              {
+                "text-subtle-light bg-blue-300 hover:text-white hover:bg-blue-300":
+                  pathname.includes("/categories"),
+              }
+            )}
+          >
+            <MdCategory
+              size={24}
+              className={cn("text-blue-300", {
+                "brightness-0 invert": pathname.includes("/categories"),
+              })}
+            />
+            <span className="hidden lg:inline-block">Categories</span>
           </Link>
         </li>
       </ul>

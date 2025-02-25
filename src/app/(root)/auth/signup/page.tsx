@@ -1,6 +1,6 @@
 "use client";
 
-import AuthForm from "@/components/shared/AuthForm";
+import AuthForm from "@/components/forms/AuthForm";
 import { signUp } from "@/lib/actions/auth";
 import { signUpSchema } from "@/lib/validations/schema";
 import { FcLike } from "react-icons/fc";

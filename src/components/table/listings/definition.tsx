@@ -7,10 +7,7 @@ export type listings = {
   id: string;
   name: string;
   title: string;
-  price: number;
   location: string;
-  propertyType: string;
-  size: number;
   listingStatus: string;
   likes: string[];
   createdAt: Date;

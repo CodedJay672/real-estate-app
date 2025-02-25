@@ -1,5 +1,5 @@
 import Back from "@/components/shared/Back";
-import SearchBar from "@/components/shared/SearchBar";
+import SearchBar from "@/components/forms/SearchBar";
 import { notFound } from "next/navigation";
 import {
   MdKingBed,
@@ -11,7 +11,7 @@ import { getProductById } from "@/lib/actions/auth";
 import DisplayImage from "@/components/shared/DisplayImage";
 import { RiShape2Line } from "react-icons/ri";
 import { Button } from "@/components/ui/button";
-import ContactForm from "@/components/shared/ContactForm";
+import ContactForm from "@/components/forms/ContactForm";
 import { auth } from "@/auth";
 import Likes from "@/components/shared/Likes";
 

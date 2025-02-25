@@ -1,1 +1,0 @@
-ALTER TABLE "products" ADD COLUMN "likes" text[] DEFAULT ARRAY[]::text[] NOT NULL;
