@@ -13,6 +13,7 @@ interface cardProps extends Partial<listings> {
   bedrooms: number;
   amenities: string;
   session: Session | null;
+  likes: any;
 }
 
 const PropertyCard = ({
@@ -21,15 +22,14 @@ const PropertyCard = ({
   description,
   price,
   location,
-  propertyType,
+  type,
   bedrooms,
   bathrooms,
   size,
   listingStatus,
   imageUrl,
-  amenities,
-  likes,
   createdAt,
+  likes,
   session,
 }: cardProps) => {
   return (
@@ -39,9 +39,7 @@ const PropertyCard = ({
           <span className="text-xs bg-green-600 text-subtle-light rounded-lg p-1">
             {listingStatus}
           </span>
-          <span className="text-gray-700 text-xs p-1 rounded-md">
-            {propertyType}
-          </span>
+          <span className="text-gray-700 text-xs p-1 rounded-md">{type}</span>
         </div>
         <IKImage
           path={imageUrl}
@@ -53,7 +51,7 @@ const PropertyCard = ({
         />
 
         <div className="absolute left-4 bottom-1 rounded-full size-10 flex justify-center items-center cursor-pointer">
-          <Likes likes={likes!} session={session} productId={id!} />
+          <Likes likes={likes!} userId={session?.user?.id!} productId={id!} />
         </div>
       </div>
       <Link
@@ -85,7 +83,7 @@ const PropertyCard = ({
             {Boolean(size) && `${size} SQM`}
           </p>
         </div>
-        <div className="flex items-start flex-wrap mt-4 gap-2">
+        {/* <div className="flex items-start flex-wrap mt-4 gap-2">
           {amenities.split(",").map((amenity, index) => (
             <span
               key={index}
@@ -94,7 +92,7 @@ const PropertyCard = ({
               {amenity.trim()}
             </span>
           ))}
-        </div>
+        </div> */}
       </Link>
     </article>
   );

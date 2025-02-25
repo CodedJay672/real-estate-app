@@ -10,87 +10,76 @@ import { CiHeart } from "react-icons/ci";
 import { FcLike } from "react-icons/fc";
 
 interface LikesProps {
-  likes: string[];
+  likes: any;
   productId: string;
-  session: Session | null;
+  userId: string;
 }
 
-const Likes = ({ likes, productId, session }: LikesProps) => {
-  const router = useRouter();
-  const [likesArr, setLikesArr] = useState<string[] | undefined>(likes); // likes array
-  const [isLiking, setIsLiking] = useState<boolean>(false);
+const Likes = ({ likes, userId, productId }: LikesProps) => {
+  const [isLiking, setIsLiking] = useState(false);
   const { toast } = useToast();
 
-  const handleLikeProperty = async (id: string) => {
-    if (!session?.user) {
-      router.push("/auth/sign-in");
-    }
+  //debug
+  console.log(likes);
+
+  const router = useRouter();
+  const hasLiked = likes.find((like: any) => like.userId === userId);
+
+  const handleLikeProperty = async (productId: string) => {
+    if (!userId) router.push("/auth/sign-in");
 
     setIsLiking(true);
 
     try {
-      const res = await likeProduct(session?.user?.id!, id);
+      const response = await likeProduct(userId, productId);
 
-      if (!res.success) {
+      if (!response.success) {
         toast({
           title: "Error",
-          description: res.message,
+          description: response.message,
           variant: "destructive",
         });
         return false;
       }
 
-      setLikesArr([...res?.data?.[0].likes!]);
       toast({
-        title: "Success",
-        description: res.message,
+        title: "Success!!",
+        description: response.message,
       });
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "An error occured while liking property",
-        variant: "destructive",
-      });
-      console.error(error);
+      throw new Error(`Error: ${error}`);
     } finally {
       setIsLiking(false);
     }
   };
+
   return (
     <React.Fragment>
-      {likes && likes.length > 0 ? (
-        <div className="flex items-center gap-1 bg-subtle-light/90 py-1 px-2 rounded-md">
-          {isLiking ? (
-            <CgSpinner size={24} className="animate-spin font-semibold" />
-          ) : likesArr?.includes(session?.user?.id!) ? (
-            <FcLike
-              size={24}
-              className="text-blue-300 fill-blue-300"
-              onClick={() => handleLikeProperty(productId)}
-            />
-          ) : (
-            <CiHeart
-              size={24}
-              className="text-blue-300"
-              onClick={() => handleLikeProperty(productId)}
-            />
-          )}
-
-          <span className="text-center text-xs text-blue-300">
-            {likesArr && likesArr?.length / 1000 > 1
-              ? `${likesArr?.length / 1000}k`
-              : likesArr?.length}
-          </span>
-        </div>
-      ) : (
-        <div className="flex items-center gap-1 bg-subtle-light/90 py-1 px-2 rounded-md">
+      <div className="flex items-center gap-1 bg-subtle-light/90 py-1 px-2 rounded-md">
+        {isLiking ? (
+          <CgSpinner size={24} className="animate-spin font-semibold" />
+        ) : hasLiked ? (
+          <FcLike
+            size={24}
+            className="text-blue-300 fill-blue-300"
+            onClick={() => handleLikeProperty(productId)}
+          />
+        ) : (
           <CiHeart
             size={24}
             className="text-blue-300"
             onClick={() => handleLikeProperty(productId)}
           />
-        </div>
-      )}
+        )}
+
+        {likes && likes.length > 0 && (
+          <span className="text-center text-xs text-blue-300">
+            {likes && likes?.length / 1000 > 1
+              ? `${likes?.length / 1000}k`
+              : likes?.length}
+          </span>
+        )}
+      </div>
     </React.Fragment>
   );
 };

@@ -25,8 +25,8 @@ const AdminPage = async () => {
     name: item.name,
     location: item.location,
     title: item.title,
+    price: item.price,
     listingStatus: item.listingStatus,
-    likes: item.likes,
     createdAt: item.createdAt,
   })) as listings[];
 

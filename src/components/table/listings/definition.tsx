@@ -7,9 +7,11 @@ export type listings = {
   id: string;
   name: string;
   title: string;
+  price: number;
   location: string;
   listingStatus: string;
-  likes: string[];
+  type: string;
+  size: number;
   createdAt: Date;
   updatedAt?: Date;
   imageUrl?: string;
@@ -58,18 +60,6 @@ export const productColumns: ColumnDef<listings>[] = [
   {
     accessorKey: "listingStatus",
     header: "Status",
-  },
-  {
-    accessorKey: "likes",
-    header: "Likes",
-    cell: ({ row }) => {
-      const likes = row.getValue("likes") as string[];
-      return likes.length
-        ? likes.length > 1
-          ? `${likes.length} likes`
-          : `${likes.length} like`
-        : "No likes";
-    },
   },
   {
     accessorKey: "createdAt",

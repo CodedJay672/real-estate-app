@@ -265,7 +265,7 @@ export const updateProductById = async (id: string, data: any) => {
 
 export const likeProduct = async (userId: string, productId: string) => {
   try {
-    if (!userId || !productId) {
+    if (!userId) {
       return { success: false, message: "Sign in to like products." };
     }
 
@@ -288,10 +288,12 @@ export const likeProduct = async (userId: string, productId: string) => {
       await db.delete(likes).where(eq(likes.productId, hasLiked.productId!));
     } else {
       await db.insert(likes).values({
-        productId,
         userId,
+        productId,
+        createdAt: new Date(),
       });
     }
+    revalidatePath("/");
 
     return {
       success: true,
@@ -302,7 +304,75 @@ export const likeProduct = async (userId: string, productId: string) => {
   }
 };
 
-export const getAllCategories = async () => {
+export const getLikedProducts = cache(async () => {
+  try {
+    const response = await db.query.products.findMany({
+      with: {
+        likes: true,
+      },
+    });
+
+    if (!response) return notFound();
+
+    console.log("All product likes fetched!");
+
+    return response;
+  } catch (error) {
+    throw new Error(`Error: ${error}`);
+  }
+});
+
+export const getLikedProductsById = cache(async (id: string) => {
+  if (!id) notFound();
+
+  try {
+    const response = await db.query.products.findFirst({
+      with: {
+        likes: true,
+      },
+      where: (products, { eq }) => eq(products.id, id),
+    });
+
+    if (!response) console.log("Cannot fetch product likes!");
+
+    console.log("Product likes fetched.");
+    return response;
+  } catch (error) {
+    throw new Error(`Error: ${error}`);
+  }
+});
+
+export const getUserLikes = async (userId: string) => {
+  try {
+    const userLikes = await db.query.usersTable.findMany({
+      with: {
+        likes: true,
+      },
+      where: (usersTable, { eq }) => eq(usersTable.id, userId),
+    });
+
+    if (!userLikes) return notFound();
+
+    console.log("user likes fetched...");
+    return userLikes;
+  } catch (error) {
+    throw new Error(`Error: ${error}`);
+  }
+};
+
+export const getAllLikes = async () => {
+  try {
+    const response = await db.select().from(likes);
+
+    if (!response) return notFound();
+    console.log("Likes fetched");
+    return response;
+  } catch (error) {
+    throw new Error(`Error: ${error}`);
+  }
+};
+
+export const getAllCategories = cache(async () => {
   const session = await auth();
 
   if (!session?.user) {
@@ -328,7 +398,7 @@ export const getAllCategories = async () => {
   } catch (error) {
     throw new Error(`Error: ${error}`);
   }
-};
+});
 
 export const createCategory = async (data: {
   name: string;

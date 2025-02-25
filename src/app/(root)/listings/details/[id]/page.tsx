@@ -7,7 +7,7 @@ import {
   MdOutlineBathtub,
   MdShare,
 } from "react-icons/md";
-import { getProductById } from "@/lib/actions/auth";
+import { getLikedProductsById } from "@/lib/actions/auth";
 import DisplayImage from "@/components/shared/DisplayImage";
 import { RiShape2Line } from "react-icons/ri";
 import { Button } from "@/components/ui/button";
@@ -26,9 +26,9 @@ const PropertyDetails = async ({
   if (!id) return notFound();
 
   //fetch the property by id
-  const property = await getProductById(id);
+  const propertyWithLikes = await getLikedProductsById(id);
 
-  if (!property) return notFound();
+  if (!propertyWithLikes) return notFound();
 
   return (
     <section className="w-full px-2">
@@ -43,8 +43,8 @@ const PropertyDetails = async ({
           </div>
           <div className=" rounded-full border shadow-md hover:shadow-lg cursor-pointer flex justify-center items-center transition-all">
             <Likes
-              likes={property.data?.[0].likes!}
-              session={session}
+              likes={propertyWithLikes?.likes}
+              userId={session?.user?.id!}
               productId={id}
             />
           </div>
@@ -53,37 +53,35 @@ const PropertyDetails = async ({
       <div className="flex gap-6">
         <div className="mt-10 p-2 flex-1">
           <div className="w-full mb-2">
-            <h1 className="text-2xl font-semibold">
-              {property.data?.[0].name}
-            </h1>
+            <h1 className="text-2xl font-semibold">{propertyWithLikes.name}</h1>
             <p className="text-sm text-gray-500">
-              {property.data?.[0].location} |{" "}
+              {propertyWithLikes.location} |{" "}
               <span className="text-xs text-gray-400">
-                {property.data?.[0].title}
+                {propertyWithLikes.title}
               </span>
             </p>
           </div>
           <div className="w-full relative">
             <DisplayImage
-              imageUrl={property?.data?.[0].imageUrl!}
-              alt={property?.data?.[0].name!}
+              imageUrl={propertyWithLikes.imageUrl!}
+              alt={propertyWithLikes.name!}
             />
           </div>
           <div className="w-full p-2 flex flex-col gap-2">
             <p className="text-sm lg:text-base font-thin border-l-4 border-green-600 px-2">
-              {property.data?.[0].propertyType.toUpperCase()} for Sale!!!
+              {propertyWithLikes.type.toUpperCase()} for Sale!!!
             </p>
             <h2 className="text-2xl lg:text-4xl font-semibold">
-              {property.data?.[0].price.toLocaleString("en-NG", {
+              {propertyWithLikes.price.toLocaleString("en-NG", {
                 style: "currency",
                 currency: "NGN",
               })}
             </h2>
             <div className="flex items-center space-x-2">
-              {Boolean(property.data?.[0].size) ? (
+              {Boolean(propertyWithLikes.size) ? (
                 <p className="flex items-center gap-1 text-sm lg:text-base font-thin">
                   <span className="font-semibold">
-                    {property.data?.[0].size} SQM
+                    {propertyWithLikes.size} SQM
                   </span>
                   <RiShape2Line size={20} className="text-gray-500" />
                 </p>
@@ -91,13 +89,13 @@ const PropertyDetails = async ({
                 <>
                   <p className="flex items-center gap-1 text-sm lg:text-base font-thin">
                     <span className="font-semibold">
-                      {property.data?.[0].bedrooms}{" "}
+                      {propertyWithLikes.bedrooms}{" "}
                     </span>
                     <MdKingBed size={20} className="text-gray-500" />
                   </p>
                   <p className="flex gap-1 text-sm lg:text-base font-thin">
                     <span className="font-semibold">
-                      {property.data?.[0].bathrooms}{" "}
+                      {propertyWithLikes.bathrooms}{" "}
                     </span>
                     <MdOutlineBathtub size={18} className="text-gray-500" />
                   </p>
@@ -107,12 +105,12 @@ const PropertyDetails = async ({
             <div className="flex items-center mb-2">
               <MdLocationPin size={20} className="text-gray-500" />
               <span className="text-sm lg:text-base font-medium">
-                {property.data?.[0].location}
+                {propertyWithLikes.location}
               </span>
             </div>
             <h1 className="text-lg lg:text-xl font-semibold">Description</h1>
             <p className="text-sm text-gray-500">
-              {property.data?.[0].description}
+              {propertyWithLikes.description}
             </p>
           </div>
           <div className="flex gap-1 mt-4 px-2">
