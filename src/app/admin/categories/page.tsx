@@ -36,7 +36,7 @@ const Categories = async () => {
               >
                 <RiAddLine size={20} className="text-blue-300" />
               </Link>
-              <span className="text-[8px] md:text-sm text-blue-300 font-thin">
+              <span className="text-[8px] md:text-sm text-blue-300 font-thin truncate">
                 {category?.name}
               </span>
             </div>
