@@ -15,7 +15,7 @@ interface SelectProps {
 const CustomSelect = ({ options, onChange, defaultValue }: SelectProps) => {
   return (
     <Select onValueChange={onChange} defaultValue={defaultValue}>
-      <SelectTrigger className="w-full">
+      <SelectTrigger className="w-full h-10 md:h-14">
         <SelectValue placeholder="Type" className="min-w-full" />
       </SelectTrigger>
       <SelectContent>

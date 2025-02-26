@@ -1,13 +1,13 @@
 import CategoryCard from "@/components/shared/CategoryCard";
 import { Input } from "@/components/ui/input";
-import { getAllCategories } from "@/lib/actions/auth";
+import { getAllCategoriesWithProducts } from "@/lib/actions/auth";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
 import { RiAddLine } from "react-icons/ri";
 
 const Categories = async () => {
-  const categories = await getAllCategories();
+  const categories = await getAllCategoriesWithProducts();
 
   if (!categories.success) {
     return notFound();

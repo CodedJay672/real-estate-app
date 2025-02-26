@@ -20,34 +20,42 @@ import { useToast } from "@/hooks/use-toast";
 import { updateProductById, uploadProducts } from "@/lib/actions/auth";
 import { useRouter } from "next/navigation";
 import CustomInput from "./CustomInput";
+import CustomSelect from "./CustomSelect";
 
 const ProductForm = ({
   type,
-  id,
-  category,
+  product,
+  categories,
 }: {
   type: string;
-  id?: string;
-  category: string;
+  product?: any;
+  categories: any[];
 }) => {
   const { toast } = useToast();
   const router = useRouter();
+  const id = product ? product.id : null;
+
+  const productCategories = categories.map((category) => ({
+    value: category.id,
+    label: category.name,
+  }));
 
   const form = useForm<z.infer<typeof productSchema>>({
     resolver: zodResolver(productSchema),
     defaultValues: {
-      name: "",
-      title: "",
-      description: "",
-      price: 0,
-      location: "",
-      bedrooms: 0,
-      bathrooms: 0,
-      size: 0,
-      type: "",
-      listingStatus: "selling",
-      imageUrl: "",
-      amenities: "",
+      name: product?.name || "",
+      title: product?.title || "",
+      description: product?.description || "",
+      price: product?.price || 0,
+      location: product?.location || "",
+      bedrooms: product?.bedrooms || 0,
+      bathrooms: product?.bathrooms || 0,
+      size: product?.size || 0,
+      type: product?.type || "",
+      categoryId: product?.categoryId || "",
+      listingStatus: product?.listingStatus || "selling",
+      imageUrl: product?.imageUrl || "",
+      amenities: product?.amenities || "",
     },
   });
 
@@ -105,51 +113,103 @@ const ProductForm = ({
           placeholder="Enter property title"
         />
         <div className="flex items-center justify-between gap-2">
-          <CustomInput
+          <FormField
+            control={form.control}
             name="type"
-            label="Type"
-            type="text"
-            control={form.control}
-            placeholder="Selling, Sold Out, or Reopened"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel className="capitalize font-light text-sm after:content-['*'] after:text-red-500 after:inline-block after:ml-1">
+                  Property Type
+                </FormLabel>
+                <FormControl>
+                  <CustomSelect
+                    options={[
+                      { value: "house", label: "House" },
+                      { value: "land", label: "Land" },
+                    ]}
+                    onChange={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-          <CustomInput
-            name="listingStatus"
-            label="Status"
-            type="text"
+          <FormField
             control={form.control}
-            placeholder="Selling, Sold Out, or Reopened"
+            name="categoryId"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel className="capitalize font-light text-sm after:content-['*'] after:text-red-500 after:inline-block after:ml-1">
+                  Category
+                </FormLabel>
+                <FormControl>
+                  <CustomSelect
+                    options={productCategories}
+                    onChange={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
         </div>
-        <div className="flex items-center justify-between gap-2">
-          <CustomInput
-            name="bedrooms"
-            label="Bedrooms"
-            type="nubmer"
+        <div className="w-full flex items-center justify-between gap-2">
+          <FormField
             control={form.control}
-            placeholder="Bedrooms"
+            name="listingStatus"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel className="capitalize font-light text-sm after:content-['*'] after:text-red-500 after:inline-block after:ml-1">
+                  Property Status
+                </FormLabel>
+                <FormControl>
+                  <CustomSelect
+                    options={[
+                      { value: "selling", label: "Selling" },
+                      { value: "sold out", label: "Sold Out" },
+                      { value: "reopened", label: "Reopened" },
+                    ]}
+                    onChange={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-          <CustomInput
-            name="bathrooms"
-            label="Bathrooms"
-            type="nubmer"
-            control={form.control}
-            placeholder="Bedrooms"
-          />
-          {form.getValues("type") === "land" && (
-            <CustomInput
-              name="size"
-              label="Size"
-              type="nubmer"
-              control={form.control}
-              placeholder="Bedrooms"
-            />
-          )}
           <CustomInput
             name="price"
             label="Price"
             type="number"
             control={form.control}
             placeholder="Enter price..."
+          />
+        </div>
+        <div className="flex items-center justify-between gap-2">
+          {form.getValues("type") === "house" && (
+            <>
+              <CustomInput
+                name="bedrooms"
+                label="Bedrooms"
+                type="nubmer"
+                control={form.control}
+                placeholder="Bedrooms"
+              />
+              <CustomInput
+                name="bathrooms"
+                label="Bathrooms"
+                type="nubmer"
+                control={form.control}
+                placeholder="Bedrooms"
+              />
+            </>
+          )}
+
+          <CustomInput
+            name="size"
+            label="Size"
+            type="nubmer"
+            control={form.control}
+            placeholder="Bedrooms"
           />
         </div>
 
@@ -195,7 +255,7 @@ const ProductForm = ({
 
         <Button
           type="submit"
-          className="w-full h-14 flex items-center"
+          className="w-full md:h-14 flex items-center bg-primary"
           disabled={form.formState.isSubmitting}
         >
           {form.formState.isSubmitting && (

@@ -10,7 +10,7 @@ import {
 import { categoriesTable, likes, products, usersTable } from "@/db/schema";
 import bcryptjs from "bcryptjs";
 import { auth, signIn, signOut } from "@/auth";
-import { eq, isNotNull, isNull } from "drizzle-orm";
+import { eq, ilike } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { cache } from "react";
 import { notFound } from "next/navigation";
@@ -372,7 +372,19 @@ export const getAllLikes = async () => {
   }
 };
 
-export const getAllCategories = cache(async () => {
+export const getAllCategories = async () => {
+  try {
+    const response = await db.select().from(categoriesTable);
+
+    if (!response) console.log("No categories found");
+
+    return response;
+  } catch (error) {
+    throw new Error(`Error: ${error}`);
+  }
+};
+
+export const getAllCategoriesWithProducts = cache(async () => {
   const session = await auth();
 
   if (!session?.user) {
@@ -415,7 +427,7 @@ export const createCategory = async (data: {
     const res = await db
       .select()
       .from(categoriesTable)
-      .where(eq(categoriesTable?.name, data.name))
+      .where(ilike(categoriesTable?.name, data.name))
       .limit(1);
 
     if (res.length > 0) {
