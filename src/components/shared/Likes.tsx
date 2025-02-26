@@ -2,7 +2,6 @@
 
 import { useToast } from "@/hooks/use-toast";
 import { likeProduct } from "@/lib/actions/auth";
-import { Session } from "next-auth";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { CgSpinner } from "react-icons/cg";

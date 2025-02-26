@@ -272,8 +272,7 @@ export const likeProduct = async (userId: string, productId: string) => {
     const product = await db
       .select()
       .from(likes)
-      .where(eq(likes.userId, userId))
-      .limit(1);
+      .where(eq(likes.userId, userId));
 
     if (!product) {
       return {
