@@ -1,13 +1,17 @@
-"use client";
-
 import AuthForm from "@/components/forms/AuthForm";
 import { signUp } from "@/lib/actions/auth";
 import { signUpSchema } from "@/lib/validations/schema";
 import { FcLike } from "react-icons/fc";
 import { MdOutlineRecommend, MdOutlineTipsAndUpdates } from "react-icons/md";
 import React from "react";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
-const SignUp = () => {
+const SignUp = async () => {
+  const session = await auth();
+
+  if (session?.user) redirect("/");
+
   return (
     <section className="w-full px-2 py-10 gap-6">
       <div className="w-full lg:max-w-screen-lg px-2 py-10 mx-auto flex flex-col justify-center lg:flex-row ">

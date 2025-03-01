@@ -1,11 +1,15 @@
-"use client";
-
+import { auth } from "@/auth";
 import AuthForm from "@/components/forms/AuthForm";
 import { signInWithCreds } from "@/lib/actions/auth";
 import { signInSchema } from "@/lib/validations/schema";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 
-const SignIn = () => {
+const SignIn = async () => {
+  const session = await auth();
+
+  if (session?.user) redirect("/");
+
   return (
     <section className="w-full px-2 py-10 gap-6">
       <div className="w-full px-2 py-10 mx-auto flex flex-col lg:flex-row ">

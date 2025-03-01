@@ -7,13 +7,19 @@ import {
   signUpSchema,
   categorySchema,
 } from "../validations/schema";
-import { categoriesTable, likes, products, usersTable } from "@/db/schema";
+import {
+  categoriesTable,
+  likes,
+  products,
+  usersTable,
+  watchlistInfo,
+} from "@/db/schema";
 import bcryptjs from "bcryptjs";
 import { auth, signIn, signOut } from "@/auth";
-import { eq, ilike } from "drizzle-orm";
+import { desc, eq, ilike, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { cache } from "react";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 export const signInWithCreds = async ({
   email,
@@ -167,7 +173,7 @@ export const deleteProduct = async (id: string) => {
   }
 };
 
-export const getAllProducts = async () => {
+export const getAllProducts = cache(async () => {
   try {
     const response = await db.select().from(products);
 
@@ -181,7 +187,7 @@ export const getAllProducts = async () => {
   } catch (error) {
     throw new Error(`Error: ${error}`);
   }
-};
+});
 
 export const getUser = async (email: string) => {
   try {
@@ -201,7 +207,7 @@ export const getUser = async (email: string) => {
   }
 };
 
-export const getAllUsers = async () => {
+export const getAllUsers = cache(async () => {
   try {
     const users = await db.select().from(usersTable);
 
@@ -213,7 +219,7 @@ export const getAllUsers = async () => {
   } catch (error: any) {
     throw new Error(`Error fetching users: ${error.message}`);
   }
-};
+});
 
 export const getProductById = cache(async (id: string) => {
   if (!id) {
@@ -451,10 +457,116 @@ export const createCategory = async (data: {
       };
     }
 
+    // clear cache and fetch new categories
+    revalidatePath("/admin/categories");
+
     return {
       success: true,
       message: "Category created!",
     };
+  } catch (error) {
+    throw new Error(`Error: ${error}`);
+  }
+};
+
+export const addToWatchlist = cache(
+  async (productId: string, userId: string) => {
+    try {
+      //first check if the product is already in the watchlist
+      const res = await db
+        .select()
+        .from(watchlistInfo)
+        .where(eq(watchlistInfo.userId, userId));
+
+      // Remove the product if already in the watchlist
+      if (res.length > 0) {
+        const response = await db
+          .delete(watchlistInfo)
+          .where(eq(watchlistInfo.propertyId, productId))
+          .returning();
+
+        if (response)
+          return {
+            success: true,
+            messsage: "Removed from watchlist",
+          };
+      }
+
+      // Add to watchlist if non-exist
+      const response = await db
+        .insert(watchlistInfo)
+        .values({
+          propertyId: productId,
+          userId,
+        })
+        .returning();
+
+      revalidatePath("/");
+
+      return {
+        success: true,
+        message: "Added successfully to watchlist",
+      };
+    } catch (error) {
+      throw new Error(`Error: ${error}`);
+    }
+  }
+);
+
+export const getProductsWithWatchlists = async () => {
+  try {
+    const response = await db.query.products.findMany({
+      columns: {
+        id: true,
+        name: true,
+        location: true,
+        title: true,
+      },
+      with: {
+        watchlist: {
+          columns: {
+            id: true,
+            userId: true,
+            propertyId: true,
+          },
+        },
+      },
+    });
+
+    if (!response) {
+      throw new Error(`Error: Failed to fetch watchlists`);
+    }
+
+    return response;
+  } catch (error) {
+    throw new Error(`Error: ${error}`);
+  }
+};
+
+export const getUserWatchlist = async (userId: string) => {
+  if (!userId) redirect("/auth/sign-in");
+  try {
+    const response = await db.query.usersTable.findFirst({
+      columns: {
+        id: true,
+        fullName: true,
+        email: true,
+      },
+      with: {
+        watchList: {
+          columns: {
+            id: true,
+            userId: true,
+            propertyId: true,
+          },
+          where: (watchlistInfo, { eq }) => eq(watchlistInfo.userId, userId),
+        },
+      },
+    });
+
+    if (!response) throw new Error("Failed to fetch watchlist");
+
+    return response;
   } catch (error) {
     throw new Error(`Error: ${error}`);
   }

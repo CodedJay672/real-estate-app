@@ -39,7 +39,7 @@ const Sidebar = ({ fullName, email }: Partial<Props>) => {
           <p className="text-[9px] font-semibold -mt-1">Beautiful Properties</p>
         </div>
       </Link>
-      <ul className="md:mt-10 p-1 space-x-4 md:space-x-0 md:space-y-4 flex flex-row md:flex-col justify-center md:justify-start items-center md:items-start md:w-full md:flex-1">
+      <ul className="md:mt-10 p-1 space-x-6 md:space-x-0 md:space-y-4 flex flex-row md:flex-col justify-center md:justify-start items-center md:items-start md:w-full md:flex-1">
         <li className="w-full">
           <Link
             href="/admin"

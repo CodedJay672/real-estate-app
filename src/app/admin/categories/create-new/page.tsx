@@ -1,9 +1,11 @@
 import CategoriesForm from "@/components/forms/CategoriesForm";
+import Back from "@/components/shared/Back";
 
 const CreateCategory = () => {
   return (
     <section className="wrapper flex flex-col">
-      <div className="w-full lg:max-w-screen-md mb-4">
+      <Back />
+      <div className="w-full lg:max-w-screen-md my-4">
         <h1 className="text-xl lg:text-2xl font-semibold text-blue-300">
           Create category
         </h1>

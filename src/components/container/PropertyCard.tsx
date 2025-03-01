@@ -36,10 +36,12 @@ const PropertyCard = ({
     <article className="w-full shadow-md rounded-lg overflow-hidden bg-subtle-light border border-blue-200">
       <div className="w-full min-h-48 overflow-hidden relative">
         <div className="absolute top-0 left-0 p-2 z-10">
-          <span className="text-xs bg-green-600 text-subtle-light rounded-lg p-1">
+          <span className="text-sm lg:text-xs inline-block bg-green-600 text-subtle-light rounded-lg p-1">
             {listingStatus}
           </span>
-          <span className="text-gray-700 text-xs p-1 rounded-md">{type}</span>
+          <span className="text-gray-700 text-sm inline-block p-1 rounded-md">
+            {type}
+          </span>
         </div>
         <IKImage
           path={imageUrl}
@@ -58,28 +60,28 @@ const PropertyCard = ({
         href={`listings/details/${id}`}
         className="inline-block w-full px-4 py-8"
       >
-        <small className="text-xs text-gray-500 mb-2 inline-block">
+        <small className="text-sm text-gray-500 mb-2 inline-block">
           {formatTime(createdAt)}
         </small>
         <div className="flex items-center justify-between">
           <h2 className="text-sm font-semibold">{name}</h2>
-          <p className="text-sm text-gray-400">{location}</p>
+          <p className="text-sm text-gray-500">{location}</p>
         </div>
-        <p className="text-sm text-gray-400 mt-2 line-clamp-2">{description}</p>
+        <p className="text-sm text-gray-500 mt-2 line-clamp-2">{description}</p>
         <div className="flex items-center mt-4 gap-4">
-          <p className="text-xl font-bold">
+          <p className="text-lg md:text-xl font-bold">
             {price?.toLocaleString("en-NG", {
               style: "currency",
               currency: "NGN",
             })}
           </p>
-          <p className="text-sm text-gray-300">
+          <p className="text-sm text-gray-500">
             {Boolean(bedrooms) && `${bedrooms} BR`}
           </p>
-          <p className="text-sm text-gray-300">
+          <p className="text-sm text-gray-500">
             {Boolean(bathrooms) && `${bathrooms} BA`}
           </p>
-          <p className="text-sm text-gray-300">
+          <p className="text-sm text-gray-500">
             {Boolean(size) && `${size} SQM`}
           </p>
         </div>
