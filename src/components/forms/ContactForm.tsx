@@ -34,7 +34,6 @@ const ContactForm = ({ className }: { className: string }) => {
 
   const onSubmit = async (values: z.infer<typeof contactSchema>) => {
     //send the message
-    console.log(values);
     toast({
       title: "Success",
       description: "Message sent successfully",

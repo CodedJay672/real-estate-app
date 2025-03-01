@@ -18,9 +18,6 @@ const Likes = ({ likes, userId, productId }: LikesProps) => {
   const [isLiking, setIsLiking] = useState(false);
   const { toast } = useToast();
 
-  //debug
-  console.log(likes);
-
   const router = useRouter();
   const hasLiked = likes.find((like: any) => like.userId === userId);
 

@@ -237,7 +237,7 @@ export const getProductById = cache(async (id: string) => {
       return { success: false, message: "Error fetching product" };
     }
 
-    return { success: true, data: product };
+    return { success: true, data: JSON.parse(JSON.stringify(product)) };
   } catch (error) {
     throw new Error(`Error fetching product: ${error}`);
   }

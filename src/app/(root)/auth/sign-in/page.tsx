@@ -1,14 +1,23 @@
+"use client";
+
 import { auth } from "@/auth";
 import AuthForm from "@/components/forms/AuthForm";
 import { signInWithCreds } from "@/lib/actions/auth";
 import { signInSchema } from "@/lib/validations/schema";
 import Image from "next/image";
 import { redirect } from "next/navigation";
+import { useEffect } from "react";
 
-const SignIn = async () => {
-  const session = await auth();
+const SignIn = () => {
+  //   useEffect(() => {
+  //     const checkAuth = async () => {
+  //       const session = await auth();
 
-  if (session?.user) redirect("/");
+  //       if (session?.user) redirect("/");
+  //     };
+
+  //     checkAuth();
+  //   }, []);
 
   return (
     <section className="w-full px-2 py-10 gap-6">

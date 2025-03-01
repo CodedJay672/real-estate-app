@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
+  MdBookmarkAdded,
   MdChatBubbleOutline,
   MdClose,
   MdOutlineHome,
@@ -59,19 +60,27 @@ const Header = ({ session }: { session: Session | null }) => {
         </li>
       </ul>
       {session ? (
-        <div
-          className="hidden w-28 h-10 p-1 rounded-full border border-blue-200 md:flex items-center gap-1 cursor-pointer"
-          onClick={logOut}
-        >
-          <Avatar className="w-8 h-8">
-            <AvatarFallback>{getInitials(session?.user?.name!)}</AvatarFallback>
-          </Avatar>
-          <span className="text-blue-300 font-medium">Logout</span>
+        <div className="flex-center gap-2">
+          <MdBookmarkAdded size={24} />
+          <div
+            className="hidden w-28 h-10 p-1 rounded-full border border-blue-200 md:flex items-center gap-1 cursor-pointer"
+            onClick={logOut}
+          >
+            <Avatar className="w-8 h-8">
+              <AvatarFallback>
+                {getInitials(session?.user?.name!)}
+              </AvatarFallback>
+            </Avatar>
+            <span className="text-blue-300 font-medium">Logout</span>
+          </div>
         </div>
       ) : (
         <div className="hidden md:flex gap-[6px] items-center">
           <Link href="/auth/sign-in">Sign in </Link>
-          <Link href="/auth/signup" className="hidden">
+          <Link
+            href="/auth/signup"
+            className="bg-blue-300 p-1 text-subtle-light rounded-md px-2"
+          >
             Sign Up
           </Link>
         </div>

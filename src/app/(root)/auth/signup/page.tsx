@@ -1,16 +1,24 @@
+"use client";
+
 import AuthForm from "@/components/forms/AuthForm";
 import { signUp } from "@/lib/actions/auth";
 import { signUpSchema } from "@/lib/validations/schema";
 import { FcLike } from "react-icons/fc";
 import { MdOutlineRecommend, MdOutlineTipsAndUpdates } from "react-icons/md";
-import React from "react";
+import React, { useEffect } from "react";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
 const SignUp = async () => {
-  const session = await auth();
+  useEffect(() => {
+    const handleAuth = async () => {
+      const session = await auth();
 
-  if (session?.user) redirect("/");
+      if (session?.user) redirect("/");
+    };
+
+    handleAuth();
+  }, []);
 
   return (
     <section className="w-full px-2 py-10 gap-6">

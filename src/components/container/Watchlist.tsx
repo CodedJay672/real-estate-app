@@ -1,8 +1,5 @@
 import { auth } from "@/auth";
-import {
-  getProductsWithWatchlists,
-  getUserWatchlist,
-} from "@/lib/actions/auth";
+import { getUserWatchlist } from "@/lib/actions/auth";
 import { redirect } from "next/navigation";
 import WatchlistBanner from "../shared/WatchlistBanner";
 
@@ -20,7 +17,7 @@ const Watchlist = async () => {
       <div className="mt-2 flex flex-col gap-2">
         {watchlist && watchlist?.watchList?.length > 0 ? (
           watchlist.watchList.map((watchlist) => (
-            <div className="w-full flex">
+            <div className="w-full flex" key={watchlist.id}>
               <WatchlistBanner propertyId={watchlist.propertyId} />
             </div>
           ))
