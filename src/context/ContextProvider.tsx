@@ -5,11 +5,14 @@ import GlobalContext from "./GlobalContext";
 
 const ContextProvider = ({ children }: { children: ReactNode }) => {
   const [openWishlist, setOpenWishlist] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
 
   return (
-    <GlobalContext.Provider
-      value={{ openWishlist, setOpenWishlist }}
-    ></GlobalContext.Provider>
+    <GlobalContext
+      value={{ openWishlist, setOpenWishlist, showMenu, setShowMenu }}
+    >
+      {children}
+    </GlobalContext>
   );
 };
 

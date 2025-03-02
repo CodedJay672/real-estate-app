@@ -3,6 +3,7 @@ import "./globals.css";
 import { ReactNode } from "react";
 import localFont from "next/font/local";
 import { Toaster } from "@/components/ui/toaster";
+import ContextProvider from "@/context/ContextProvider";
 
 export const metadata: Metadata = {
   title: "Home | Clean Beautiful Properties",
@@ -38,10 +39,12 @@ const lufga = localFont({
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${lufga.className} antialiased`}>
-        {children}
-        <Toaster />
-      </body>
+      <ContextProvider>
+        <body className={`${lufga.className} antialiased`}>
+          {children}
+          <Toaster />
+        </body>
+      </ContextProvider>
     </html>
   );
 }

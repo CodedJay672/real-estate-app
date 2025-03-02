@@ -1,15 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import Image from "next/image";
 import { Avatar, AvatarFallback } from "../ui/avatar";
-import {
-  MdBookmarkAdded,
-  MdClose,
-  MdLooks,
-  MdOutlineLooks3,
-  MdOutlineMenu,
-} from "react-icons/md";
+import { MdBookmarkAdd, MdClose, MdOutlineMenu } from "react-icons/md";
 import Link from "next/link";
 import { Session } from "next-auth";
 import { cn, getInitials } from "@/lib/utils";
@@ -18,12 +12,13 @@ import CustomSheet from "../shared/CustomSheet";
 import CustomDrawer from "../shared/CustomDrawer";
 import Watchlist from "../shared/Watchlist";
 import MobileSidebar from "./MobileSidebar";
-import { CgEyeAlt } from "react-icons/cg";
-import { IoEyeOutline } from "react-icons/io5";
+import GlobalContext from "@/context/GlobalContext";
 
 const Header = ({ session }: { session: Session | null }) => {
-  const [showMenu, setShowMenu] = useState(false);
-  const [openWishlist, setOpenWishlist] = useState(false);
+  const globalContext = useContext(GlobalContext);
+
+  const { openWishlist, setOpenWishlist, showMenu, setShowMenu } =
+    globalContext;
 
   return (
     <nav className="bg-gray-50 w-full p-2 flex justify-between items-center z-50 sticky top-0 backdrop-blur-md">
@@ -60,16 +55,18 @@ const Header = ({ session }: { session: Session | null }) => {
         {session ? (
           <div
             className="flex-center rounded-full cursor-pointer gap-2"
-            onClick={() => setOpenWishlist((prev) => !prev)}
+            onClick={() => setOpenWishlist(true)}
           >
             <div className="flex-center flex-col">
-              <IoEyeOutline
-                size={24}
+              <MdBookmarkAdd
+                size={20}
                 className={cn("size-6", {
-                  "font-bold": openWishlist,
+                  "font-bold text-blue-300": openWishlist,
                 })}
               />
-              <span className="text-xs font-semibold">Watchlist</span>
+              <span className="hidden md:block text-xs font-semibold">
+                Saved
+              </span>
             </div>
             <div
               className="hidden w-28 h-10 p-1 rounded-full border border-blue-200 md:flex items-center gap-1 cursor-pointer"

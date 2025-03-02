@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React, { Dispatch, SetStateAction } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { cn, getInitials } from "@/lib/utils";
 import { Button } from "../ui/button";
@@ -21,7 +20,7 @@ const MobileSidebar = ({
   handleShowMenu,
   session,
 }: {
-  handleShowMenu: Dispatch<SetStateAction<boolean>>;
+  handleShowMenu: (t: boolean) => void;
   session: Session | null;
 }) => {
   const pathname = usePathname();
