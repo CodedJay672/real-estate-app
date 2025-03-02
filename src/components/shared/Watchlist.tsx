@@ -4,7 +4,7 @@ import { getUserWatchlist } from "@/lib/actions/auth";
 import { notFound, useRouter } from "next/navigation";
 import WatchlistBanner from "./WatchlistBanner";
 import { Session } from "next-auth";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { CgSpinner } from "react-icons/cg";
 
 interface IWatchlist {

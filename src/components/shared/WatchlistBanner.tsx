@@ -6,6 +6,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { useEffect, useState } from "react";
 import { CgRemove, CgSpinner } from "react-icons/cg";
+import { useContext } from "react";
+import GlobalContext from "@/context/GlobalContext";
 
 const WatchlistBanner = ({ propertyId }: { propertyId: string }) => {
   const [watchlistProducts, setWatchlistProducts] = useState<any[] | null>(
@@ -13,6 +15,10 @@ const WatchlistBanner = ({ propertyId }: { propertyId: string }) => {
   );
   const [isRemoving, setIsRemoving] = useState(false);
   const { toast } = useToast();
+
+  const globalContext = useContext(GlobalContext);
+
+  const { setOpenWishlist } = globalContext;
 
   useEffect(() => {
     const getWatchlistProducts = async () => {
@@ -57,7 +63,10 @@ const WatchlistBanner = ({ propertyId }: { propertyId: string }) => {
 
   return (
     <article className="w-full p-1 flex-between">
-      <div className="flex-1 bg-gray-50 hover:bg-gray-100 group p-2 rounded-md transition-all">
+      <div
+        className="flex-1 bg-gray-50 hover:bg-gray-100 group p-2 rounded-md transition-all"
+        onClick={() => setOpenWishlist(false)}
+      >
         <Link href={`/listings/details/${propertyId}`}>
           <div className="flex flex-col justify-start items-start">
             <h1 className="text-gray-800 text-base font-semibold truncate">

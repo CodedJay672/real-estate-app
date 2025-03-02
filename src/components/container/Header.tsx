@@ -59,16 +59,18 @@ const Header = ({ session }: { session: Session | null }) => {
       <div className="flex items-center gap-2">
         {session ? (
           <div
-            className="flex-center flex-col rounded-full cursor-pointer"
+            className="flex-center rounded-full cursor-pointer gap-2"
             onClick={() => setOpenWishlist((prev) => !prev)}
           >
-            <IoEyeOutline
-              size={24}
-              className={cn("size-6 md:size-8", {
-                "font-bold": openWishlist,
-              })}
-            />
-            <span className="text-xs font-semibold">Watchlist</span>
+            <div className="flex-center flex-col">
+              <IoEyeOutline
+                size={24}
+                className={cn("size-6", {
+                  "font-bold": openWishlist,
+                })}
+              />
+              <span className="text-xs font-semibold">Watchlist</span>
+            </div>
             <div
               className="hidden w-28 h-10 p-1 rounded-full border border-blue-200 md:flex items-center gap-1 cursor-pointer"
               onClick={logOut}
