@@ -60,17 +60,19 @@ const WatchlistBanner = ({ propertyId }: { propertyId: string }) => {
       <div className="flex-1 bg-gray-50 hover:bg-gray-100 group p-2 rounded-md transition-all">
         <Link href={`/listings/details/${propertyId}`}>
           <div className="flex flex-col justify-start items-start">
-            <h1 className="text-gray-800 text-base font-semibold">
+            <h1 className="text-gray-800 text-base font-semibold truncate">
               {watchlistProducts?.[0].name}
             </h1>
-            <p className="text-gray-400 text-sm font-thin">
+            <p className="text-gray-400 text-sm font-thin truncate">
               {watchlistProducts?.[0].title}
             </p>
           </div>
         </Link>
       </div>
       {isRemoving ? (
-        <CgSpinner size={24} className="animate-spin" />
+        <div className="size-16 flex-center p-2 cursor-pointer">
+          <CgSpinner size={24} className="animate-spin" />
+        </div>
       ) : (
         <div
           className="size-16 flex-center p-2 cursor-pointer"
