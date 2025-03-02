@@ -269,7 +269,7 @@ export const updateProductById = async (id: string, data: any) => {
   }
 };
 
-export const likeProduct = async (userId: string, productId: string) => {
+export const likeProduct = cache(async (userId: string, productId: string) => {
   try {
     if (!userId) {
       return { success: false, message: "Sign in to like products." };
@@ -307,7 +307,7 @@ export const likeProduct = async (userId: string, productId: string) => {
   } catch (error) {
     throw new Error(`Error liking product: ${error}`);
   }
-};
+});
 
 export const getLikedProducts = cache(async () => {
   try {
@@ -485,11 +485,15 @@ export const addToWatchlist = cache(
           .where(eq(watchlistInfo.propertyId, productId))
           .returning();
 
-        if (response.length > 0)
+        if (response.length > 0) {
+          // revalidate the path when product is removed from the watchlist
+          revalidatePath("/");
+
           return {
             success: true,
             messsage: "Removed from watchlist",
           };
+        }
       }
 
       // Add to watchlist if non-exist
