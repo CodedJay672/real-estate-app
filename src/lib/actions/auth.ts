@@ -237,7 +237,7 @@ export const getProductById = cache(async (id: string) => {
       return { success: false, message: "Error fetching product" };
     }
 
-    return { success: true, data: JSON.parse(JSON.stringify(product)) };
+    return { success: true, data: product };
   } catch (error) {
     throw new Error(`Error fetching product: ${error}`);
   }
@@ -485,7 +485,7 @@ export const addToWatchlist = cache(
           .where(eq(watchlistInfo.propertyId, productId))
           .returning();
 
-        if (response)
+        if (response.length > 0)
           return {
             success: true,
             messsage: "Removed from watchlist",
@@ -501,11 +501,18 @@ export const addToWatchlist = cache(
         })
         .returning();
 
+      if (!response) {
+        return {
+          success: false,
+          message: "something went wroong",
+        };
+      }
+
       revalidatePath("/");
 
       return {
         success: true,
-        message: "Added successfully to watchlist",
+        message: `Added successfully to watchlist`,
       };
     } catch (error) {
       throw new Error(`Error: ${error}`);
@@ -513,7 +520,28 @@ export const addToWatchlist = cache(
   }
 );
 
-export const getProductsWithWatchlists = async () => {
+export const removeFromWatchlist = async (productId: string) => {
+  try {
+    const response = await db
+      .delete(watchlistInfo)
+      .where(eq(watchlistInfo.propertyId, productId))
+      .returning();
+
+    if (!response) {
+      throw new Error(`Something went wrong.`);
+    }
+
+    revalidatePath("/");
+    return {
+      success: true,
+      message: "Removed from watchList",
+    };
+  } catch (error) {
+    throw new Error(`Error: ${error}`);
+  }
+};
+
+export const getProductsWithWatchlists = cache(async () => {
   try {
     const response = await db.query.products.findMany({
       columns: {
@@ -541,9 +569,9 @@ export const getProductsWithWatchlists = async () => {
   } catch (error) {
     throw new Error(`Error: ${error}`);
   }
-};
+});
 
-export const getUserWatchlist = async (userId: string) => {
+export const getUserWatchlist = cache(async (userId: string) => {
   if (!userId) redirect("/auth/sign-in");
   try {
     const response = await db.query.usersTable.findFirst({
@@ -570,4 +598,4 @@ export const getUserWatchlist = async (userId: string) => {
   } catch (error) {
     throw new Error(`Error: ${error}`);
   }
-};
+});

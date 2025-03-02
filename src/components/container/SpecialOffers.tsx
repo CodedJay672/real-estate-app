@@ -1,11 +1,14 @@
-import { getLikedProducts } from "@/lib/actions/auth";
+import { getLikedProducts, getUserWatchlist } from "@/lib/actions/auth";
 import PropertyCard from "./PropertyCard";
 import { auth } from "@/auth";
 
 const SpecialOffers = async () => {
   const session = await auth();
 
+  if (!session?.user) console.log("No user found");
+
   const response = await getLikedProducts();
+  const watchlist = await getUserWatchlist(session?.user?.id!);
 
   if (!response) console.log("Errror fetching liked posts");
 
@@ -18,7 +21,12 @@ const SpecialOffers = async () => {
         {response && response.length > 0 ? (
           response.slice(0, 9).map((property) => (
             //@ts-ignore
-            <PropertyCard key={property.id} {...property} session={session} />
+            <PropertyCard
+              key={property.id}
+              {...property}
+              session={session}
+              watchlist={watchlist?.watchList}
+            />
           ))
         ) : (
           <p className="text-blue-100 text-center font-semibold">
