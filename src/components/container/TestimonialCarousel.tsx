@@ -13,7 +13,7 @@ const TestimonialCarousel = () => {
       </div>
 
       <div className="w-full md:w-1/2 mx-auto absolute inset-0 flex flex-col justify-center items-center z-20 p-6">
-        <p className="text-xs md:text-sm lg:text-base text-center text-subtle-light mt-2">
+        <p className="text-lg md:text-xl text-center text-subtle-light mt-2">
           "I couldn't have asked for a better team. They helped us sell our home
           quickly and above asking price! They were always available to answer
           our questions and made the process easy. I would highly recommend them

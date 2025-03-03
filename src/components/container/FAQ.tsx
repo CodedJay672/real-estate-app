@@ -13,7 +13,7 @@ const FAQ = () => {
 
   return (
     <section className="w-full flex flex-col items-center justify-center py-10 px-2">
-      <h2 className="text-2xl md:text-3xl lg:text-4xl px-10 font-bold">
+      <h2 className="text-3xl lg:text-4xl px-10 font-bold text-blue-300 text-center">
         Frequently Asked Questions
       </h2>
       <p className="text-gray-600 text-sm md:text-base lg:text-lg my-2 px-10 text-center">
@@ -27,7 +27,7 @@ const FAQ = () => {
             onClick={() => handleQstChange(idx)}
           >
             <div className="flex items-center justify-between">
-              <p className="text-blue-300 text-sm lg:text-base font-semibold flex-1">
+              <p className="text-sm md:text-base font-light flex-1">
                 {item.question}
               </p>
               <IoCaretDownOutline size={10} className="text-blue-300 ml-20" />

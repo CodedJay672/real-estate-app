@@ -1,11 +1,12 @@
 import Image from "next/image";
 import { RiSearch2Line } from "react-icons/ri";
+import Searchbar from "../shared/Searchbar";
 
 const Herosection = () => {
   return (
     <section className="w-full h-[500px] max-h-screen flex justify-center items-center relative">
       <div className="w-full lg:w-4/5 mx-auto py-12 px-2 flex justify-center items-center flex-col relative z-10">
-        <div className="my-6 p-2">
+        <div className="p-2">
           <h1 className="text-blue-300 font-semibold text-3xl md:text-3xl lg:text-5xl text-center">
             Find Your Dream Home With{" "}
           </h1>
@@ -13,20 +14,15 @@ const Herosection = () => {
             Trusted Experts.
           </h1>
         </div>
-        <div className="flex-center p-2">
-          <p className="w-full lg:w-[650px] text-base md:text-2xl text-center text-white font-semibold md:px-14 lg:px-16">
+        <div className="flex-center p-2 mb-4">
+          <p className="w-full lg:w-[650px] text-base md:text-xl text-center text-white font-semibold md:px-14 lg:px-16">
             Connecting buyers and sellers with personalized expertise, market
             insights, and a commitment to excellence
           </p>
         </div>
-        <form className="w-full max-w-screen-sm px-2 flex justify-center items-center relative">
-          <input
-            type="search"
-            name="query"
-            placeholder="Location/Zip Code/Titles/Key Tags e.g Luxury..."
-            className="w-full p-3 pr-12 md:pr-14 my-4 text-xs md:text-sm bg-blue-50 outline-blue-300 placeholder:text-xs md:placeholder:text-sm rounded-full"
-          />
-          <RiSearch2Line className="absolute bottom-7 md:bottom-7 right-6 md:right-8 text-blue-200 size-4 md:size-6" />
+        <form className="w-full max-w-screen-sm rounded-md flex justify-center items-center">
+          <Searchbar placeholder="Tell us what your're looking for..." />
+          <RiSearch2Line className="absolute bottom-2 md:bottom-7 right-6 md:right-8 text-blue-200 size-4 md:size-6" />
         </form>
       </div>
       <div className="absolute inset-0 z-0">

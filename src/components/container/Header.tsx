@@ -46,9 +46,6 @@ const Header = ({ session }: { session: Session | null }) => {
         <li>
           <Link href="/about-us">About Us</Link>
         </li>
-        <li>
-          <Link href="/blogs">Blogs</Link>
-        </li>
       </ul>
 
       <div className="flex items-center gap-2">

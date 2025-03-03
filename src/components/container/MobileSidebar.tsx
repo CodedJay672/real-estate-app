@@ -140,26 +140,6 @@ const MobileSidebar = ({
             })}
           />
         </Link>
-
-        <Link
-          href="/blogs"
-          className={cn(
-            "text-blue-300 flex items-center gap-[6px] text-lg w-full p-2 justify-end",
-            {
-              "font-semibold bg-blue-300 text-white rounded-md":
-                isActive("/blogs"),
-            }
-          )}
-          onClick={() => handleShowMenu(false)}
-        >
-          <span>Blogs</span>
-          <MdChatBubbleOutline
-            size={28}
-            className={cn("text-blue-300", {
-              "brightness-0 invert": isActive("/blogs"),
-            })}
-          />
-        </Link>
       </div>
       <Link href="/" className="flex justify-center items-center gap-1">
         <Image

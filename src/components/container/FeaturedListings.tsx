@@ -5,7 +5,7 @@ import { Button } from "../ui/button";
 const FeaturedListings = () => {
   return (
     <section className="flex-center flex-col max-h-max px-4 md:px-24 py-10 my-4">
-      <h2 className="text-xl md:text-2xl font-bold text-center">
+      <h2 className="text-3xl md:text-4xl font-bold text-center text-blue-300">
         Why Choose Us?
       </h2>
       <p className="text-center mt-4 w-full max-w-lg mx-auto my-10 text-sm md:text-base">

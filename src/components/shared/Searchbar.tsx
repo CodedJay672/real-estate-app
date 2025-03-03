@@ -21,7 +21,7 @@ const Searchbar = ({ placeholder }: { placeholder: string }) => {
     }
 
     replace(`${pathname}?${URLSearch.toString()}`);
-  }, 300);
+  }, 100);
 
   return (
     <section className="w-full flex items-center">
@@ -30,6 +30,7 @@ const Searchbar = ({ placeholder }: { placeholder: string }) => {
         onChange={(e) => handleSearch(e.target.value)}
         defaultValue={param.get("query")?.toString()}
         placeholder={placeholder}
+        className="bg-subtle-light font-light text-base p-2 rounded-md"
       />
     </section>
   );
