@@ -24,7 +24,7 @@ const ProductListings = async ({
   return (
     <section className="wrapper">
       <div className="flex gap-4">
-        <div className="min-h-64 w-1/4">
+        <div className="hidden md:block min-h-64 w-1/4">
           <div className="sticky top-20">
             <h1 className="text-lg font-semibold">Filter searches</h1>
             <div className="mt-2">
