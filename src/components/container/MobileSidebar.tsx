@@ -6,12 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { cn, getInitials } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { logOut } from "@/lib/actions/auth";
-import {
-  MdChatBubbleOutline,
-  MdOutlineHome,
-  MdOutlineLogin,
-  MdPersonOutline,
-} from "react-icons/md";
+import { MdOutlineHome, MdOutlineLogin, MdPersonOutline } from "react-icons/md";
 import { Session } from "next-auth";
 import { usePathname } from "next/navigation";
 import { RiListView } from "react-icons/ri";

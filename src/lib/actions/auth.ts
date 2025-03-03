@@ -16,7 +16,7 @@ import {
 } from "@/db/schema";
 import bcryptjs from "bcryptjs";
 import { auth, signIn, signOut } from "@/auth";
-import { desc, eq, ilike, sql } from "drizzle-orm";
+import { eq, ilike } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { cache } from "react";
 import { notFound, redirect } from "next/navigation";
@@ -132,8 +132,6 @@ export const uploadProducts = async (data: any) => {
       return { success: false, message: "User not authorized" };
     }
 
-    const userId = user[0].id;
-
     const res = await db
       .insert(products)
       .values({
@@ -203,6 +201,7 @@ export const getUser = async (email: string) => {
       with: {
         watchList: true,
       },
+      where: (usersTable, { eq }) => eq(usersTable.email, email),
     });
 
     if (!user) {

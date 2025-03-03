@@ -4,7 +4,7 @@ import { getUserWatchlist } from "@/lib/actions/auth";
 import { notFound, useRouter } from "next/navigation";
 import WatchlistBanner from "./WatchlistBanner";
 import { Session } from "next-auth";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { CgSpinner } from "react-icons/cg";
 
 interface IWatchlist {
@@ -43,7 +43,7 @@ const Watchlist = ({ session }: { session: Session | null }) => {
     };
 
     getWatchlist();
-  }, []);
+  }, [session]);
 
   return (
     <section className="w-full p-2">

@@ -2,10 +2,9 @@
 
 import { useToast } from "@/hooks/use-toast";
 import { addToWatchlist } from "@/lib/actions/auth";
-import { cn } from "@/lib/utils";
 import React, { useState } from "react";
 import { CgBookmark, CgSpinner } from "react-icons/cg";
-import { MdBookmark, MdOutlineBookmark } from "react-icons/md";
+import { MdBookmark } from "react-icons/md";
 
 const AddToWishlist = ({
   userId,

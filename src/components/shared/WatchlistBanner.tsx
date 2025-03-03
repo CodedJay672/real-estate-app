@@ -34,7 +34,7 @@ const WatchlistBanner = ({ propertyId }: { propertyId: string }) => {
     };
 
     getWatchlistProducts();
-  }, []);
+  }, [propertyId]);
 
   const handleRemoveFromWatchlist = async (propertyId: string) => {
     setIsRemoving(true);
