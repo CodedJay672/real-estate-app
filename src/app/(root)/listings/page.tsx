@@ -4,7 +4,6 @@ import Searchbar from "@/components/shared/Searchbar";
 import { Button } from "@/components/ui/button";
 import { getLikedProducts, getUserWatchlist } from "@/lib/actions/auth";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
 import { MdSmsFailed } from "react-icons/md";
 
 const ProductListings = async ({
@@ -35,15 +34,7 @@ const ProductListings = async ({
         </div>
         <div className="flex-1">
           <div className="w-full flex-between gap-4 md:gap-16">
-            <Suspense
-              fallback={
-                <span className="text-gray-800 font-bold">
-                  Type here to search...
-                </span>
-              }
-            >
-              <Searchbar placeholder="Enter search term..." />
-            </Suspense>
+            <Searchbar placeholder="Enter search term..." />
             <Button className="bg-blue-300">Save search</Button>
           </div>
 

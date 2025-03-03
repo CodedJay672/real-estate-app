@@ -4,6 +4,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { Input } from "../ui/input";
 import { useDebouncedCallback } from "use-debounce";
+import { Suspense } from "react";
 
 const Searchbar = ({ placeholder }: { placeholder: string }) => {
   const param = useSearchParams();
@@ -24,15 +25,21 @@ const Searchbar = ({ placeholder }: { placeholder: string }) => {
   }, 100);
 
   return (
-    <section className="w-full flex items-center">
-      <Input
-        type="text"
-        onChange={(e) => handleSearch(e.target.value)}
-        defaultValue={param.get("query")?.toString()}
-        placeholder={placeholder}
-        className="bg-subtle-light font-light text-base p-2 rounded-md"
-      />
-    </section>
+    <Suspense
+      fallback={
+        <span className="text-gray-800 font-bold">Type here to search...</span>
+      }
+    >
+      <section className="w-full flex items-center">
+        <Input
+          type="text"
+          onChange={(e) => handleSearch(e.target.value)}
+          defaultValue={param.get("query")?.toString()}
+          placeholder={placeholder}
+          className="bg-subtle-light font-light text-base p-2 rounded-md"
+        />
+      </section>
+    </Suspense>
   );
 };
 
