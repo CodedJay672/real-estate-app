@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { RiSearch2Line } from "react-icons/ri";
 import Searchbar from "../shared/Searchbar";
+import { Suspense } from "react";
 
 const Herosection = () => {
   return (
@@ -21,8 +22,10 @@ const Herosection = () => {
           </p>
         </div>
         <form className="w-full max-w-screen-sm rounded-md flex justify-center items-center">
-          <Searchbar placeholder="Tell us what your're looking for..." />
-          <RiSearch2Line className="absolute bottom-2 md:bottom-7 right-6 md:right-8 text-blue-200 size-4 md:size-6" />
+          <Suspense>
+            <Searchbar placeholder="Tell us what your're looking for..." />
+            <RiSearch2Line className="absolute bottom-2 md:bottom-7 right-6 md:right-8 text-blue-200 size-4 md:size-6" />
+          </Suspense>
         </form>
       </div>
       <div className="absolute inset-0 z-0">
