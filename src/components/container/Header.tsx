@@ -57,16 +57,17 @@ const Header = ({ session }: { session: Session | null }) => {
             className="flex-center rounded-full cursor-pointer gap-2"
             onClick={() => setOpenWishlist(true)}
           >
-            <div className="flex-center flex-col">
+            <div
+              className={cn("flex-center flex-col p-2", {
+                "bg-gray-300 rounded-full": openWishlist,
+              })}
+            >
               <MdBookmarkAdd
                 size={20}
                 className={cn("size-6", {
                   "font-bold text-blue-300": openWishlist,
                 })}
               />
-              <span className="hidden md:block text-xs font-semibold">
-                Saved
-              </span>
             </div>
             <div
               className="hidden w-28 h-10 p-1 rounded-full border border-blue-200 md:flex items-center gap-1 cursor-pointer"
