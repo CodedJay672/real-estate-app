@@ -2,12 +2,12 @@ import { getLikedProducts, getUserWatchlist } from "@/lib/actions/auth";
 import PropertyCard from "./PropertyCard";
 import { auth } from "@/auth";
 
-const SpecialOffers = async () => {
+const SpecialOffers = async ({ query }: { query: string }) => {
   const session = await auth();
 
   if (!session?.user) console.log("No user found");
 
-  const response = await getLikedProducts();
+  const response = await getLikedProducts(query);
   const watchlist = await getUserWatchlist(session?.user?.id!);
 
   if (!response) console.log("Errror fetching liked posts");
@@ -29,9 +29,11 @@ const SpecialOffers = async () => {
             />
           ))
         ) : (
-          <p className="text-blue-100 text-center font-semibold">
-            No products available
-          </p>
+          <div className="col-span-full">
+            <p className="text-blue-100 text-center font-semibold">
+              No products available
+            </p>
+          </div>
         )}
       </div>
     </section>

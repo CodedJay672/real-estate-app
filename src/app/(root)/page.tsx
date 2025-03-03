@@ -4,11 +4,16 @@ import Herosection from "@/components/container/HeroSection";
 import SpecialOffers from "@/components/container/SpecialOffers";
 import Testimonials from "@/components/container/Testimonials";
 
-export default function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ query: string }>;
+}) {
+  const { query } = await searchParams;
   return (
     <section className="w-full">
       <Herosection />
-      <SpecialOffers />
+      <SpecialOffers query={query} />
       <FeaturedListings />
       <Testimonials />
       <FAQ />
