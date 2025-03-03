@@ -173,9 +173,17 @@ export const deleteProduct = async (id: string) => {
   }
 };
 
-export const getAllProducts = cache(async () => {
+export const getAllProducts = cache(async (query?: string) => {
+  let response;
   try {
-    const response = await db.select().from(products);
+    if (query) {
+      response = await db
+        .select()
+        .from(products)
+        .where(ilike(products.name, `%${query}%`));
+    } else {
+      response = await db.select().from(products);
+    }
 
     if (!response) return notFound();
 
@@ -309,13 +317,23 @@ export const likeProduct = cache(async (userId: string, productId: string) => {
   }
 });
 
-export const getLikedProducts = cache(async () => {
+export const getLikedProducts = cache(async (query?: string) => {
   try {
-    const response = await db.query.products.findMany({
-      with: {
-        likes: true,
-      },
-    });
+    let response;
+    if (query) {
+      response = await db.query.products.findMany({
+        with: {
+          likes: true,
+        },
+        where: (products, { ilike }) => ilike(products.name, `%${query}%`),
+      });
+    } else {
+      response = await db.query.products.findMany({
+        with: {
+          likes: true,
+        },
+      });
+    }
 
     if (!response) return notFound();
 

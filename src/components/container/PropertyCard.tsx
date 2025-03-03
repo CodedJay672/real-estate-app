@@ -10,9 +10,8 @@ import Likes from "../shared/Likes";
 import AddToWishlist from "../shared/AddToWishlist";
 
 interface cardProps extends Partial<listings> {
-  bathrooms: number;
-  bedrooms: number;
-  amenities: string;
+  bathrooms: number | null;
+  bedrooms: number | null;
   session: Session | null;
   likes: any;
   watchlist: {
@@ -62,7 +61,7 @@ const PropertyCard = ({
         <div className="absolute left-4 bottom-1 rounded-full size-10 flex justify-center items-center cursor-pointer">
           <Likes likes={likes!} userId={session?.user?.id!} productId={id!} />
         </div>
-        <div className="absolute right-4 bottom-1 rounded-full flex justify-center items-center cursor-pointer">
+        <div className="absolute right-4 bottom-4 rounded-full flex justify-center items-center cursor-pointer">
           <AddToWishlist
             userId={session?.user?.id!}
             productId={id!}

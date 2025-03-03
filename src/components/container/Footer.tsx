@@ -11,7 +11,7 @@ import { quickLinks } from "@/constants";
 
 const Footer = () => {
   return (
-    <section className="w-full mt-10 bg-slate-50 p-4 py-10">
+    <section className="w-full bg-slate-50 p-4 py-10">
       <div className="w-full py-10 lg:py-11 lg:px-10 flex flex-col md:flex-row justify-around flex-wrap">
         <div className="w-56 overflow-hidden">
           <div className="flex">
