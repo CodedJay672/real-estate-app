@@ -24,7 +24,7 @@ const Herosection = () => {
         <form className="w-full px-6 lg:px-0 max-w-screen-md rounded-md flex justify-center items-center">
           <Suspense>
             <Searchbar placeholder="Tell us what your're looking for..." />
-            <RiSearch2Line className="absolute bottom-2 md:bottom-7 right-6 md:right-8 text-blue-200 size-4 md:size-6" />
+            <RiSearch2Line className="absolute bottom-[58px] md:bottom-[54px] right-10 md:right-40 text-gray-600 size-4 md:size-6" />
           </Suspense>
         </form>
       </div>

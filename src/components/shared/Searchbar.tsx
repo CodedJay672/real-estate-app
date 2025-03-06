@@ -36,7 +36,7 @@ const Searchbar = ({ placeholder }: { placeholder: string }) => {
           onChange={(e) => handleSearch(e.target.value)}
           defaultValue={param.get("query")?.toString()}
           placeholder={placeholder}
-          className="bg-subtle-light font-light text-base p-2 rounded-md"
+          className="bg-subtle-light font-light text-base p-2 rounded-md pr-8"
         />
       </section>
     </Suspense>

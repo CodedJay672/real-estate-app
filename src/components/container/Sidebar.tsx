@@ -44,7 +44,7 @@ const Sidebar = ({ fullName, email }: Partial<Props>) => {
           <Link
             href="/admin"
             className={cn(
-              "w-full text-blue-300 p-2 flex justify-center items-center lg:justify-start lg:items-start gap-1 rounded-md hover:bg-slate-200 cursor-pointer",
+              "w-full text-blue-300 p-2 flex flex-col md:flex-row justify-center items-center lg:justify-start lg:items-start gap-0 md:gap-1 rounded-md hover:bg-slate-200 cursor-pointer",
               {
                 "text-subtle-light bg-blue-300 hover:text-white hover:bg-blue-300":
                   pathname === "/admin",
@@ -52,19 +52,18 @@ const Sidebar = ({ fullName, email }: Partial<Props>) => {
             )}
           >
             <MdDashboard
-              size={24}
-              className={cn("text-blue-300", {
+              className={cn("size-5 lg:size-6 text-blue-300", {
                 "brightness-0 invert": pathname === "/admin",
               })}
             />
-            <span className="hidden lg:inline-block">Dashboard</span>
+            <span className="text-[10px] md:text-base">Dashboard</span>
           </Link>
         </li>
         <li className="w-full">
           <Link
             href="/admin/listings"
             className={cn(
-              "w-full text-blue-300 p-2 flex justify-center items-center lg:justify-start lg:items-start gap-1 rounded-md hover:bg-slate-200 cursor-pointer",
+              "w-full text-blue-300 p-2 flex flex-col md:flex-row justify-center items-center lg:justify-start lg:items-start gap-0 md:gap-1 rounded-md hover:bg-slate-200 cursor-pointer",
               {
                 "text-subtle-light bg-blue-300 hover:text-white hover:bg-blue-300":
                   pathname.includes("/listings"),
@@ -77,14 +76,14 @@ const Sidebar = ({ fullName, email }: Partial<Props>) => {
                 "brightness-0 invert": pathname.includes("/listing"),
               })}
             />
-            <span className="hidden lg:inline-block">Listings</span>
+            <span className="text-[10px] md:text-base">Listings</span>
           </Link>
         </li>
         <li className="w-full">
           <Link
             href="/admin/users"
             className={cn(
-              "w-full text-blue-300 p-2 flex justify-center items-center lg:justify-start lg:items-start gap-1 rounded-md hover:bg-slate-200 cursor-pointer",
+              "w-full text-blue-300 p-2 flex flex-col md:flex-row justify-center items-center lg:justify-start lg:items-start gap-0 md:gap-1 rounded-md hover:bg-slate-200 cursor-pointer",
               {
                 "text-subtle-light bg-blue-300 hover:text-white hover:bg-blue-300":
                   pathname.includes("/user"),
@@ -97,14 +96,14 @@ const Sidebar = ({ fullName, email }: Partial<Props>) => {
                 "brightness-0 invert": pathname.includes("/users"),
               })}
             />
-            <span className="hidden lg:inline-block">Users</span>
+            <span className="text-[10px] md:text-base">Users</span>
           </Link>
         </li>
         <li className="w-full">
           <Link
             href="/admin/categories"
             className={cn(
-              "w-full text-blue-300 p-2 flex justify-center items-center lg:justify-start lg:items-start gap-1 rounded-md hover:bg-slate-200 cursor-pointer",
+              "w-full text-blue-300 p-2 flex flex-col md:flex-row justify-center items-center lg:justify-start lg:items-start gap-0 md:gap-1 rounded-md hover:bg-slate-200 cursor-pointer",
               {
                 "text-subtle-light bg-blue-300 hover:text-white hover:bg-blue-300":
                   pathname.includes("/categories"),
@@ -117,7 +116,7 @@ const Sidebar = ({ fullName, email }: Partial<Props>) => {
                 "brightness-0 invert": pathname.includes("/categories"),
               })}
             />
-            <span className="hidden lg:inline-block">Categories</span>
+            <span className="text-[10px] md:text-base">Categories</span>
           </Link>
         </li>
       </ul>
