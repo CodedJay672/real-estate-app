@@ -35,7 +35,7 @@
 
 @layer utilities {
   .wrapper {
-    @apply w-full flex flex-1 flex-col p-6 bg-gray-50 gap-4 pb-20 md:pb-6;
+    @apply w-full flex overflow-hidden flex-col p-6 bg-gray-50 gap-4 pb-20 md:pb-6;
   }
 
   .flex-center {

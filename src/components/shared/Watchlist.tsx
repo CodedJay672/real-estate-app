@@ -23,7 +23,10 @@ const Watchlist = ({ session }: { session: Session | null }) => {
   const [watchlist, setWatchlist] = useState<IWatchlist | null>(null);
   const [isFetching, setIsFetching] = useState(false);
 
-  if (!session?.user) router.push("/auth/sign-in");
+  if (!session?.user) {
+    router.push("/auth/sign-in");
+    return null;
+  }
 
   useEffect(() => {
     const getWatchlist = async () => {

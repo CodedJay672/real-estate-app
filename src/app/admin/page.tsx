@@ -43,13 +43,13 @@ const AdminPage = async () => {
         </p>
       </div>
       <div className="flex gap-6">
-        <div className="flex-1">
+        <div className="w-full">
           <div className="w-full flex flex-col gap-6">
             <div className="w-full flex lg:max-w-screen-md justify-between items-center gap-6">
               <StatsCard title="Total Users" value={users?.data?.length!} />
               <StatsCard title="Total Listings" value={data?.length!} />
             </div>
-            <div className="w-full lg:max-w-screen-md rounded-xl p-4 shadow-md bg-subtle-light">
+            <div className="w-full lg:max-w-screen-md rounded-xl p-4 shadow-md bg-subtle-light ">
               <div className="flex justify-between items-center">
                 <h2 className="text-sm lg:text-lg font-normal">Listings</h2>
                 <div
@@ -72,7 +72,7 @@ const AdminPage = async () => {
         </div>
         <div className="w-full p-2 max-w-screen-sm hidden md:block sticky top-0 right-0">
           <div className="bg-subtle-light p-2 rounded-md border shadow-md">
-            <h1 className="text-base font-bold mb-1">Watchlists</h1>
+            <h1 className="text-base font-bold mb-1">Watchers</h1>
             {watchers && watchers.length > 0 ? (
               watchers.map((watchlists) => (
                 <div className="w-full flex gap-[6px] p-2" key={watchlists.id}>

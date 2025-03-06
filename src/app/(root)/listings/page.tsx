@@ -13,9 +13,13 @@ const ProductListings = async ({
 }) => {
   const session = await auth();
   const { query } = await searchParams;
+  let watchlist = null;
 
   const allProducts = await getLikedProducts(query);
-  const watchlist = await getUserWatchlist(session?.user?.id!);
+
+  if (session?.user) {
+    watchlist = await getUserWatchlist(session?.user?.id!);
+  }
 
   if (!allProducts) {
     return notFound();
@@ -35,7 +39,9 @@ const ProductListings = async ({
         <div className="flex-1">
           <div className="w-full flex-between gap-4 md:gap-16">
             <Searchbar placeholder="Enter search term..." />
-            <Button className="bg-blue-300">Save search</Button>
+            <Button className="bg-blue-300 text-sm lg:text-base" type="button">
+              Save search
+            </Button>
           </div>
 
           <div className="w-full mt-4 flex items-center gap-2 py-4">
@@ -58,7 +64,7 @@ const ProductListings = async ({
               allProducts.map((product) => (
                 //@ts-ignore
                 <PropertyCard
-                  watchlist={watchlist.watchList}
+                  watchlist={watchlist?.watchList || []}
                   session={session}
                   {...product}
                   key={product.id}

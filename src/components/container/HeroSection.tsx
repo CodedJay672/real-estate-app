@@ -21,7 +21,7 @@ const Herosection = () => {
             insights, and a commitment to excellence
           </p>
         </div>
-        <form className="w-full max-w-screen-sm rounded-md flex justify-center items-center">
+        <form className="w-full px-6 lg:px-0 max-w-screen-md rounded-md flex justify-center items-center">
           <Suspense>
             <Searchbar placeholder="Tell us what your're looking for..." />
             <RiSearch2Line className="absolute bottom-2 md:bottom-7 right-6 md:right-8 text-blue-200 size-4 md:size-6" />

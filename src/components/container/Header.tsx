@@ -50,14 +50,12 @@ const Header = ({ session }: { session: Session | null }) => {
 
       <div className="flex items-center gap-2">
         {session ? (
-          <div
-            className="flex-center rounded-full cursor-pointer gap-2"
-            onClick={() => setOpenWishlist(true)}
-          >
+          <div className="flex-center rounded-full cursor-pointer gap-2">
             <div
               className={cn("flex-center flex-col p-2", {
                 "bg-gray-300 rounded-full": openWishlist,
               })}
+              onClick={() => setOpenWishlist(true)}
             >
               <MdBookmarkAdd
                 size={20}

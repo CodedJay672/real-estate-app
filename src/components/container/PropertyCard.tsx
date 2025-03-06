@@ -61,7 +61,7 @@ const PropertyCard = ({
         <div className="absolute left-4 bottom-1 rounded-full size-10 flex justify-center items-center cursor-pointer">
           <Likes likes={likes!} userId={session?.user?.id!} productId={id!} />
         </div>
-        <div className="absolute right-4 bottom-4 rounded-full flex justify-center items-center cursor-pointer">
+        <div className="absolute right-4 bottom-1 rounded-full flex justify-center items-center cursor-pointer bg-subtle-light p-2">
           <AddToWishlist
             userId={session?.user?.id!}
             productId={id!}

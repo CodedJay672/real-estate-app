@@ -6,9 +6,13 @@ const SpecialOffers = async ({ query }: { query: string }) => {
   const session = await auth();
 
   if (!session?.user) console.log("No user found");
+  let watchlist = null;
 
   const response = await getLikedProducts(query);
-  const watchlist = await getUserWatchlist(session?.user?.id!);
+
+  if (session?.user) {
+    watchlist = await getUserWatchlist(session?.user?.id!);
+  }
 
   if (!response) console.log("Errror fetching liked posts");
 
@@ -25,7 +29,7 @@ const SpecialOffers = async ({ query }: { query: string }) => {
               key={property.id}
               {...property}
               session={session}
-              watchlist={watchlist?.watchList}
+              watchlist={watchlist?.watchList || []}
             />
           ))
         ) : (

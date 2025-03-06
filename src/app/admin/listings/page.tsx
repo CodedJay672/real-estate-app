@@ -1,12 +1,18 @@
 import AdminListing from "@/components/container/AdminListing";
 import Back from "@/components/shared/Back";
-import { Input } from "@/components/ui/input";
+import Searchbar from "@/components/shared/Searchbar";
 import { getAllProducts } from "@/lib/actions/auth";
 import Link from "next/link";
+import { Suspense } from "react";
 import { MdAdd } from "react-icons/md";
 
-const Listings = async () => {
-  const res = await getAllProducts();
+const Listings = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ query: string }>;
+}) => {
+  const { query } = await searchParams;
+  const res = await getAllProducts(query);
 
   const response = res.data;
 
@@ -34,12 +40,11 @@ const Listings = async () => {
             <p className="text-blue-100 font-thin text-xs">
               See details of all products here
             </p>
-            <Input
-              type="search"
-              name="search"
-              placeholder="Search products..."
-              className="text-sm w-1/3 placeholder:text-sm placeholder:text-blue-100"
-            />
+            <div className="w-full md:w-1/2">
+              <Suspense fallback={<p>Loading...</p>}>
+                <Searchbar placeholder="Type product name to find." />
+              </Suspense>
+            </div>
           </div>
         </div>
 
