@@ -8,7 +8,7 @@ import { MdUploadFile } from "react-icons/md";
 
 const authenticator = async () => {
   try {
-    const res = await fetch(`${config.env.endpoint}/api/imagekit`);
+    const res = await fetch(`${config.env.prodEndpoint}/api/imagekit`);
 
     if (!res.ok) {
       const errorTxt = await res.text();
