@@ -17,19 +17,19 @@ const SpecialOffers = async ({ query }: { query: string }) => {
   if (!response) console.log("Errror fetching liked posts");
 
   return (
-    <section className="w-full px-4 py-8">
+    <section className="w-full px-4 py-24 lg:px-24">
       <h2 className="text-2xl md:text-3xl font-bold mb-8 text-blue-300">
         Special Offers
       </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mx-auto gap-8 md:gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mx-auto gap-8">
         {response && response.length > 0 ? (
           response.slice(0, 9).map((property) => (
             //@ts-ignore
             <PropertyCard
               key={property.id}
-              {...property}
               session={session}
               watchlist={watchlist?.watchList || []}
+              {...property}
             />
           ))
         ) : (

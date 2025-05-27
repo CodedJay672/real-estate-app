@@ -30,10 +30,12 @@ const PropertyDetails = async ({
 
   if (!propertyWithLikes) return notFound();
 
+  const para = propertyWithLikes.description.split(/\r?\n/).filter(Boolean);
+
   return (
     <section className="w-full px-2">
-      <div className="w-full flex justify-between items-center py-2 gap-0 lg:gap-96">
-        <div className="flex-1 flex gap-2 p-[6px] items-center">
+      <div className="w-full flex justify-between items-center py-2 px-10 gap-0 lg:gap-96">
+        <div className="flex-1 flex gap-8 p-[6px] items-center">
           <Back />
           <SearchBar />
         </div>
@@ -50,11 +52,13 @@ const PropertyDetails = async ({
           </div>
         </div>
       </div>
-      <div className="flex gap-6">
+      <div className="flex gap-40 px-24 py-6">
         <div className="mt-10 p-2 flex-1">
-          <div className="w-full mb-2">
-            <h1 className="text-2xl font-semibold">{propertyWithLikes.name}</h1>
-            <p className="text-sm text-gray-500">
+          <div className="w-full mb-6">
+            <h1 className="text-3xl lg:text-5xl font-bold">
+              {propertyWithLikes.name}
+            </h1>
+            <p className="text-base text-gray-600">
               {propertyWithLikes.location} |{" "}
               <span className="text-xs text-gray-400">
                 {propertyWithLikes.title}
@@ -67,60 +71,60 @@ const PropertyDetails = async ({
               alt={propertyWithLikes.name!}
             />
           </div>
-          <div className="w-full p-2 flex flex-col gap-2">
-            <p className="text-sm lg:text-base font-thin border-l-4 border-green-600 px-2">
+          <div className="w-full px-6 py-8 flex flex-col gap-2">
+            <p className="text-base lg:text-base font-medium border-l-8 border-green-600 px-2 bg-gradient-to-r from-green-200 to-green-50 p-2 rounded-e-md">
               {propertyWithLikes.type.toUpperCase()} for Sale!!!
             </p>
-            <h2 className="text-2xl lg:text-4xl font-semibold">
+            <p className="text-3xl lg:text-5xl font-semibold mt-10">
               {propertyWithLikes.price.toLocaleString("en-NG", {
                 style: "currency",
                 currency: "NGN",
               })}
-            </h2>
-            <div className="flex items-center space-x-2">
-              {Boolean(propertyWithLikes.size) ? (
-                <p className="flex items-center gap-1 text-sm lg:text-base font-thin">
-                  <span className="font-semibold">
-                    {propertyWithLikes.size} SQM
-                  </span>
-                  <RiShape2Line size={20} className="text-gray-500" />
-                </p>
-              ) : (
-                <>
-                  <p className="flex items-center gap-1 text-sm lg:text-base font-thin">
-                    <span className="font-semibold">
-                      {propertyWithLikes.bedrooms}{" "}
-                    </span>
-                    <MdKingBed size={20} className="text-gray-500" />
+            </p>
+            <div className="flex gap-6 items-center mb-5">
+              <div className="flex items-center space-x-2">
+                {Boolean(propertyWithLikes.size) ? (
+                  <p className="text-base font-medium">
+                    Size: {propertyWithLikes.size} SQM
                   </p>
-                  <p className="flex gap-1 text-sm lg:text-base font-thin">
-                    <span className="font-semibold">
+                ) : (
+                  <>
+                    <p className="flex items-center gap-1 text-sm lg:text-base font-thin">
+                      <span className="font-semibold">
+                        {propertyWithLikes.bedrooms}{" "}
+                      </span>
+                      <MdKingBed size={20} className="text-gray-500" />
+                    </p>
+                    <p className="flex gap-1 text-sm lg:text-base font-thin">
                       {propertyWithLikes.bathrooms}{" "}
-                    </span>
-                    <MdOutlineBathtub size={18} className="text-gray-500" />
-                  </p>
-                </>
-              )}
-            </div>
-            <div className="flex items-center mb-2">
-              <MdLocationPin size={20} className="text-gray-500" />
-              <span className="text-sm lg:text-base font-medium">
-                {propertyWithLikes.location}
-              </span>
+                      <MdOutlineBathtub size={18} className="text-gray-500" />
+                    </p>
+                  </>
+                )}
+              </div>
+              <div className="flex items-center">
+                <MdLocationPin size={20} className="text-gray-500" />
+                <span className="text-sm lg:text-base font-medium">
+                  {propertyWithLikes.location}
+                </span>
+              </div>
             </div>
             <h1 className="text-lg lg:text-xl font-semibold">Description</h1>
-            <p className="text-sm text-gray-500">
-              {propertyWithLikes.description}
-            </p>
+
+            {para.map((text: string, idx: number) => (
+              <p key={idx} className="text-base lg:text-lg text-gray-600">
+                {text}
+              </p>
+            ))}
           </div>
-          <div className="flex gap-1 mt-4 px-2">
+          <div className="flex gap-3 mt-4 px-2">
             <Button>Contact Agent</Button>
             <Button className="bg-transparent text-blue-300 border border-blue-300 hover:bg-gray-100">
               Share property
             </Button>
           </div>
         </div>
-        <div className="hidden lg:block w-1/3 p-6 border shadow-md rounded-md max-h-max">
+        <div className="hidden lg:block w-1/3 p-6 border shadow-md rounded-md max-h-max lg:mt-16">
           <h2 className="text-lg lg:text-xl font-semibold mb-2">
             Find Out More!!
           </h2>

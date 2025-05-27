@@ -41,11 +41,11 @@ const PropertyCard = ({
   return (
     <article className="w-full shadow-md rounded-lg overflow-hidden bg-subtle-light border border-blue-200">
       <div className="w-full min-h-48 overflow-hidden relative">
-        <div className="absolute top-0 left-0 p-2 z-10">
-          <span className="text-sm lg:text-xs inline-block bg-green-600 text-subtle-light rounded-lg p-1">
+        <div className="absolute top-1 left-1 p-1 z-10 bg-gray-200/75 backdrop-blur-lg rounded-xl flex-center ">
+          <span className="text-sm lg:text-xs inline-block bg-green-600 text-subtle-light rounded-lg py-1 px-3 font-medium">
             {listingStatus}
           </span>
-          <span className="text-gray-700 text-sm inline-block p-1 rounded-md">
+          <span className="text-gray-700 text-sm font-medium inline-block p-1 rounded-md capitalize ml-1 mr-2">
             {type}
           </span>
         </div>
@@ -71,32 +71,34 @@ const PropertyCard = ({
       </div>
       <Link
         href={`listings/details/${id}`}
-        className="inline-block w-full px-4 py-8"
+        className="flex flex-col w-full px-4 py-8 space-y-4"
       >
-        <small className="text-sm text-gray-500 mb-2 inline-block">
-          {formatTime(createdAt)}
-        </small>
-        <div className="flex items-center justify-between">
-          <h2 className="text-sm font-semibold">{name}</h2>
-          <p className="text-sm text-gray-500">{location}</p>
+        <small className="text-sm text-gray-500">{formatTime(createdAt)}</small>
+        <div className="space-y-1 mb-4">
+          <h2 className="text-2xl font-semibold">{name}</h2>
+          <p className="text-sm text-gray-600">{location}</p>
         </div>
-        <p className="text-sm text-gray-500 mt-2 line-clamp-2">{description}</p>
-        <div className="flex items-center mt-4 gap-4">
+        <div className="flex-1">
+          <p className="text-base line-clamp-2">{description}</p>
+        </div>
+        <div className="flex-between items-center mt-4 gap-4">
           <p className="text-lg md:text-xl font-bold">
             {price?.toLocaleString("en-NG", {
               style: "currency",
               currency: "NGN",
             })}
           </p>
-          <p className="text-sm text-gray-500">
-            {Boolean(bedrooms) && `${bedrooms} BR`}
-          </p>
-          <p className="text-sm text-gray-500">
-            {Boolean(bathrooms) && `${bathrooms} BA`}
-          </p>
-          <p className="text-sm text-gray-500">
-            {Boolean(size) && `${size} SQM`}
-          </p>
+          <div className="w-max p-4">
+            <p className="text-sm text-gray-600 font-medium">
+              {Boolean(bedrooms) && `${bedrooms} BR`}
+            </p>
+            <p className="text-sm text-gray-600 font-medium">
+              {Boolean(bathrooms) && `${bathrooms} BA`}
+            </p>
+            <p className="text-base text-gray-600 font-medium">
+              {Boolean(size) && `${size} SQM`}
+            </p>
+          </div>
         </div>
         {/* <div className="flex items-start flex-wrap mt-4 gap-2">
           {amenities.split(",").map((amenity, index) => (

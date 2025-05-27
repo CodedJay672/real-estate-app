@@ -21,7 +21,7 @@ const Header = ({ session }: { session: Session | null }) => {
     globalContext;
 
   return (
-    <nav className="bg-gray-50 w-full p-2 flex justify-between items-center z-50 sticky top-0 backdrop-blur-md">
+    <nav className="bg-gray-50 w-full px-2 py-4 flex justify-between items-center z-50 sticky top-0 backdrop-blur-md">
       <Link href="/" className="flex justify-center items-center gap-1">
         <Image
           src="/assets/logo.png"

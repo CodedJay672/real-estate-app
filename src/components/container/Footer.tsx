@@ -36,16 +36,25 @@ const Footer = () => {
             Life.
           </p>
           <div className="flex gap-2 my-2">
-            <a href="https://facebook.com" target="_blank">
+            <a
+              href="https://www.facebook.com/profile.php?id=100063960527914"
+              target="_blank"
+            >
               <RiFacebookLine className="size-4 lg:size-6" />
             </a>
             <a href="https://youtube.com" target="_blank">
               <RiYoutubeLine className="size-4 lg:size-6" />
             </a>
-            <a href="https://instagram.com" target="_blank">
+            <a
+              href="https://www.instagram.com/laurettaasemota?igsh=MXBsazJrOG1tdzB6bQ=="
+              target="_blank"
+            >
               <RiInstagramLine className="size-4 lg:size-6" />
             </a>
-            <a href="https://tiktok.com" target="_blank">
+            <a
+              href="https://www.tiktok.com/@laurettaasemota?_t=ZM-8whsWZgYljq&_r=1"
+              target="_blank"
+            >
               <RiTiktokLine className="size-4 lg:size-6" />
             </a>
           </div>
@@ -74,7 +83,7 @@ const Footer = () => {
             <br />
             Call us:
             <br />
-            +234 813 953 6456
+            +23490 1689 0757
             <br />
             <br />
             email:
