@@ -35,7 +35,7 @@ const PropertyDetails = async ({
   return (
     <section className="w-full px-2">
       <div className="w-full flex justify-between items-center p-2 lg:px-10 gap-0 lg:gap-96">
-        <div className="flex-1 flex gap-8 p-[6px] items-center">
+        <div className="flex-1 flex gap-2 lg:gap-8 p-[6px] items-center">
           <Back />
           <SearchBar />
         </div>
