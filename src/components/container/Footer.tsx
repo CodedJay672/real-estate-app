@@ -77,7 +77,7 @@ const Footer = () => {
 
         <div className="w-56">
           <h2 className="text-base lg:text-base font-medium">Visit Us</h2>
-          <p className="text-base mt-1">
+          <p className="text-sm mt-1">
             Plot 6c, UPDC estate rd, Elf bus stop , Lekki - Epe expressway,
             Lagos, Nigeria.
             <br />

@@ -53,7 +53,7 @@ const PropertyDetails = async ({
         </div>
       </div>
       <div className="flex gap-40 px-4 lg:px-24 py-6">
-        <div className="mt-10 p-2 flex-1">
+        <div className="mt-10 flex-1">
           <div className="w-full mb-6">
             <h1 className="text-3xl lg:text-5xl font-bold">
               {propertyWithLikes.name}
@@ -71,7 +71,7 @@ const PropertyDetails = async ({
               alt={propertyWithLikes.name!}
             />
           </div>
-          <div className="w-full px-6 py-8 flex flex-col gap-2">
+          <div className="w-full lg:px-6 py-8 flex flex-col gap-2">
             <p className="text-base lg:text-base font-medium border-l-8 border-green-600 px-2 bg-gradient-to-r from-green-200 to-green-50 p-2 rounded-e-md">
               {propertyWithLikes.type.toUpperCase()} for Sale!!!
             </p>
