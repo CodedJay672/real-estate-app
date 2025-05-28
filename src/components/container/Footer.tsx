@@ -76,9 +76,10 @@ const Footer = () => {
         </ul>
 
         <div className="w-56">
-          <h2 className="text-sm lg:text-base font-semibold">Visit Us</h2>
-          <p className="text-xs lg:text-sm">
-            Km. 34, A&M Complex, Elf bus stop, chevron drive, Ajah, Lagos.
+          <h2 className="text-base lg:text-base font-medium">Visit Us</h2>
+          <p className="text-base mt-1">
+            Plot 6c, UPDC estate rd, Elf bus stop , Lekki - Epe expressway,
+            Lagos, Nigeria.
             <br />
             <br />
             Call us:
@@ -86,14 +87,14 @@ const Footer = () => {
             +23490 1689 0757
             <br />
             <br />
-            email:
+            email us:
             <br />
             support@cleanbeautifulproperties.com
           </p>
         </div>
       </div>
       <div className="flex justify-center items-center border-t border-gray-200 py-5">
-        <p className="text-xs text-gray-600">
+        <p className="text-xs text-gray-600 text-center">
           Clean and Beautiful Properties LTD © {getYear()}. All rights reserved.
         </p>
       </div>
