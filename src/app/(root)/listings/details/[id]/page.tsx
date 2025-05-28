@@ -81,10 +81,10 @@ const PropertyDetails = async ({
                 currency: "NGN",
               })}
             </p>
-            <div className="flex gap-6 items-center mb-5">
+            <div className="flex-between gap-3 mb-5">
               <div className="flex items-center space-x-2">
                 {Boolean(propertyWithLikes.size) ? (
-                  <p className="text-base font-medium">
+                  <p className="text-nowrap text-base font-thin">
                     Size: {propertyWithLikes.size} SQM
                   </p>
                 ) : (
@@ -102,9 +102,9 @@ const PropertyDetails = async ({
                   </>
                 )}
               </div>
-              <div className="flex items-center">
-                <MdLocationPin size={20} className="text-gray-500" />
-                <span className="text-sm lg:text-base font-medium">
+              <div className="flex items-center w-64 lg:w-max">
+                <MdLocationPin size={32} className="text-gray-500 shrink-0" />
+                <span className="text-sm lg:text-base font-thin">
                   {propertyWithLikes.location}
                 </span>
               </div>
