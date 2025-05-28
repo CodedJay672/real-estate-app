@@ -176,27 +176,25 @@ export const properties = [
 export const FAQItems = [
   {
     question:
-      "What is the state of the real estate space in Nigeria currently?",
+      "What are the most important documents to check before buying land in Nigeria?",
     answer:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem laboriosam molestias veniam suscipit corrupti! Accusantium, vel harum dolorem rem sint voluptate obcaecati tempore nostrum aperiam eligendi sunt optio, id quae?",
+      "Before purchasing land, ensure you verify documents like the Certificate of Occupancy (C of O), Deed of Assignment, Survey Plan, and Governor’s Consent. These documents confirm ownership and legal status, helping to avoid land disputes or buying government-acquired land.",
+  },
+  {
+    question: "Is it better to buy land or a built property in Nigeria?",
+    answer:
+      "It depends on your goals. Buying land offers flexibility and lower upfront costs, especially for long-term investment. Built properties, however, are ready for immediate use or rental income, but they may cost more and offer less design freedom.",
+  },
+  {
+    question: "Can a non-Nigerian own property in Nigeria?",
+    answer:
+      "Yes, non-Nigerians can own property in Nigeria, but typically through a leasehold arrangement of up to 99 years. However, foreigners must get approval from the state government and must not acquire land in areas designated as restricted.",
   },
   {
     question:
-      "What is the state of the real estate space in Nigeria currently?",
+      "What are the risks of buying real estate in Nigeria, and how can I avoid them?",
     answer:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem laboriosam molestias veniam suscipit corrupti! Accusantium, vel harum dolorem rem sint voluptate obcaecati tempore nostrum aperiam eligendi sunt optio, id quae?",
-  },
-  {
-    question:
-      "What is the state of the real estate space in Nigeria currently?",
-    answer:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem laboriosam molestias veniam suscipit corrupti! Accusantium, vel harum dolorem rem sint voluptate obcaecati tempore nostrum aperiam eligendi sunt optio, id quae?",
-  },
-  {
-    question:
-      "What is the state of the real estate space in Nigeria currently?",
-    answer:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem laboriosam molestias veniam suscipit corrupti! Accusantium, vel harum dolorem rem sint voluptate obcaecati tempore nostrum aperiam eligendi sunt optio, id quae?",
+      "Common risks include land scams, fraudulent sellers, family disputes, and unclear land titles. To avoid these, always engage a real estate lawyer, conduct due diligence, and work with registered agents or reputable companies.",
   },
 ];
 
