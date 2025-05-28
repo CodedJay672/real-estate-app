@@ -75,14 +75,14 @@ const PropertyCard = ({
       >
         <small className="text-sm text-gray-500">{formatTime(createdAt)}</small>
         <div className="space-y-1 mb-4">
-          <h2 className="text-2xl font-semibold">{name}</h2>
+          <h2 className="text-2xl lg:text-xl font-semibold">{name}</h2>
           <p className="text-sm text-gray-600">{location}</p>
         </div>
         <div className="flex-1">
           <p className="text-base line-clamp-2">{description}</p>
         </div>
         <div className="flex-between items-center mt-4 gap-4">
-          <p className="text-lg md:text-xl font-bold">
+          <p className="text-xl md:text-lg font-bold">
             {price?.toLocaleString("en-NG", {
               style: "currency",
               currency: "NGN",

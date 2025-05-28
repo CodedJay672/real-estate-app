@@ -34,7 +34,7 @@ const PropertyDetails = async ({
 
   return (
     <section className="w-full px-2">
-      <div className="w-full flex justify-between items-center py-2 px-10 gap-0 lg:gap-96">
+      <div className="w-full flex justify-between items-center p-2 lg:px-10 gap-0 lg:gap-96">
         <div className="flex-1 flex gap-8 p-[6px] items-center">
           <Back />
           <SearchBar />
@@ -52,7 +52,7 @@ const PropertyDetails = async ({
           </div>
         </div>
       </div>
-      <div className="flex gap-40 px-24 py-6">
+      <div className="flex gap-40 px-4 lg:px-24 py-6">
         <div className="mt-10 p-2 flex-1">
           <div className="w-full mb-6">
             <h1 className="text-3xl lg:text-5xl font-bold">
