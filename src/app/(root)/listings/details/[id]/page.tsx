@@ -88,23 +88,25 @@ const PropertyDetails = async ({
                     Size: {propertyWithLikes.size} SQM
                   </p>
                 ) : (
-                  <>
+                  <div className="flex items-center gap-6">
                     <p className="flex items-center gap-1 text-sm lg:text-base font-thin">
-                      <span className="font-semibold">
+                      <span className="text-xl font-medium">
                         {propertyWithLikes.bedrooms}{" "}
                       </span>
-                      <MdKingBed size={20} className="text-gray-500" />
+                      <MdKingBed size={40} className="text-gray-500" />
                     </p>
-                    <p className="flex gap-1 text-sm lg:text-base font-thin">
-                      {propertyWithLikes.bathrooms}{" "}
-                      <MdOutlineBathtub size={18} className="text-gray-500" />
+                    <p className="flex-center gap-1 ">
+                      <span className="text-xl font-medium">
+                        {propertyWithLikes.bathrooms}{" "}
+                      </span>
+                      <MdOutlineBathtub size={32} className="text-gray-500" />
                     </p>
-                  </>
+                  </div>
                 )}
               </div>
               <div className="flex items-center gap-2">
                 <MdLocationPin size={20} className="text-gray-500 shrink-0" />
-                <span className="text-sm lg:text-base font-thin">
+                <span className="text-base font-normal">
                   {propertyWithLikes.location}
                 </span>
               </div>

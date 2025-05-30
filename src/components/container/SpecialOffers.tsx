@@ -1,6 +1,7 @@
 import { getLikedProducts, getUserWatchlist } from "@/lib/actions/auth";
 import PropertyCard from "./PropertyCard";
 import { auth } from "@/auth";
+import Link from "next/link";
 
 const SpecialOffers = async ({ query }: { query: string }) => {
   const session = await auth();
@@ -23,7 +24,7 @@ const SpecialOffers = async ({ query }: { query: string }) => {
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mx-auto gap-8">
         {response && response.length > 0 ? (
-          response.slice(0, 9).map((property) => (
+          response.slice(0, 13).map((property) => (
             //@ts-ignore
             <PropertyCard
               key={property.id}
@@ -39,6 +40,15 @@ const SpecialOffers = async ({ query }: { query: string }) => {
             </p>
           </div>
         )}
+      </div>
+
+      <div className="w-full flex-center mt-20 ">
+        <Link
+          href="/listings"
+          className="text-base  font-medium border rounded-lg py-2  px-6"
+        >
+          See more
+        </Link>
       </div>
     </section>
   );
