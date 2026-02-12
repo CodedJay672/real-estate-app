@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z, infer } from "zod";
 
 export const signInSchema = z.object({
   email: z.string().email(),

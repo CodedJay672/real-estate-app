@@ -1,36 +1,19 @@
+import { quickLinks } from "@/constants";
 import { getYear } from "@/lib/utils";
-import React from "react";
 import {
   RiFacebookLine,
   RiInstagramLine,
   RiTiktokLine,
   RiYoutubeLine,
 } from "react-icons/ri";
-import Image from "next/image";
-import { quickLinks } from "@/constants";
+import Logo from "../shared/Logo";
 
 const Footer = () => {
   return (
     <section className="w-full bg-slate-50 p-4 py-10">
-      <div className="w-full py-10 lg:py-11 lg:px-10 flex flex-col md:flex-row justify-around flex-wrap">
+      <div className="container py-10 md:py-16 xl:py-20 flex flex-col md:flex-row justify-around flex-wrap mx-auto">
         <div className="w-56 overflow-hidden">
-          <div className="flex">
-            <Image
-              src="/assets/logo.png"
-              alt="footer logo"
-              className="size-12"
-              width={48}
-              height={48}
-            />
-            <div className="">
-              <h3 className="text-xl font-bold text-blue-300 tracking-[.35em]">
-                CLEAN &
-              </h3>
-              <p className="text-sm font-semibold tracking-tight">
-                Beautiful Properties
-              </p>
-            </div>
-          </div>
+          <Logo />
           <p className="text-sm lg:text-base font-light">
             Because of our resource and results, we are Your Realty Partner for
             Life.

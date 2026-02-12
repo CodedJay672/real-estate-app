@@ -18,7 +18,7 @@ const SpecialOffers = async ({ query }: { query: string }) => {
   if (!response) console.log("Errror fetching liked posts");
 
   return (
-    <section className="w-full px-4 py-24 lg:px-24">
+    <section className="container mx-auto  py-16 md:py-20 xl:py-24">
       <h2 className="text-2xl md:text-3xl font-bold mb-8 text-blue-300">
         Special Offers
       </h2>

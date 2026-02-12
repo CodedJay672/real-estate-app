@@ -21,33 +21,7 @@ const Header = ({ session }: { session: Session | null }) => {
     globalContext;
 
   return (
-    <nav className="bg-gray-50 w-full px-2 py-4 flex justify-between items-center z-50 sticky top-0 backdrop-blur-md">
-      <Link href="/" className="flex justify-center items-center gap-1">
-        <Image
-          src="/assets/logo.png"
-          alt="clean and beautiful properties"
-          width={35}
-          height={35}
-          className="object-cover rounded-full"
-        />
-        <div className="text-blue-300">
-          <h3 className="text-[18px] tracking-widest font-bold">CLEAN &</h3>
-          <p className="text-[9px] font-semibold -mt-1">Beautiful Properties</p>
-        </div>
-      </Link>
-
-      <ul className="text-base hidden md:flex items-center justify-between gap-6">
-        <li>
-          <Link href="/">Home</Link>
-        </li>
-        <li>
-          <Link href="/listings">Listings</Link>
-        </li>
-        <li>
-          <Link href="/about-us">About Us</Link>
-        </li>
-      </ul>
-
+    <>
       <div className="flex items-center gap-2">
         {session ? (
           <div className="flex-center rounded-full cursor-pointer gap-2">
@@ -120,7 +94,7 @@ const Header = ({ session }: { session: Session | null }) => {
       <CustomDrawer open={openWishlist} onOpenChange={setOpenWishlist}>
         <Watchlist session={session} />
       </CustomDrawer>
-    </nav>
+    </>
   );
 };
 
