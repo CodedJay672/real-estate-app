@@ -1,7 +1,9 @@
-import type { Metadata } from "next";
-import "./globals.css";
 import { ReactNode } from "react";
+import type { Metadata } from "next";
 import localFont from "next/font/local";
+
+
+import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import ContextProvider from "@/context/ContextProvider";
 

@@ -15,11 +15,11 @@ import {
   watchlistInfo,
 } from "@/db/schema";
 import bcryptjs from "bcryptjs";
-import { auth, signIn, signOut } from "@/auth";
 import { eq, ilike } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { cache } from "react";
 import { notFound, redirect } from "next/navigation";
+import { getSession, signIn, signOut } from "next-auth/react";
 
 export const signInWithCreds = async ({
   email,
@@ -107,7 +107,7 @@ export const logOut = async () => {
 };
 
 export const uploadProducts = async (data: any) => {
-  const session = await auth();
+  const session = await getSession();
 
   if (!session) {
     return { success: false, message: "User not authenticated" };
@@ -538,7 +538,7 @@ export const addToWatchlist = cache(
     } catch (error) {
       throw new Error(`Error: ${error}`);
     }
-  }
+  },
 );
 
 export const removeFromWatchlist = async (productId: string) => {
