@@ -1,7 +1,8 @@
 import Back from "@/components/shared/Back";
 import ProductForm from "@/components/forms/ProductForm";
-import { getAllCategories, getProductById } from "@/lib/actions/auth";
+import { getAllCategories } from "@/lib/actions/auth";
 import { notFound } from "next/navigation";
+import { getProductById } from "@/lib/data/products.data";
 
 const AddProducts = async ({
   params,
@@ -43,7 +44,7 @@ const AddProducts = async ({
           </h3>
           <ProductForm
             type={type}
-            product={response.data?.[0]}
+            product={response.data}
             categories={categories}
           />
         </section>

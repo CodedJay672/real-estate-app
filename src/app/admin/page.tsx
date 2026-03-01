@@ -10,7 +10,6 @@ import {
   getProductsWithWatchlists,
 } from "@/lib/actions/auth";
 import { Share2 } from "lucide-react";
-import { RiUser2Line } from "react-icons/ri";
 
 const AdminPage = async () => {
   const response = await getAllProducts();
@@ -32,7 +31,7 @@ const AdminPage = async () => {
         <div className="w-full flex flex-col gap-6">
           <div className="w-full flex lg:max-w-(--breakpoint-md) justify-between items-center gap-6">
             <StatsCard title="Total Users" value={users?.data?.length!} />
-            <StatsCard title="Total Listings" value={data?.length!} />
+            <StatsCard title="Total Listings" value={response?.data?.length!} />
           </div>
           <div className="w-full lg:max-w-(--breakpoint-md) rounded-xl p-4 shadow-md bg-subtle-light ">
             <div className="flex justify-between items-center">
@@ -47,7 +46,7 @@ const AdminPage = async () => {
                 </span>
               </div>
             </div>
-            <DataTable columns={productColumns} data={data} />
+            <DataTable columns={productColumns} data={response.data ?? []} />
           </div>
           <div className="w-full lg:max-w-(--breakpoint-md) rounded-xl p-4 shadow-md bg-subtle-light">
             <h2 className="text-sm lg:text-lg font-normal">Users</h2>
