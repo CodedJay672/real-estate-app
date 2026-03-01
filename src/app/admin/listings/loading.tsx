@@ -1,5 +1,7 @@
 import LoadingSpinner from '@/components/shared/LoadingSpinner'
 
-export const AdminLoading = () => {
+const AdminLoading = () => {
   return <LoadingSpinner />
 }
+
+export default AdminLoading

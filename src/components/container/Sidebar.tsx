@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import Link from "next/link";
 import { MdCategory, MdDashboard, MdList } from "react-icons/md";
 import { RiUser2Line } from "react-icons/ri";
-import { cn, getInitials } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 
 interface Props {
@@ -124,7 +124,7 @@ const Sidebar = ({ fullName, email }: Partial<Props>) => {
       <div className="lg:w-full border rounded-full flex items-center lg:pl-2">
         <Avatar>
           <AvatarFallback className="bg-gray-100">
-            {getInitials(fullName as string)}
+            {fullName?.[0]}
           </AvatarFallback>
         </Avatar>
         <div className="w-full">
