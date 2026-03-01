@@ -3,26 +3,28 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { cn, getInitials } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { logOut } from "@/lib/actions/auth";
 import { MdOutlineHome, MdOutlineLogin, MdPersonOutline } from "react-icons/md";
-import { Session } from "next-auth";
 import { usePathname } from "next/navigation";
 import { RiListView } from "react-icons/ri";
+import { useSession } from "next-auth/react";
 
 const MobileSidebar = ({
   handleShowMenu,
-  session,
 }: {
   handleShowMenu: (t: boolean) => void;
-  session: Session | null;
 }) => {
+  const { data: session, status } = useSession();
   const pathname = usePathname();
 
   const isActive = (path: string) => {
     return pathname === path;
   };
+
+
+  if (status === 'loading') return null;
 
   return (
     <>
@@ -44,7 +46,7 @@ const MobileSidebar = ({
             >
               <Avatar className="size-16">
                 <AvatarFallback className="text-subtle-light bg-blue-300 font-semibold text-xl">
-                  {getInitials(session?.user?.name!)}
+                  {session?.user?.name?.[0]}
                 </AvatarFallback>
               </Avatar>
 
@@ -67,7 +69,7 @@ const MobileSidebar = ({
           ) : (
             <Link
               href="/auth/sign-in"
-              className="w-full flex items-center gap-[6px] justify-end p-1"
+              className="w-full flex items-center gap-1.5 justify-end p-1"
               onClick={() => handleShowMenu(false)}
             >
               <span className="text-blue-300 text-sm font-medium">Sign In</span>
@@ -80,7 +82,7 @@ const MobileSidebar = ({
         <Link
           href="/"
           className={cn(
-            "text-blue-300 flex items-center gap-[6px] text-lg w-full p-2 justify-end",
+            "text-blue-300 flex items-center gap-1.5 text-lg w-full p-2 justify-end",
             {
               "font-semibold bg-blue-300 text-white rounded-md": isActive("/"),
             }
@@ -99,7 +101,7 @@ const MobileSidebar = ({
         <Link
           href="/listings"
           className={cn(
-            "text-blue-300 flex items-center gap-[6px] text-lg w-full p-2 justify-end",
+            "text-blue-300 flex items-center gap-1.5 text-lg w-full p-2 justify-end",
             {
               "font-semibold bg-blue-300 text-white rounded-md":
                 isActive("/listings"),
@@ -119,7 +121,7 @@ const MobileSidebar = ({
         <Link
           href="/about-us"
           className={cn(
-            "text-blue-300 flex items-center gap-[6px] text-lg w-full p-2 justify-end",
+            "text-blue-300 flex items-center gap-1.5 text-lg w-full p-2 justify-end",
             {
               "font-semibold bg-blue-300 text-white rounded-md":
                 isActive("/about-us"),

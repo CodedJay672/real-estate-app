@@ -32,6 +32,7 @@ interface AuthFormProps<T extends FieldValues> {
   schema: ZodType<T>;
   defaultValues: T;
   onSubmit: (values: T) => Promise<{ success: boolean; message: string }>;
+  redirectUrl?: string
 }
 
 const AuthForm = <T extends FieldValues>({
@@ -39,6 +40,7 @@ const AuthForm = <T extends FieldValues>({
   schema,
   defaultValues,
   onSubmit,
+  redirectUrl
 }: AuthFormProps<T>) => {
   const { toast } = useToast();
   const router = useRouter();
@@ -65,7 +67,7 @@ const AuthForm = <T extends FieldValues>({
         title: "Success",
         description: res.message,
       });
-      router.push("/");
+      router.push(redirectUrl || "/");
     } catch (error: any) {
       toast({
         title: "Error",
@@ -77,33 +79,35 @@ const AuthForm = <T extends FieldValues>({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
-        {Object.keys(defaultValues).map((key) => (
-          <FormField
-            key={key}
-            control={form.control}
-            name={key as Path<T>}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="capitalize font-light text-sm after:content-['*'] after:text-red-500 after:inline-block after:ml-1">
-                  {FIELD_NAMES[field.name as keyof typeof FIELD_NAMES]}
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    type={FIELD_TYPES[field.name as keyof typeof FIELD_TYPES]}
-                    {...field}
-                    className="w-full p-2 h-14 outline-0 outline-blue-300 text-base bg-blue-100 focus:ring-0 focus:outline-blue-200"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        ))}
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="w-full max-w-md space-y-8">
+        <fieldset className="space-y-2">
+          {Object.keys(defaultValues).map((key) => (
+            <FormField
+              key={key}
+              control={form.control}
+              name={key as Path<T>}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="capitalize font-light after:content-['*'] after:text-red-500 after:inline-block after:ml-1">
+                    {FIELD_NAMES[field.name as keyof typeof FIELD_NAMES]}
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      type={FIELD_TYPES[field.name as keyof typeof FIELD_TYPES]}
+                      {...field}
+                      className="w-full p-2 h-14 focus-visible::ring-0 focus-visible:ring-offset-0"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ))}
+        </fieldset>
         <Button
           type="submit"
-          className="w-full h-14 flex items-center"
           disabled={form.formState.isSubmitting}
+          className="w-full h-12 cursor-pointer"
         >
           {form.formState.isSubmitting && (
             <RiLoader5Line className="animate-spin mr-2" />
@@ -112,14 +116,14 @@ const AuthForm = <T extends FieldValues>({
           {isSignIn ? "Sign In" : "Sign Up"}
         </Button>
 
-        <p className="text-sm font-medium">
+        <p className="text-sm text-center">
           {isSignIn ? "Don't have an account? " : "Already have an account? "}
           {isSignIn ? (
-            <Link href="/auth/signup" className="font-bold text-gold text-lg">
+            <Link href="/auth/signup" className="font-medium text-green-500 text-sm">
               Sign up
             </Link>
           ) : (
-            <Link href="/auth/sign-in" className="font-bold text-gold text-lg">
+            <Link href="/auth/sign-in" className="font-medium text-green-500 text-lg">
               Login
             </Link>
           )}

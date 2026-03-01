@@ -43,19 +43,21 @@ const ContactForm = ({ className }: { className: string }) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
         <FormField
           control={form.control}
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="capitalize font-light text-sm after:content-['*'] after:text-red-500 after:inline-block after:ml-1">
+              <FormLabel className="capitalize text-sm md:text-base after:content-['*'] after:text-red-500 after:inline-block after:ml-1">
                 Name
               </FormLabel>
               <FormControl>
                 <Input
                   {...field}
-                  className={`${className} w-full h-10 lg:h-12 rounded-md`}
+                  required
+                  placeholder="Cynthia Adetunji"
+                  className={`${className} w-full rounded-md`}
                 />
               </FormControl>
               <FormMessage />
@@ -67,13 +69,15 @@ const ContactForm = ({ className }: { className: string }) => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="capitalize font-light text-sm after:content-['*'] after:text-red-500 after:inline-block after:ml-1">
+              <FormLabel className="capitalize text-sm md:text-base after:content-['*'] after:text-red-500 after:inline-block after:ml-1">
                 Email
               </FormLabel>
               <FormControl>
                 <Input
                   {...field}
-                  className={`${className} w-full h-14 lg:h-16 rounded-md`}
+                  required
+                  placeholder="example123@gmail.com"
+                  className={`${className} w-full rounded-md`}
                 />
               </FormControl>
               <FormMessage />
@@ -85,14 +89,16 @@ const ContactForm = ({ className }: { className: string }) => {
           name="message"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="capitalize font-light text-sm after:content-['*'] after:text-red-500 after:inline-block after:ml-1">
+              <FormLabel className="capitalize text-sm md:text-base after:content-['*'] after:text-red-500 after:inline-block after:ml-1">
                 Message
               </FormLabel>
               <FormControl>
                 <Textarea
                   {...field}
                   rows={6}
-                  className={`${className} w-full p-2 rounded-md`}
+                  required
+                  placeholder="Hello, please give me more information about the location of this property."
+                  className={`${className} w-full p-2 rounded-md resize-none`}
                 />
               </FormControl>
               <FormMessage />
@@ -101,7 +107,7 @@ const ContactForm = ({ className }: { className: string }) => {
         />
         <Button
           type="submit"
-          className="w-full h-14 text-white text-lg font-semibold"
+          className="w-full text-dark-200 bg-accent-bright hover:bg-accent-bright  cursor-pointer font-semibold"
         >
           Send Message
         </Button>

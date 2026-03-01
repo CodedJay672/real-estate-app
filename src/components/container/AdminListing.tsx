@@ -1,13 +1,13 @@
 "use client";
 
 import config from "@/lib/config";
-import { IKImage } from "imagekitio-next";
 import Link from "next/link";
 import { useState } from "react";
 import { RiCloseLine, RiMore2Line } from "react-icons/ri";
 import { useToast } from "@/hooks/use-toast";
 import { deleteProduct } from "@/lib/actions/auth";
 import CustomAlertDialog from "../shared/CustomAlertDialog";
+import { Image } from "@imagekit/next";
 
 const AdminListing = ({
   name,
@@ -55,12 +55,14 @@ const AdminListing = ({
   };
 
   return (
-    <article className="w-full lg:max-w-screen-md flex items-center relative">
-      <div className="w-32 overflow-hidden">
-        <IKImage
-          path={imageUrl}
+    <article className="w-full lg:max-w-(--breakpoint-md) flex items-center relative">
+      <div className="w-32 overflow-hidden relative">
+        <Image
+          src={imageUrl}
           urlEndpoint={config.env.imagekit.urlEndpoint}
           alt={name}
+          sizes="(min-width: 300px) 100%, 32px"
+          fill
           loading="lazy"
         />
       </div>
@@ -100,9 +102,8 @@ const AdminListing = ({
         <RiMore2Line size={24} />
       </div>
       <div
-        className={`animate-in fade-in-5 absolute top-0 right-0 w-44 flex flex-col space-y-2 justify-center items-center bg-white shadow-lg p-2 rounded-md ${
-          showActions ? "block z-20" : "hidden"
-        }`}
+        className={`animate-in fade-in-5 absolute top-0 right-0 w-44 flex flex-col space-y-2 justify-center items-center bg-white shadow-lg p-2 rounded-md ${showActions ? "block z-20" : "hidden"
+          }`}
       >
         <div
           className="w-full flex justify-end p-2 cursor-pointer"

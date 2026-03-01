@@ -12,13 +12,14 @@ const Listings = async ({
   searchParams: Promise<{ query: string }>;
 }) => {
   const { query } = await searchParams;
-  const res = await getAllProducts(query);
 
+
+  const res = await getAllProducts(query);
   const response = res.data;
 
   return (
     <section className="wrapper">
-      <div className="w-full lg:max-w-screen-md">
+      <div className="w-full lg:max-w-(--breakpoint-md)">
         <h1 className="text-xl lg:text-2xl font-bold">Product listings</h1>
         <p className="text-sm lg:text-base font-normal text-blue-300">
           Manage your listed products here.
@@ -58,7 +59,7 @@ const Listings = async ({
                 title={product.title}
                 location={product.location}
                 price={product.price}
-                imageUrl={product.imageUrl}
+                imageUrl={product.imageUrl ?? ""}
                 id={product.id}
               />
             ))

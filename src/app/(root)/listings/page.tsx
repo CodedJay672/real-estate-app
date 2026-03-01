@@ -1,10 +1,10 @@
-import { auth } from "@/auth";
 import PropertyCard from "@/components/container/PropertyCard";
 import Searchbar from "@/components/shared/Searchbar";
 import { Button } from "@/components/ui/button";
 import { getLikedProducts, getUserWatchlist } from "@/lib/actions/auth";
+import { auth } from "@/lib/auth";
+import { MailQuestion } from "lucide-react";
 import { notFound } from "next/navigation";
-import { MdSmsFailed } from "react-icons/md";
 
 const ProductListings = async ({
   searchParams,
@@ -13,8 +13,9 @@ const ProductListings = async ({
 }) => {
   const session = await auth();
   const { query } = await searchParams;
-  let watchlist = null;
 
+
+  let watchlist = null;
   const allProducts = await getLikedProducts(query);
 
   if (session?.user) {
@@ -26,9 +27,9 @@ const ProductListings = async ({
   }
 
   return (
-    <section className="wrapper">
-      <div className="flex gap-4">
-        <div className="hidden md:block min-h-64 w-1/4">
+    <section className="w-full py-20">
+      <div className="container flex gap-4 md:gap-8 mx-auto p-2 md:p-4">
+        <div className="hidden md:block h-max w-full md:w-1/4 sticky top-24 left-0">
           <div className="sticky top-20">
             <h1 className="text-lg font-semibold">Filter searches</h1>
             <div className="mt-2">
@@ -36,12 +37,11 @@ const ProductListings = async ({
             </div>
           </div>
         </div>
+
         <div className="flex-1">
-          <div className="w-full flex-between gap-4 md:gap-16">
-            <Searchbar placeholder="Enter search term..." />
-            <Button className="bg-blue-300 text-sm lg:text-base" type="button">
-              Save search
-            </Button>
+          <div className="w-full bg-light-50">
+            <Searchbar placeholder="quickly search through a collection of properties..." />
+
           </div>
 
           <div className="w-full mt-4 flex items-center gap-2 py-4">
@@ -62,17 +62,14 @@ const ProductListings = async ({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {allProducts.length > 0 ? (
               allProducts.map((product) => (
-                //@ts-ignore
                 <PropertyCard
-                  watchlist={watchlist?.watchList || []}
-                  session={session}
-                  {...product}
                   key={product.id}
+                  {...product}
                 />
               ))
             ) : (
               <div className="col-span-full min-h-64 flex-center flex-col">
-                <MdSmsFailed size={44} color="#eee" />
+                <MailQuestion size={44} color="#eee" />
                 <span className="text-sm font-medium text-gray-300">
                   No results found.{" "}
                 </span>

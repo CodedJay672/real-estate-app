@@ -4,14 +4,16 @@ import { Button } from "../ui/button";
 
 const FeaturedListings = () => {
   return (
-    <section className="container py-10 md:py-16 xl:py-24 flex-center flex-col mx-auto">
-      <h2 className="text-3xl md:text-4xl font-bold text-center text-blue-300">
-        Why Choose Us?
-      </h2>
-      <p className="text-center mt-4 w-full max-w-lg mx-auto my-10 text-sm md:text-base">
-        join real estate developers and investors all over the world to make
-        your investment count. Invest with us and enjoy peace of mind
-      </p>
+    <section className="container py-10 md:py-16 xl:py-24 flex-center flex-col mx-auto space-y-12">
+      <div className="space-y-6">
+
+        <h2 className="w-full text-2xl text-center md:text-4xl font-light text-dark-200">
+          Committed to <span className="text-accent-brown">Real Estate</span> Excellence
+        </h2>
+        <p className="text-sm md:text-base text-dark-50 max-w-xl font-medium text-center">
+          Driven by passion for real estate, we are committed to help you find the perfect property, whether lands or houses. Experience personalized service and unparalleled expertise with us.
+        </p>
+      </div>
       <div className="w-full max-w-4xl grid grid-cols-2 lg:grid-cols-4 gap-4 mx-auto">
         <ChooseItem
           title="P1"
@@ -35,13 +37,13 @@ const FeaturedListings = () => {
         />
       </div>
       <p className="text-center mt-4 w-full max-w-lg mx-auto my-10 text-sm md:text-base">
-        Ready to experience the difference? Schedule your consultation now!
+        Ready to experience the difference? Schedule a consultation now!
       </p>
-      <div className="mt-4 flex justify-center items-center">
-        <Button className="h-10 md:h-14 text-gold font-semibold bg-blue-300">
-          Schedule Consultation
-        </Button>
-      </div>
+
+      <Button type="button" className="h-10 md:h-14 text-gold font-semibold bg-primary text-light-50 mx-auto hover:opacity-85 cursor-pointer">
+        Schedule Consultation
+      </Button>
+
     </section>
   );
 };

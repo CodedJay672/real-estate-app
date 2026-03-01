@@ -5,7 +5,7 @@ const CreateCategory = () => {
   return (
     <section className="wrapper flex flex-col">
       <Back />
-      <div className="w-full lg:max-w-screen-md my-4">
+      <div className="w-full lg:max-w-(--breakpoint-md) my-4">
         <h1 className="text-xl lg:text-2xl font-semibold text-blue-300">
           Create category
         </h1>

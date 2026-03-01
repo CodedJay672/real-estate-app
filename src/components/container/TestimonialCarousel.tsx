@@ -2,7 +2,7 @@
 const TestimonialCarousel = () => {
   return (
     <section className="w-full p-10 flex flex-col md:flex-justify-center items-center relative">
-      <p className="text-base md:text-lg text-center text-subtle-light mt-2 w-full max-w-md">
+      <p className="text-base md:text-lg text-center text-light-50 mt-2 w-full max-w-md">
         "I couldn't have asked for a better team. They helped us sell our home
         quickly and above asking price! They were always available to answer
         our questions and made the process easy. I would highly recommend them

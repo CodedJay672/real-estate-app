@@ -1,7 +1,4 @@
-import { addHouseSchema, addLandSchema } from "@/lib/validations/schema";
-import { z } from "zod";
-
-interface IProperties {
+type TProperties = {
   id: number;
   name: string;
   description: string;
@@ -21,7 +18,28 @@ interface IProperties {
   listingDate: string;
   images: string[];
   amenities: string[];
-}
+};
 
-type AddLandProps = z.infer<typeof addLandSchema>;
-type AddHouseProps = z.infer<typeof addHouseSchema>;
+type listings = {
+  id: string;
+  name: string;
+  title: string;
+  price: number;
+  location: string;
+  listingStatus: string;
+  type: string;
+  size: number | null;
+  createdAt: Date;
+  updatedAt?: Date;
+  imageUrl?: string;
+  description?: string;
+  bedrooms: number | null;
+  bathrooms: number | null;
+};
+
+type ApiResponse<T> = {
+  success: boolean;
+  message: string;
+  data?: T;
+  error?: Record<string, string[]>;
+};

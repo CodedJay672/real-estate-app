@@ -1,33 +1,30 @@
 "use client";
 
-import { useContext } from "react";
+import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useSession } from 'next-auth/react'
 
-import GlobalContext from "@/context/GlobalContext";
-import { getInitials } from "@/lib/utils";
 import CustomSheet from "../shared/CustomSheet";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import MobileSidebar from "./MobileSidebar";
+import { Button } from "../ui/button";
 
 const Header = () => {
-  const globalContext = useContext(GlobalContext);
-  const { showMenu, setShowMenu } = globalContext;
-  const { data: session, status } = useSession()
 
-  if (status === "loading") return <div className="w-5 h-5 md:w-10 rounded-lg bg-dark-50 animate-pulse" />
+  const [showMenu, setShowMenu] = useState(false);
+  const { data: session } = useSession();
 
   return (
     <>
       {session ? (
         <Avatar className="w-6 h-6 hidden md:flex cursor-pointer">
           <AvatarFallback>
-            {getInitials(session?.user?.name!)}
+            {session?.user?.name?.[0]}
           </AvatarFallback>
         </Avatar>
       ) : (
-        <Link href="/auth/sign-in" className="p-2 text-sm md:text-base bg-accent-bright text-primary rounded-lg text-center">Join our community</Link>
+        <Link href="/auth/become-a-member" className="py-2 px-3 text-sm bg-accent-bright text-primary rounded-lg text-center  hover:opacity-95 transition-colors font-bold">Join Us</Link>
       )}
 
       {/** Mobile Menu */}
@@ -35,7 +32,7 @@ const Header = () => {
         {session && (
           <Avatar className="size-10">
             <AvatarFallback className="text-subtle-light bg-blue-300 font-semibold text-sm md:text-base">
-              {getInitials(session?.user?.name!)}
+              {session?.user?.name?.[0]}
             </AvatarFallback>
           </Avatar>
         )}
@@ -46,16 +43,19 @@ const Header = () => {
             className="cursor-pointer text-blue-300"
           />
         ) : (
-          <Menu
-            size={32}
-            className="text-blue-300 cursor-pointer"
+          <Button type="button" size="icon" variant="ghost"
             onClick={() => setShowMenu(true)}
-          />
+            className="text-light-50 border-2 border-border"
+          >
+            <Menu
+              size={32}
+            />
+          </Button>
         )}
       </div>
 
       <CustomSheet open={showMenu} onOpenChange={setShowMenu}>
-        <MobileSidebar handleShowMenu={setShowMenu} session={session} />
+        <MobileSidebar handleShowMenu={setShowMenu} />
       </CustomSheet>
     </>
   );

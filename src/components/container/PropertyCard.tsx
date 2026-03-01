@@ -1,115 +1,91 @@
-"use client";
 
-import { Session } from "next-auth";
-import Link from "next/link";
-import { IKImage } from "imagekitio-next";
-import { listings } from "../table/listings/definition";
+import { getProductLikes } from "@/lib/actions/auth";
 import config from "@/lib/config";
-import { formatTime } from "@/lib/utils";
-import Likes from "../shared/Likes";
-import AddToWishlist from "../shared/AddToWishlist";
+import { Image } from "@imagekit/next";
+import { Loader2 } from "lucide-react";
+import Link from "next/link";
+import { Suspense } from "react";
+import Likes from "@/components/shared/Likes";
 
-interface cardProps extends Partial<listings> {
-  bathrooms: number | null;
-  bedrooms: number | null;
-  session: Session | null;
-  likes: any;
-  watchlist: {
-    id: string;
-    propertyId: string;
-    userId: string;
-  }[];
-}
 
-const PropertyCard = ({
-  id,
-  name,
-  description,
-  price,
-  location,
-  type,
-  bedrooms,
-  bathrooms,
-  size,
-  listingStatus,
-  imageUrl,
-  createdAt,
-  likes,
-  watchlist,
-  session,
-}: cardProps) => {
+
+const PropertyCard = (props: listings) => {
+  const allLikes = getProductLikes(props.id);
+
   return (
     <article className="w-full shadow-md rounded-lg overflow-hidden bg-subtle-light border border-blue-200">
       <div className="w-full min-h-48 overflow-hidden relative">
-        <div className="absolute top-1 left-1 p-1 z-10 bg-gray-200/75 backdrop-blur-lg rounded-xl flex-center ">
-          <span className="text-sm lg:text-xs inline-block bg-green-600 text-subtle-light rounded-lg py-1 px-3 font-medium">
-            {listingStatus}
+        <div className="absolute top-1 left-1 z-10 bg-gray-200/75 backdrop-blur-lg rounded-xl flex-center ">
+          <span className="text-sm md:text-xs inline-block bg-green-600 text-light-50 rounded-s-lg p-1.5 font-medium">
+            {props.listingStatus}
           </span>
-          <span className="text-gray-700 text-sm font-medium inline-block p-1 rounded-md capitalize ml-1 mr-2">
-            {type}
+          <span className="text-dark-200 px-1.5 text-sm md:text-xs font-medium inline-block rounded-md capitalize ">
+            {props.type}
           </span>
         </div>
-        <IKImage
-          path={imageUrl}
-          urlEndpoint={config.env.imagekit.urlEndpoint}
-          alt={name!}
-          fill
-          loading="lazy"
-          className="object-cover"
-        />
+        {props.imageUrl ? (
+          <Image
+            src={props.imageUrl}
+            urlEndpoint={config.env.imagekit.urlEndpoint}
+            alt={props.name!}
+            loading="lazy"
+            fill
+            className="object-cover"
+          />
+        ) : (
+          <div className="size-full bg-dark-50 rounded-lg" />
+        )}
 
-        <div className="absolute left-4 bottom-1 rounded-full size-10 flex justify-center items-center cursor-pointer">
-          <Likes likes={likes!} userId={session?.user?.id!} productId={id!} />
+        <div className="absolute left-1 bottom-1">
+          <Suspense fallback={<Loader2 size={16} className="animate-spin" />}>
+            <Likes productId={props.id!} getLikes={allLikes} />
+          </Suspense>
         </div>
         <div className="absolute right-4 bottom-1 rounded-full flex justify-center items-center cursor-pointer bg-subtle-light p-2">
-          <AddToWishlist
+          {/* <AddToWishlist
             userId={session?.user?.id!}
-            productId={id!}
-            watchlist={watchlist}
-          />
+            productId={props.id!}
+            watchlist={props.watchlist}
+          /> */}
         </div>
       </div>
       <Link
-        href={`listings/details/${id}`}
+        href={`listings/details/${props.id}`}
         className="flex flex-col w-full px-4 py-8 space-y-4"
       >
-        <small className="text-sm text-gray-500">{formatTime(createdAt)}</small>
+        <small className="text-sm text-gray-500">{props.createdAt?.toLocaleDateString("en-UK", {
+          dateStyle: "medium",
+          hour12: true
+        })}</small>
         <div className="space-y-1 mb-4">
-          <h2 className="text-2xl lg:text-xl font-semibold">{name}</h2>
-          <p className="text-sm text-gray-600">{location}</p>
+          <h2 className="text-2xl lg:text-xl font-semibold">{props.name}</h2>
+          <p className="text-sm text-gray-600">{props.location}</p>
         </div>
         <div className="flex-1">
-          <p className="text-base line-clamp-2">{description}</p>
+          <p className="text-base line-clamp-2">{props.description}</p>
         </div>
         <div className="flex-between items-center mt-4 gap-4">
           <p className="text-xl md:text-lg font-bold">
-            {price?.toLocaleString("en-NG", {
+            {props.price?.toLocaleString("en-NG", {
               style: "currency",
               currency: "NGN",
+              compactDisplay: "short",
+              minimumFractionDigits: 0,
+
             })}
           </p>
           <div className="w-max p-4">
             <p className="text-sm text-gray-600 font-medium">
-              {Boolean(bedrooms) && `${bedrooms} BR`}
+              {Boolean(props.bedrooms) && `${props.bedrooms} BR`}
             </p>
             <p className="text-sm text-gray-600 font-medium">
-              {Boolean(bathrooms) && `${bathrooms} BA`}
+              {Boolean(props.bathrooms) && `${props.bathrooms} BA`}
             </p>
             <p className="text-base text-gray-600 font-medium">
-              {Boolean(size) && `${size} SQM`}
+              {Boolean(props.size) && `${props.size} SQM`}
             </p>
           </div>
         </div>
-        {/* <div className="flex items-start flex-wrap mt-4 gap-2">
-          {amenities.split(",").map((amenity, index) => (
-            <span
-              key={index}
-              className="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded-lg text-center"
-            >
-              {amenity.trim()}
-            </span>
-          ))}
-        </div> */}
       </Link>
     </article>
   );

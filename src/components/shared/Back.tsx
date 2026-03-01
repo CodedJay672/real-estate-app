@@ -1,21 +1,22 @@
 "use client";
 
-import React from "react";
-import { MdArrowBack } from "react-icons/md";
+import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Button } from "../ui/button";
 
 const Back = () => {
   const router = useRouter();
 
   return (
-    <div
-      className="p-2 bg-white rounded-md flex gap-1 items-center cursor-pointer shadow-md hover:shadow-lg transition-all"
+    <Button
+      type="button"
+      variant="ghost"
+      size="sm"
       onClick={() => router.back()}
+      className="size-6 md:size-10 bg-white hover:bg-light-100/50 group transition-colors cursor-pointer rounded-full"
     >
-      <MdArrowBack size={20} className="text-gray-500" />
-
-      <span className="text-gray-500 hidden md:inline-block">Back</span>
-    </div>
+      <ArrowLeft size={20} className="size-4 md:size-5 text-dark-100 group-hover:text-dark-200 transition-colors" />
+    </Button>
   );
 };
 

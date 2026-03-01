@@ -1,11 +1,14 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { IKImage, ImageKitProvider, IKUpload } from "imagekitio-next";
-import config from "@/lib/config";
-import { useToast } from "@/hooks/use-toast";
 import { MdUploadFile } from "react-icons/md";
+import { ImageKitAbortError, ImageKitInvalidRequestError, ImageKitServerError, ImageKitUploadNetworkError, upload } from '@imagekit/next';
+import config from "@/lib/config";
+import FileDropzone from "./FileDropzone";
+import Image from "next/image";
 
+
+// helper function to authenticate users before uploading assets
 const authenticator = async () => {
   try {
     const res = await fetch(`${config.env.prodEndpoint}/api/imagekit`);
@@ -15,11 +18,11 @@ const authenticator = async () => {
       throw new Error(`Failed to authenticate: ${errorTxt}`);
     }
 
-    const { token, expire, signature } = await res.json();
-
-    return { token, expire, signature };
-  } catch (error: any) {
-    throw new Error(`Something went wrong: ${error.message}`);
+    const { token, expire, signature, publicKey } = await res.json();
+    return { token, expire, signature, publicKey };
+  } catch (error) {
+    console.error(`Authentication error: ${error}`);
+    throw new Error("Failed to authenticate user.")
   }
 };
 
@@ -28,60 +31,66 @@ const FileUploader = ({
 }: {
   onFieldChange: (filePath: string) => void;
 }) => {
-  const [file, setFile] = useState<{ filePath: string } | null>(null);
-  const fileUploadRef = useRef<HTMLInputElement>(null);
-  const { toast } = useToast();
+  const [file, setFile] = useState<File | null>(null);
+  const [imgUrl, setImgUrl] = useState('');
   const [progress, setProgress] = useState<number | null>(null);
 
-  const onSuccess = (res: any) => {
-    setFile(res);
-    onFieldChange(res.filePath);
-    toast({
-      title: "Success",
-      description: `${res.filePath} uploaded successfully.`,
-    });
-  };
 
-  const onError = (error: any) => {
-    toast({
-      title: "Error",
-      description: `${error.message}`,
-      variant: "destructive",
-    });
-    console.log(error);
-  };
+  const handleUpload = async () => {
+
+    if (!file) {
+      alert("Please select a file to upload");
+      return;
+    }
+    let authParams;
+    try {
+      authParams = await authenticator();
+    } catch (authError) {
+      console.error("Failed to authenticate for upload:", authError);
+      return;
+    }
+
+    const controller = new AbortController();
+    const { signature, expire, token, publicKey } = authParams;
+
+    // Call the ImageKit SDK upload function with the required parameters and callbacks.
+    try {
+      const uploadResponse = await upload({
+        expire,
+        token,
+        signature,
+        publicKey,
+        file,
+        fileName: `IMG_${Date.now()}.${file.name.split(".").pop()}`,
+        onProgress: (event) => {
+          setProgress((event.loaded / event.total) * 100);
+        },
+        abortSignal: controller.signal,
+      });
+      console.log("Upload response:", uploadResponse);
+    } catch (error) {
+      // Handle specific error types provided by the ImageKit SDK.
+      if (error instanceof ImageKitAbortError) {
+        console.error("Upload aborted:", error.reason);
+      } else if (error instanceof ImageKitInvalidRequestError) {
+        console.error("Invalid request:", error.message);
+      } else if (error instanceof ImageKitUploadNetworkError) {
+        console.error("Network error:", error.message);
+      } else if (error instanceof ImageKitServerError) {
+        console.error("Server error:", error.message);
+      } else {
+        // Handle any other errors that may occur.
+        console.error("Upload error:", error);
+      }
+    }
+  }
 
   return (
-    <ImageKitProvider
-      publicKey={config.env.imagekit.publicKey}
-      urlEndpoint={config.env.imagekit.urlEndpoint}
-      authenticator={authenticator}
-    >
-      <IKUpload
-        className="hidden"
-        ref={fileUploadRef}
-        onSuccess={onSuccess}
-        onError={onError}
-        useUniqueFileName={true}
-        validateFile={(file) => file.size < 1024 * 1024 * 3}
-        onUploadStart={() => setProgress(0)}
-        onUploadProgress={({ loaded, total }) => {
-          const percent = Math.round((loaded / total) * 100);
-
-          setProgress(percent);
-        }}
-        folder={"/product-listings"}
-        accept="image/*"
-      />
-
+    <div className="w-full h-32 rounded-lg border border-primary">
+      <FileDropzone onFileChangeAction={setFile} setImgUrlAction={setImgUrl} />
       <button
         className="w-full p-2 border-2 border-dashed border-light-200 rounded-lg"
-        onClick={(e) => {
-          e.preventDefault();
-          if (fileUploadRef) {
-            fileUploadRef.current?.click();
-          }
-        }}
+
       >
         <div className="flex justify-center items-center w-full">
           <MdUploadFile size={24} />
@@ -90,14 +99,6 @@ const FileUploader = ({
           </span>
         </div>
         <div className="w-full mt-2 flex flex-col items-center justify-center">
-          {file && (
-            <IKImage
-              path={file?.filePath}
-              alt={file?.filePath}
-              width={500}
-              height={250}
-            />
-          )}
           {progress !== null && (
             <progress
               value={progress}
@@ -107,7 +108,7 @@ const FileUploader = ({
           )}
         </div>
       </button>
-    </ImageKitProvider>
+    </div>
   );
 };
 

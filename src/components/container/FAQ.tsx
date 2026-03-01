@@ -13,11 +13,11 @@ const FAQ = () => {
 
   return (
     <section className="w-full flex flex-col items-center justify-center py-10 px-2">
-      <h2 className="text-3xl lg:text-4xl px-10 font-bold text-blue-300 text-center">
+      <h2 className="text-3xl lg:text-4xl px-10 font-light text-dark-200 text-center">
         Frequently Asked Questions
       </h2>
-      <p className="text-gray-600 text-sm md:text-base lg:text-lg my-2 px-10 text-center">
-        Find answers to common questions about our services and properties.
+      <p className="text-dark-100 text-sm md:text-base my-2 px-10 text-center w-full max-w-2xl">
+        Find answers to common questions about our services, properties and even the real estate terrain as a whole. We are here to make sure that you are fully informed every step of the way.
       </p>
       <div className="w-full md:w-4/5 lg:w-3/5">
         {FAQItems.map((item, idx) => (
@@ -31,9 +31,8 @@ const FAQ = () => {
               <IoCaretDownOutline size={10} className="text-blue-300 ml-20" />
             </div>
             <p
-              className={`animate-in slide-in-from-top-6 text-gray-900 text-base font-light ${
-                qstIndex === idx ? "block p-6" : "hidden"
-              }`}
+              className={`animate-in slide-in-from-top-6 text-gray-900 text-base font-light ${qstIndex === idx ? "block p-6" : "hidden"
+                }`}
             >
               {item.answer}
             </p>
