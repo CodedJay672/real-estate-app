@@ -17,7 +17,7 @@ const Categories = async () => {
 
   return (
     <section className="wrapper">
-      <div className="w-full lg:max-w-screen-md mb-4">
+      <div className="w-full lg:max-w-(--breakpoint-md) mb-4">
         <h1 className="text-xl lg:text-2xl font-semibold text-blue-300">
           Categories
         </h1>

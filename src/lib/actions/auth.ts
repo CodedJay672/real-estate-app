@@ -15,11 +15,13 @@ import {
   watchlistInfo,
 } from "@/db/schema";
 import bcryptjs from "bcryptjs";
-import { auth, signIn, signOut } from "@/auth";
 import { eq, ilike } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { cache } from "react";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
+import { signIn, SignInResponse, signOut } from "next-auth/react";
+import { auth } from "../auth";
+import { generateErrorMessage } from "../utils";
 
 export const signInWithCreds = async ({
   email,
@@ -27,7 +29,7 @@ export const signInWithCreds = async ({
 }: {
   email: string;
   password: string;
-}) => {
+}): Promise<ApiResponse<SignInResponse | undefined>> => {
   //validate email and password
   const parsed = signInSchema.safeParse({ email, password });
 
@@ -43,11 +45,16 @@ export const signInWithCreds = async ({
     });
 
     if (!user) {
-      return { success: false, message: "Invalid email or password" };
+      return { success: false, message: "Invalid user credentials." };
     }
 
-    return { success: true, message: "User signed in successfully" };
+    return {
+      success: true,
+      message: "User signed in successfully",
+      data: user,
+    };
   } catch (error: any) {
+    console.log(error);
     throw new Error(`Error signing in: ${error.message}`);
   }
 };
@@ -171,29 +178,38 @@ export const deleteProduct = async (id: string) => {
   }
 };
 
-export const getAllProducts = cache(async (query?: string) => {
-  let response;
-  try {
-    if (query) {
-      response = await db
-        .select()
-        .from(products)
-        .where(ilike(products.name, `%${query}%`));
-    } else {
-      response = await db.select().from(products);
+export const getAllProducts = cache(
+  async (query?: string): Promise<ApiResponse<listings[]>> => {
+    let response: listings[];
+    try {
+      if (query) {
+        response = await db
+          .select()
+          .from(products)
+          .where(ilike(products.name, `%${query}%`));
+      } else {
+        response = await db.select().from(products);
+      }
+
+      if (!response)
+        return {
+          success: false,
+          message: "Failed to get all products",
+        };
+
+      return {
+        success: true,
+        message: "Success fetching all products.",
+        data: response,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: generateErrorMessage(error),
+      };
     }
-
-    if (!response) return notFound();
-
-    return {
-      success: true,
-      message: "Success fetching all products.",
-      data: response,
-    };
-  } catch (error) {
-    throw new Error(`Error: ${error}`);
-  }
-});
+  },
+);
 
 export const getUser = async (email: string) => {
   try {
@@ -225,28 +241,6 @@ export const getAllUsers = cache(async () => {
     return { success: true, data: users };
   } catch (error: any) {
     throw new Error(`Error fetching users: ${error.message}`);
-  }
-});
-
-export const getProductById = cache(async (id: string) => {
-  if (!id) {
-    return { success: false, message: "Create a new listing" };
-  }
-
-  try {
-    const product = await db
-      .select()
-      .from(products)
-      .where(eq(products.id, id))
-      .limit(1);
-
-    if (!product) {
-      return { success: false, message: "Error fetching product" };
-    }
-
-    return { success: true, data: product };
-  } catch (error) {
-    throw new Error(`Error fetching product: ${error}`);
   }
 });
 
@@ -335,7 +329,6 @@ export const getLikedProducts = cache(async (query?: string) => {
     }
 
     if (!response) return notFound();
-
     console.log("All product likes fetched!");
 
     return response;
@@ -343,6 +336,41 @@ export const getLikedProducts = cache(async (query?: string) => {
     throw new Error(`Error: ${error}`);
   }
 });
+
+export const getProductLikes = async (
+  productId: string,
+): Promise<
+  ApiResponse<
+    {
+      id: string;
+      userId: string;
+      productId: string | null;
+      createdAt: Date;
+    }[]
+  >
+> => {
+  // confirm product Id
+  if (!productId) return { success: false, message: "Product Id is required" };
+
+  try {
+    // get all likes with product id
+    const productLikes = await db
+      .select()
+      .from(likes)
+      .where(eq(likes.productId, productId));
+
+    return {
+      success: true,
+      message: "Product likes fetched",
+      data: productLikes,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: generateErrorMessage(error),
+    };
+  }
+};
 
 export const getLikedProductsById = cache(async (id: string) => {
   if (!id) notFound();
@@ -538,7 +566,7 @@ export const addToWatchlist = cache(
     } catch (error) {
       throw new Error(`Error: ${error}`);
     }
-  }
+  },
 );
 
 export const removeFromWatchlist = async (productId: string) => {
@@ -593,7 +621,8 @@ export const getProductsWithWatchlists = cache(async () => {
 });
 
 export const getUserWatchlist = cache(async (userId: string) => {
-  if (!userId) redirect("/auth/sign-in");
+  if (!userId) return null;
+
   try {
     const response = await db.query.usersTable.findFirst({
       columns: {

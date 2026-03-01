@@ -2,81 +2,100 @@
 
 import { useToast } from "@/hooks/use-toast";
 import { likeProduct } from "@/lib/actions/auth";
+import { cn, generateErrorMessage } from "@/lib/utils";
+import { Heart } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { use, useEffect, useState, useTransition } from "react";
 import { CgSpinner } from "react-icons/cg";
-import { CiHeart } from "react-icons/ci";
-import { FcLike } from "react-icons/fc";
+import { Button } from "../ui/button";
 
-interface LikesProps {
-  likes: any;
+interface TLikesProps {
+  getLikes: Promise<ApiResponse<{
+    id: string;
+    userId: string;
+    productId: string | null;
+    createdAt: Date;
+  }[]>>;
   productId: string;
-  userId: string;
 }
 
-const Likes = ({ likes, userId, productId }: LikesProps) => {
-  const [isLiking, setIsLiking] = useState(false);
+const Likes = ({ getLikes, productId }: TLikesProps) => {
+  const { data: session, status } = useSession();
+  const [isLiking, startLinking] = useTransition();
+  const router = useRouter()
+  const [isMounted, setIsMounted] = useState(false);
   const { toast } = useToast();
 
-  const router = useRouter();
-  const hasLiked = likes.find((like: any) => like.userId === userId);
+  /// handle hydration
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
-  const handleLikeProperty = async (productId: string) => {
-    if (!userId) router.push("/auth/sign-in");
+  // handle session loading
+  if (!isMounted || status === "loading") return null;
 
-    setIsLiking(true);
+  const productLikes = use(getLikes);
+  if (!productLikes.success) {
+    console.log(productLikes.message)
+    return;
+  }
 
-    try {
-      const response = await likeProduct(userId, productId);
+  const hasLiked = productLikes.data?.find(like => like.userId === session?.user.id);
 
-      if (!response.success) {
+  const handleLikeProperty = (productId: string) => {
+    if (!session) return router.push("/sign-in");
+
+    startLinking(async () => {
+      try {
+        const response = await likeProduct(session.user?.id, productId);
+
+        if (!response.success) {
+          toast({
+            title: "Error",
+            description: response.message,
+            variant: "destructive",
+          });
+          return
+        }
+
+        toast({
+          title: "Success!!",
+          description: response.message,
+        });
+      } catch (error) {
         toast({
           title: "Error",
-          description: response.message,
-          variant: "destructive",
-        });
-        return false;
+          description: generateErrorMessage(error),
+        })
       }
-
-      toast({
-        title: "Success!!",
-        description: response.message,
-      });
-    } catch (error) {
-      throw new Error(`Error: ${error}`);
-    } finally {
-      setIsLiking(false);
-    }
+    })
   };
 
-  return (
-    <React.Fragment>
-      <div className="flex items-center gap-1 bg-subtle-light/90 py-1 px-2 rounded-md">
-        {isLiking ? (
-          <CgSpinner size={24} className="animate-spin font-semibold" />
-        ) : hasLiked ? (
-          <FcLike
-            size={24}
-            className="text-blue-300 fill-blue-300"
-            onClick={() => handleLikeProperty(productId)}
-          />
-        ) : (
-          <CiHeart
-            size={24}
-            className="text-blue-300"
-            onClick={() => handleLikeProperty(productId)}
-          />
-        )}
 
-        {likes && likes.length > 0 && (
-          <span className="text-center text-xs text-blue-300">
-            {likes && likes?.length / 1000 > 1
-              ? `${likes?.length / 1000}k`
-              : likes?.length}
-          </span>
-        )}
-      </div>
-    </React.Fragment>
+
+  return (
+
+    <Button type="button" variant="ghost" size="icon"
+      onClick={() => handleLikeProperty(productId)}
+      className="p-0.5 bg-light-50 rounded-full cursor-pointer group hover:bg-rose-50"
+    >
+      {isLiking ? (
+        <CgSpinner size={24} className="animate-spin font-semibold" />
+      ) : (
+        <Heart
+          className={cn("size-6 md:size-8 transition-transform transform-3d group-hover:scale-105 text-rose-600", hasLiked ? "fill-red-500" : "fill-light-50")}
+        />
+      )}
+      {productLikes.data && productLikes.data.length > 0 && (
+        <span className="text-center text-xs text-blue-300">
+          {productLikes.data?.length / 1000 > 1
+            ? `${productLikes.data?.length / 1000}k`
+            : productLikes.data?.length}
+        </span>
+      )}
+    </Button>
+
   );
 };
 

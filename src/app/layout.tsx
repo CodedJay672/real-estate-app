@@ -1,9 +1,12 @@
-import type { Metadata } from "next";
-import "./globals.css";
 import { ReactNode } from "react";
+import type { Metadata } from "next";
 import localFont from "next/font/local";
+
+import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
-import ContextProvider from "@/context/ContextProvider";
+import { AuthProvider } from "@/components/providers/AuthProvider";
+import { auth } from "@/lib/auth";
+
 
 export const metadata: Metadata = {
   title: "Home | Clean Beautiful Properties",
@@ -36,15 +39,17 @@ const lufga = localFont({
   ],
 });
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  const session = await auth();
+
   return (
     <html lang="en">
-      <ContextProvider>
-        <body className={`${lufga.className} antialiased`}>
+      <body className={`${lufga.className} antialiased`}>
+        <AuthProvider session={session}>
           {children}
           <Toaster />
-        </body>
-      </ContextProvider>
+        </AuthProvider>
+      </body>
     </html>
   );
 }

@@ -17,7 +17,7 @@ const CategoryCard = ({
 
   return (
     <article
-      className="w-full flex flex-col border rounded-md bg-gradient-to-br from-blue-50 to-blue-100 p-4 hover:scale-105 transition-all cursor-pointer"
+      className="w-full flex flex-col border rounded-md bg-linear-to-br from-blue-50 to-blue-100 p-4 hover:scale-105 transition-all cursor-pointer"
       onClick={() => router.push(`details/${id}`)}
     >
       <div className="w-full">

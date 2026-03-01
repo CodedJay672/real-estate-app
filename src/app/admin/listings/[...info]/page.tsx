@@ -1,8 +1,8 @@
 import Back from "@/components/shared/Back";
 import ProductForm from "@/components/forms/ProductForm";
-import { getAllCategories, getProductById } from "@/lib/actions/auth";
-import React from "react";
+import { getAllCategories } from "@/lib/actions/auth";
 import { notFound } from "next/navigation";
+import { getProductById } from "@/lib/data/products.data";
 
 const AddProducts = async ({
   params,
@@ -27,7 +27,7 @@ const AddProducts = async ({
 
   return (
     <section className="wrapper mb-14 md:mb-0">
-      <div className="w-full max-w-screen-md">
+      <div className="w-full max-w-(--breakpoint-md)">
         <h2 className="text-lg md:text-xl font-semibold">
           {!response.success ? "Add new" : "Update"} product
         </h2>
@@ -38,13 +38,13 @@ const AddProducts = async ({
           {!response.success ? "Fill in" : "Update"} the details of the product
           below
         </small>
-        <section className="mt-10 shadow-md p-4 rounded-lg bg-subtle-light max-w-screen-md">
+        <section className="mt-10 shadow-md p-4 rounded-lg bg-subtle-light max-w-(--breakpoint-md)">
           <h3 className="text-lg font-semibold mb-2">
             {!response.success ? "Enter" : "Update"} product details
           </h3>
           <ProductForm
             type={type}
-            product={response.data?.[0]}
+            product={response.data}
             categories={categories}
           />
         </section>

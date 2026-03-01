@@ -1,19 +1,26 @@
 import config from "@/lib/config";
-import ImageKit from "imagekit";
-import { NextResponse } from "next/server";
+import { type NextRequest } from "next/server";
+import { getUploadAuthParams } from "@imagekit/next/server";
+import { cookies } from "next/headers";
 
 const {
   env: {
-    imagekit: { publicKey, privateKey, urlEndpoint },
+    imagekit: { publicKey, privateKey },
   },
 } = config;
 
-const imagekit = new ImageKit({
-  publicKey,
-  privateKey,
-  urlEndpoint,
-});
+export async function GET(request: NextRequest) {
+  const cookieStore = await cookies();
+  // get user token and validate signed in user;
+  const userToken = cookieStore.get("user-token");
 
-export async function GET(request: Request) {
-  return NextResponse.json(imagekit.getAuthenticationParameters());
+  // get the upload params
+  const { token, expire, signature } = getUploadAuthParams({
+    privateKey,
+    publicKey,
+    expire: 30 * 60,
+  });
+
+  //return
+  return Response.json({ token, expire, signature, publicKey });
 }

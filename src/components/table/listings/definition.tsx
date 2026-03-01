@@ -3,20 +3,7 @@
 import Actions from "@/components/shared/Actions";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 
-export type listings = {
-  id: string;
-  name: string;
-  title: string;
-  price: number;
-  location: string;
-  listingStatus: string;
-  type: string;
-  size: number;
-  createdAt: Date;
-  updatedAt?: Date;
-  imageUrl?: string;
-  description?: string;
-};
+
 
 const columnHelper = createColumnHelper<listings>();
 
