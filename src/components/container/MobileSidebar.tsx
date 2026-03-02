@@ -1,15 +1,15 @@
 "use client";
 
+import { logOut } from "@/lib/actions/auth";
+import { cn } from "@/lib/utils";
+import { Building2, Home, ListFilter } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
-import { logOut } from "@/lib/actions/auth";
-import { MdOutlineHome, MdOutlineLogin, MdPersonOutline } from "react-icons/md";
 import { usePathname } from "next/navigation";
-import { RiListView } from "react-icons/ri";
-import { useSession } from "next-auth/react";
+import { MdOutlineLogin } from "react-icons/md";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Button } from "../ui/button";
 
 const MobileSidebar = ({
   handleShowMenu,
@@ -32,10 +32,10 @@ const MobileSidebar = ({
         <div className="flex-1">
           {!session?.user ? (
             <>
-              <Avatar className="size-16">
+              <Avatar className="size-16 mx-auto">
                 <AvatarImage src="/assets/avatar.png" />
               </Avatar>
-              <p className="text-xs text-gray-400 mt-1 w-16 text-center">
+              <p className="text-sm text-dark-200 mt-1 px-3 text-center">
                 Sign in to see profile
               </p>
             </>
@@ -69,72 +69,55 @@ const MobileSidebar = ({
           ) : (
             <Link
               href="/auth/sign-in"
-              className="w-full flex items-center gap-1.5 justify-end p-1"
               onClick={() => handleShowMenu(false)}
+              className="w-full flex items-center gap-1.5 justify-end p-1 border border-border rounded-full px-2.5 py-1 bg-light-100 text-primary font-medium"
             >
-              <span className="text-blue-300 text-sm font-medium">Sign In</span>
-              <MdOutlineLogin size={24} className="text-blue-300" />
+              Sign in
+              <MdOutlineLogin size={16} />
             </Link>
           )}
         </div>
       </div>
+
       <div className="w-full flex-1 justify-start items-end flex flex-col gap-6 p-1">
         <Link
           href="/"
-          className={cn(
-            "text-blue-300 flex items-center gap-1.5 text-lg w-full p-2 justify-end",
-            {
-              "font-semibold bg-blue-300 text-white rounded-md": isActive("/"),
-            }
-          )}
           onClick={() => handleShowMenu(false)}
+          className={cn(
+            "text-sm flex items-center gap-1.5 w-full px-2 justify-end", isActive("/") ? "font-semibold bg-primary/10 text-primary rounded-full py-2.5" : "text-dark-50 py-1.5",
+          )}
         >
           <span>Home</span>
-          <MdOutlineHome
-            size={28}
-            className={cn("text-blue-300", {
-              "brightness-0 invert": isActive("/"),
-            })}
+          <Home
+            size={16}
           />
         </Link>
 
         <Link
           href="/listings"
-          className={cn(
-            "text-blue-300 flex items-center gap-1.5 text-lg w-full p-2 justify-end",
-            {
-              "font-semibold bg-blue-300 text-white rounded-md":
-                isActive("/listings"),
-            }
-          )}
           onClick={() => handleShowMenu(false)}
+          className={cn(
+            "text-sm flex items-center gap-1.5 w-full px-2 justify-end", isActive("/listings") ? "font-semibold bg-primary/10 text-primary rounded-full py-2.5" : "text-dark-50 py-1.5",
+
+          )}
         >
           <span>Listings</span>
-          <RiListView
-            size={28}
-            className={cn("text-blue-300", {
-              "brightness-0 invert": isActive("/listings"),
-            })}
+          <ListFilter
+            size={16}
           />
         </Link>
 
         <Link
           href="/about-us"
-          className={cn(
-            "text-blue-300 flex items-center gap-1.5 text-lg w-full p-2 justify-end",
-            {
-              "font-semibold bg-blue-300 text-white rounded-md":
-                isActive("/about-us"),
-            }
-          )}
           onClick={() => handleShowMenu(false)}
+          className={cn(
+            "text-sm flex items-center gap-1.5 w-full px-2 justify-end", isActive("/about-us") ? "font-semibold bg-primary/10 text-primary rounded-full py-2.5" : "text-dark-50 py-1.5",
+
+          )}
         >
           <span>About Us</span>
-          <MdPersonOutline
-            size={28}
-            className={cn("text-blue-300", {
-              "brightness-0 invert": isActive("/about-us"),
-            })}
+          <Building2
+            size={16}
           />
         </Link>
       </div>
@@ -147,8 +130,8 @@ const MobileSidebar = ({
           className="object-cover rounded-full"
         />
         <div className="text-blue-300">
-          <h3 className="text-[18px] tracking-widest font-bold">CLEAN &</h3>
-          <p className="text-[9px] font-semibold -mt-1">Beautiful Properties</p>
+          <h3 className="text-sm tracking-widest font-bold">CLEAN &</h3>
+          <p className="text-sm font-semibold -mt-1">Beautiful Properties</p>
         </div>
       </Link>
     </>

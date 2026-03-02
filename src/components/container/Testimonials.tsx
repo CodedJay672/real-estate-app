@@ -2,7 +2,7 @@ import TestimonialCarousel from "./TestimonialCarousel";
 
 const Testimonials = () => {
   return (
-    <section className="w-full flex justify-center items-center flex-col my-10 bg-[url(/assets/happy-woman.jpg)] bg-cover bg-center bg-no-repeat bg-black/50 bg-blend-overlay py-20">
+    <section className="w-full flex justify-center items-center flex-col my-10 bg-[url(/assets/happy-woman.jpg)] bg-cover bg-center bg-no-repeat bg-black/50 bg-blend-overlay py-20 p-2.5">
 
 
       <h1 className="text-3xl lg:text-4xl font-bold text-center text-light-50">
