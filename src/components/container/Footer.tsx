@@ -18,7 +18,9 @@ const Footer = () => {
 
       <div className="container flex flex-col md:flex-row justify-around flex-wrap mx-auto">
         <div className="w-56 overflow-hidden">
-          <Logo />
+          <div className="size-20 flex-center mr-auto">
+            <Logo />
+          </div>
           <p className="text-sm lg:text-base font-light">
             Because of our resource and results, we are Your Realty Partner for
             Life.

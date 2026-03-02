@@ -58,9 +58,7 @@ const PropertyDetails = async ({
   const para = (productDetails.data?.description ?? "").split(/\r?\n/).filter(Boolean);
 
   return (
-    <section className="container mx-auto py-28 px-4 md:px-10 flex flex-col md:flex-row gap-6 md:gap-10">
-
-
+    <section className="container mx-auto py-28 px-4 md:px-10 flex flex-col md:flex-row gap-20 md:gap-10">
       <div className="flex-1 space-y-6">
 
         <div className="w-full h-96 overflow-hidden rounded-xl relative">
@@ -146,7 +144,7 @@ const PropertyDetails = async ({
           ))}
         </div>
       </div>
-      <div className="w-full md:w-1/4 h-max rounded-lg border border-border p-4 bg-light-100/10 sticky top-24 right-0">
+      <div className="w-full md:w-1/4 h-max rounded-lg border border-border p-4 bg-light-100/10 md:sticky top-24 right-0">
         <div className="space-y-1.5 mb-4">
           <h2 className="text-lg lg:text-xl font-semibold">
             Find Out More!!

@@ -43,9 +43,9 @@ const Header = () => {
             className="cursor-pointer text-blue-300"
           />
         ) : (
-          <Button type="button" size="icon" variant="ghost"
+          <Button type="button" size="icon" variant="outline"
             onClick={() => setShowMenu(true)}
-            className="text-light-50 border-2 border-border"
+            className="bg-light-50 border-2 border-border text-dark-200"
           >
             <Menu
               size={32}

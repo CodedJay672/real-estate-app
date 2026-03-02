@@ -11,7 +11,7 @@ const SpecialOffers = async () => {
 
   return (
     <section className="container mx-auto  py-16 md:py-20 xl:py-24 space-y-24">
-      <div className="w-full space-y-12">
+      <div className="w-full space-y-12  p-2.5">
         <div className="mb-8 space-y-6">
 
           <h2 className="w-full text-center text-2xl md:text-4xl font-light text-dark-200">
@@ -21,7 +21,7 @@ const SpecialOffers = async () => {
             Discover our carefully handpicked selection of the finest properties that match your lifestyle. These top properties are a mix of real estate excellence and peace of mind.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mx-auto gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mx-auto gap-8 p-2.5">
           {response.data && response.data.length > 0 ? (
             response.data.slice(0, 4).map((property) => (
               <PropertyCard
@@ -39,7 +39,7 @@ const SpecialOffers = async () => {
         </div>
       </div>
 
-      <div className="w-full space-y-12">
+      <div className="w-full space-y-12 p-2.5">
         <div className="flex gap-3">
           <div className="flex-1 space-y-6">
             <h2 className="w-full text-2xl md:text-4xl font-light text-dark-200">Top <span className="text-accent-brown">Properties</span> In The Market</h2>
@@ -53,7 +53,7 @@ const SpecialOffers = async () => {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mx-auto gap-8">
+        <div className="w-full p-2.5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mx-auto gap-8">
           {response.data && response.data.length > 0 ? (
             response.data.slice(6, 14).map((property) => (
               <PropertyCard
