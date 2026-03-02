@@ -10,6 +10,36 @@ import { Image } from "@imagekit/next";
 import { Bath, BedDouble, MapPin, Waypoints } from "lucide-react";
 import { notFound } from "next/navigation";
 
+
+import type { Metadata, ResolvingMetadata } from 'next'
+
+type Props = {
+  params: Promise<{ id: string }>
+}
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // read route params
+  const { id } = await params
+
+  // fetch data
+  const product = await getProductById(id);
+  if (!product.success || !product.data) return notFound();
+
+  // optionally access and extend (rather than replace) parent metadata
+  const previousImages = (await parent).openGraph?.images || []
+
+  return {
+    title: product.data.name,
+    description: product.data.description,
+    openGraph: {
+      images: [product.data.imageUrl ?? "", ...previousImages],
+    },
+  }
+}
+
 const PropertyDetails = async ({
   params,
 }: {

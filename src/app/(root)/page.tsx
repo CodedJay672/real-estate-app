@@ -6,6 +6,8 @@ import SpecialOffers from "@/components/container/SpecialOffers";
 import Testimonials from "@/components/container/Testimonials";
 import { Suspense } from "react";
 
+
+
 export default async function Home() {
   return (
     <section className="w-full">

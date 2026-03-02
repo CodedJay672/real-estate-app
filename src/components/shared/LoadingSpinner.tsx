@@ -1,10 +1,23 @@
-import { LoaderIcon } from 'lucide-react'
 
 const LoadingSpinner = () => {
   return (
     <div className='w-full h-screen flex-center gap-2'>
-      <LoaderIcon className="size-10 animate-spin text-seconday-light-50" />
-      <p className="text-base text-primary">Loading, please wait...</p>
+      <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" stroke="#3498db">
+        <g fill="none" fill-rule="evenodd">
+          <g transform="translate(2 2)" stroke-width="4">
+            <circle strokeOpacity=".1" cx="18" cy="18" r="18" />
+            <path d="M36 18c0-9.94-8.06-18-18-18">
+              <animateTransform
+                attributeName="transform"
+                type="rotate"
+                from="0 18 18"
+                to="360 18 18"
+                dur="0.8s"
+                repeatCount="indefinite" />
+            </path>
+          </g>
+        </g>
+      </svg>
     </div>
   )
 }

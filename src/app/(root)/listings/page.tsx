@@ -1,10 +1,19 @@
+import type { Metadata } from 'next'
 import PropertyCard from "@/components/container/PropertyCard";
 import Searchbar from "@/components/shared/Searchbar";
-import { Button } from "@/components/ui/button";
 import { getLikedProducts, getUserWatchlist } from "@/lib/actions/auth";
 import { auth } from "@/lib/auth";
 import { MailQuestion } from "lucide-react";
 import { notFound } from "next/navigation";
+
+export async function generateMetadata(
+): Promise<Metadata> {
+  return {
+    title: 'Listing',
+    description: 'Explore our extensive collection of properties, from cozy apartments to luxurious villas. Find your perfect home or investment opportunity with us today.',
+  }
+}
+
 
 const ProductListings = async ({
   searchParams,
