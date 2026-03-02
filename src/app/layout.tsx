@@ -9,7 +9,10 @@ import { auth } from "@/lib/auth";
 
 
 export const metadata: Metadata = {
-  title: "Home | Clean Beautiful Properties",
+  title: {
+    template: '%s | Clean Beautiful Properties',
+    default: "Home"
+  },
   description:
     "Clean beautiful properties is a real estate listing platform where you can find your next home or investment property.",
 };
