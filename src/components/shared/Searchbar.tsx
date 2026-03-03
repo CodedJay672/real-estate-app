@@ -26,6 +26,11 @@ const Searchbar = ({ placeholder, url }: { placeholder: string; url?: string }) 
     replace(`${url ? url : pathname}?${URLSearch.toString()}`);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
 
 
   return (
@@ -34,6 +39,7 @@ const Searchbar = ({ placeholder, url }: { placeholder: string; url?: string }) 
         type="text"
         onChange={(e) => setQueryTerm(e.target.value)}
         defaultValue={param.get("query")?.toString()}
+        onKeyDown={handleKeyDown}
         placeholder={placeholder}
         className="w-full h-12 md:h-14 text-base p-2 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 border-none shadow-none"
       />

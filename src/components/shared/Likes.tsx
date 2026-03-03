@@ -3,7 +3,7 @@
 import { useToast } from "@/hooks/use-toast";
 import { likeProduct } from "@/lib/actions/auth";
 import { cn, generateErrorMessage } from "@/lib/utils";
-import { Heart } from "lucide-react";
+import { Heart, Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { use, useEffect, useState, useTransition } from "react";
@@ -75,13 +75,12 @@ const Likes = ({ getLikes, productId }: TLikesProps) => {
 
 
   return (
-
-    <Button type="button" variant="ghost" size="icon"
+    <Button type="button" variant="ghost" size="sm"
       onClick={() => handleLikeProperty(productId)}
-      className="p-0.5 bg-light-50 rounded-full cursor-pointer group hover:bg-rose-50"
+      className="bg-light-50 rounded-2xl cursor-pointer group hover:bg-rose-50"
     >
       {isLiking ? (
-        <CgSpinner size={24} className="animate-spin font-semibold" />
+        <Loader2 size={24} className="animate-spin font-semibold" />
       ) : (
         <Heart
           className={cn("size-6 md:size-8 transition-transform transform-3d group-hover:scale-105 text-rose-600", hasLiked ? "fill-red-500" : "fill-light-50")}

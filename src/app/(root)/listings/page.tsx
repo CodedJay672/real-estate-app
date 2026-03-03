@@ -1,10 +1,11 @@
-import type { Metadata } from 'next'
-import PropertyCard from "@/components/container/PropertyCard";
+import ProductList from '@/components/container/ProductList';
+import PropertyCardSkeleton from '@/components/container/PropertyCardSkeleton';
+import LoadingSpinner from '@/components/shared/LoadingSpinner';
 import Searchbar from "@/components/shared/Searchbar";
-import { getLikedProducts, getUserWatchlist } from "@/lib/actions/auth";
-import { auth } from "@/lib/auth";
-import { MailQuestion } from "lucide-react";
-import { notFound } from "next/navigation";
+import type { Metadata } from 'next';
+import { Suspense } from 'react';
+
+
 
 export async function generateMetadata(
 ): Promise<Metadata> {
@@ -20,20 +21,7 @@ const ProductListings = async ({
 }: {
   searchParams: Promise<{ query: string }>;
 }) => {
-  const session = await auth();
   const { query } = await searchParams;
-
-
-  let watchlist = null;
-  const allProducts = await getLikedProducts(query);
-
-  if (session?.user) {
-    watchlist = await getUserWatchlist(session?.user?.id!);
-  }
-
-  if (!allProducts) {
-    return notFound();
-  }
 
   return (
     <section className="w-full py-20">
@@ -47,44 +35,23 @@ const ProductListings = async ({
           </div>
         </div>
 
-        <div className="flex-1">
-          <div className="w-full bg-light-50">
+        <div className="flex-1 space-y-10">
+          <div className="w-full bg-light-100/10 rounded-full focus-within:bg-light-50 border border-border px-1 md:px-2.5">
             <Searchbar placeholder="quickly search through a collection of properties..." />
-
           </div>
 
-          <div className="w-full mt-4 flex items-center gap-2 py-4">
-            {query ? (
-              <>
-                <h1 className="text-xl font-bold">Search: {query} - </h1>
-                <span className="text-sm font-thin text-gray-400">
-                  {allProducts && allProducts?.length > 0
-                    ? `${allProducts.length}  product(s) found`
-                    : "No search results."}
-                </span>
-              </>
-            ) : (
-              <h1 className="text-base font-semibold">All Products</h1>
-            )}
-          </div>
+          <h1 className="text-lg md:text-2xl font-semibold">{query ? `Search: ${query}` : "Explore All Products"}</h1>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {allProducts.length > 0 ? (
-              allProducts.map((product) => (
-                <PropertyCard
-                  key={product.id}
-                  {...product}
-                />
-              ))
-            ) : (
-              <div className="col-span-full min-h-64 flex-center flex-col">
-                <MailQuestion size={44} color="#eee" />
-                <span className="text-sm font-medium text-gray-300">
-                  No results found.{" "}
-                </span>
-              </div>
-            )}
-          </div>
+          <Suspense key={query} fallback={
+            <div className='property-grid'>
+              {new Array(12).fill(0).map((_, i) => (
+                <PropertyCardSkeleton key={i} />
+              ))}
+            </div>
+          }>
+            <ProductList query={query} />
+          </Suspense>
+
         </div>
       </div>
     </section>

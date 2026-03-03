@@ -90,7 +90,7 @@ const PropertyDetails = async ({
           </p>
           <div className="flex-center gap-2">
             <Likes productId={productDetails.data.id} getLikes={likes} />
-            <ShareButton />
+            <ShareButton productLink={`${config.env.prodEndpoint}/listings/details/${productDetails.data.id}`} />
             <MoreAction />
           </div>
         </div>

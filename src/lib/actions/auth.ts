@@ -2,12 +2,6 @@
 
 import { db } from "@/db/drizzle";
 import {
-  productSchema,
-  signInSchema,
-  signUpSchema,
-  categorySchema,
-} from "../validations/schema";
-import {
   categoriesTable,
   likes,
   products,
@@ -17,126 +11,101 @@ import {
 import bcryptjs from "bcryptjs";
 import { eq, ilike } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { cache } from "react";
 import { notFound } from "next/navigation";
-import { signIn, SignInResponse, signOut } from "next-auth/react";
+import { cache } from "react";
 import { auth } from "../auth";
 import { generateErrorMessage } from "../utils";
-
-export const signInWithCreds = async ({
-  email,
-  password,
-}: {
-  email: string;
-  password: string;
-}): Promise<ApiResponse<SignInResponse | undefined>> => {
-  //validate email and password
-  const parsed = signInSchema.safeParse({ email, password });
-
-  if (!parsed.success) {
-    return { success: false, message: parsed.error.errors[0].message };
-  }
-
-  try {
-    const user = await signIn("credentials", {
-      email,
-      password,
-      redirect: false,
-    });
-
-    if (!user) {
-      return { success: false, message: "Invalid user credentials." };
-    }
-
-    return {
-      success: true,
-      message: "User signed in successfully",
-      data: user,
-    };
-  } catch (error: any) {
-    console.log(error);
-    throw new Error(`Error signing in: ${error.message}`);
-  }
-};
+import {
+  categorySchema,
+  productSchema,
+  signUpSchema,
+} from "../validations/schema";
 
 export const signUp = async ({
   email,
   password,
   fullName,
+  role,
 }: {
   email: string;
   password: string;
   fullName: string;
-}) => {
+  role: "admin" | "user";
+}): Promise<
+  ApiResponse<{
+    fullName: string;
+    email: string;
+    role: "admin" | "user";
+  }>
+> => {
   const parsed = signUpSchema.safeParse({
     email,
     password,
     fullName,
+    role,
   });
 
   if (!parsed.success) {
-    return { success: false, message: parsed.error.errors[0].message };
+    return {
+      success: false,
+      message: "invalid input",
+      error: parsed.error.flatten().fieldErrors,
+    };
   }
-
-  // check if user already exists
-  const user = await db
-    .select()
-    .from(usersTable)
-    .where(eq(usersTable.email, email))
-    .limit(1);
-
-  if (user.length > 0) {
-    return { success: false, message: "User already exists" };
-  }
-
-  //encrypt password
-  const hashedPwd = bcryptjs.hashSync(password, 10);
 
   try {
-    //insert user into db
-    await db
-      .insert(usersTable)
-      .values({ fullName, email, password: hashedPwd });
+    // check if user already exists
+    const user = await db
+      .select({ email: usersTable.email, id: usersTable.id })
+      .from(usersTable)
+      .where(eq(usersTable.email, email))
+      .limit(1);
 
-    await signInWithCreds({ email, password });
+    if (user.length > 0) {
+      return {
+        success: false,
+        message: "User already exists. Sign in to continue.",
+      };
+    }
+
+    //encrypt password
+    const hashedPwd = bcryptjs.hashSync(password, 10);
+
+    //insert user into db
+    const data = await db
+      .insert(usersTable)
+      .values({ fullName, email, password: hashedPwd })
+      .returning();
 
     return {
       success: true,
       message: "User created successfully",
+      data: {
+        fullName: data[0].fullName,
+        email: data[0].email,
+        role: data[0].role,
+      },
     };
-  } catch (error: any) {
-    throw new Error(error);
+  } catch (error) {
+    return {
+      success: false,
+      message: generateErrorMessage(error),
+    };
   }
-};
-
-export const logOut = async () => {
-  await signOut();
 };
 
 export const uploadProducts = async (data: any) => {
-  const session = await auth();
+  const parsedData = productSchema.safeParse(data);
 
-  if (!session) {
-    return { success: false, message: "User not authenticated" };
+  if (!parsedData.success) {
+    return { success: false, message: parsedData.error.errors[0].message };
   }
 
   try {
-    const parsedData = productSchema.safeParse(data);
-
-    if (!parsedData.success) {
-      return { success: false, message: parsedData.error.errors[0].message };
-    }
-
-    const user = await db
-      .select()
-      .from(usersTable)
-      .where(eq(usersTable.email, session?.user?.email?.toString()!))
-      .limit(1);
-
-    if (user.length === 0) {
-      return { success: false, message: "User not found" };
-    } else if (user[0].role !== "admin") {
-      return { success: false, message: "User not authorized" };
+    // verify user auth
+    const session = await auth();
+    if (!session) {
+      return { success: false, message: "User not authenticated" };
     }
 
     const res = await db
@@ -146,24 +115,29 @@ export const uploadProducts = async (data: any) => {
       })
       .returning();
 
-    if (!res) {
+    if (!res || res.length === 0) {
       return { success: false, message: "Error uploading product" };
     }
 
     return { success: true, message: `${res?.[0].name} uploaded successfully` };
-  } catch (error: any) {
-    throw new Error(`Error uploading product: ${error.message}`);
+  } catch (error) {
+    return {
+      success: false,
+      message: generateErrorMessage(error),
+    };
   }
 };
 
 export const deleteProduct = async (id: string) => {
-  const session = await auth();
-
-  if (!session) {
-    return { success: false, message: "User not authenticated" };
-  }
-
   try {
+    // verify auth
+    const session = await auth();
+
+    if (!session) {
+      return { success: false, message: "User not authenticated" };
+    }
+
+    // make delete request
     const response = await db.delete(products).where(eq(products.id, id));
 
     if (!response) {
@@ -171,86 +145,31 @@ export const deleteProduct = async (id: string) => {
     }
 
     revalidatePath("/admin");
-
     return { success: true, message: "Product deleted successfully" };
-  } catch (error: any) {
-    throw new Error(`Error deleting product: ${error.message}`);
+  } catch (error) {
+    return {
+      success: false,
+      message: generateErrorMessage(error),
+    };
   }
 };
-
-export const getAllProducts = cache(
-  async (query?: string): Promise<ApiResponse<listings[]>> => {
-    let response: listings[];
-    try {
-      if (query) {
-        response = await db
-          .select()
-          .from(products)
-          .where(ilike(products.name, `%${query}%`));
-      } else {
-        response = await db.select().from(products);
-      }
-
-      if (!response)
-        return {
-          success: false,
-          message: "Failed to get all products",
-        };
-
-      return {
-        success: true,
-        message: "Success fetching all products.",
-        data: response,
-      };
-    } catch (error) {
-      return {
-        success: false,
-        message: generateErrorMessage(error),
-      };
-    }
-  },
-);
-
-export const getUser = async (email: string) => {
-  try {
-    const user = await db.query.usersTable.findFirst({
-      with: {
-        watchList: true,
-      },
-      where: (usersTable, { eq }) => eq(usersTable.email, email),
-    });
-
-    if (!user) {
-      return { success: false, message: "Error fetching user" };
-    }
-
-    return { success: true, data: user };
-  } catch (error: any) {
-    throw new Error(`Error fetching user: ${error.message}`);
-  }
-};
-
-export const getAllUsers = cache(async () => {
-  try {
-    const users = await db.select().from(usersTable);
-
-    if (!users) {
-      return { success: false, message: "Error fetching users" };
-    }
-
-    return { success: true, data: users };
-  } catch (error: any) {
-    throw new Error(`Error fetching users: ${error.message}`);
-  }
-});
 
 export const updateProductById = async (id: string, data: any) => {
-  try {
-    const parsedData = productSchema.safeParse(data);
-    if (!parsedData.success) {
-      return { success: false, message: parsedData.error.errors[0].message };
-    }
+  const parsedData = productSchema.safeParse(data);
+  if (!parsedData.success) {
+    return { success: false, message: parsedData.error.errors[0].message };
+  }
 
+  try {
+    // validate auth
+    const token = await auth();
+    if (!token?.user)
+      return {
+        success: false,
+        message: "Unauthorized",
+      };
+
+    // make database request
     const response = await db
       .update(products)
       .set({ ...data, updatedAt: new Date() })
@@ -266,16 +185,28 @@ export const updateProductById = async (id: string, data: any) => {
       message: `${response?.[0].name} updated successfully`,
     };
   } catch (error) {
-    throw new Error(`Error updating product: ${error}`);
+    return {
+      success: false,
+      message: generateErrorMessage(error),
+    };
   }
 };
 
 export const likeProduct = cache(async (userId: string, productId: string) => {
-  try {
-    if (!userId) {
-      return { success: false, message: "Sign in to like products." };
-    }
+  if (!productId) {
+    return { success: false, message: "A valid product ID is required." };
+  }
 
+  try {
+    // verify auth
+    const token = await auth();
+    if (!token?.user)
+      return {
+        success: false,
+        message: "Unauthorized",
+      };
+
+    // make database request
     const product = await db
       .select()
       .from(likes)
@@ -290,6 +221,7 @@ export const likeProduct = cache(async (userId: string, productId: string) => {
 
     const hasLiked = product.find((item) => item.productId === productId);
 
+    // remove like if already liked else, add like
     if (hasLiked) {
       await db.delete(likes).where(eq(likes.productId, hasLiked.productId!));
     } else {
@@ -299,14 +231,17 @@ export const likeProduct = cache(async (userId: string, productId: string) => {
         createdAt: new Date(),
       });
     }
-    revalidatePath("/");
 
+    revalidatePath("/");
     return {
       success: true,
       message: `${hasLiked ? "Removed from Likes" : "Added to likes"}`,
     };
   } catch (error) {
-    throw new Error(`Error liking product: ${error}`);
+    return {
+      success: false,
+      message: generateErrorMessage(error),
+    };
   }
 });
 
@@ -328,12 +263,24 @@ export const getLikedProducts = cache(async (query?: string) => {
       });
     }
 
-    if (!response) return notFound();
+    if (!response)
+      return {
+        success: false,
+        message: "Failed to get products.",
+      };
+
     console.log("All product likes fetched!");
 
-    return response;
+    return {
+      success: true,
+      message: "Liked products fetched",
+      data: response,
+    };
   } catch (error) {
-    throw new Error(`Error: ${error}`);
+    return {
+      success: false,
+      message: generateErrorMessage(error),
+    };
   }
 });
 
@@ -373,7 +320,11 @@ export const getProductLikes = async (
 };
 
 export const getLikedProductsById = cache(async (id: string) => {
-  if (!id) notFound();
+  if (!id)
+    return {
+      success: false,
+      message: "A valid product Id is required.",
+    };
 
   try {
     const response = await db.query.products.findFirst({
@@ -646,6 +597,9 @@ export const getUserWatchlist = cache(async (userId: string) => {
 
     return response;
   } catch (error) {
-    throw new Error(`Error: ${error}`);
+    return {
+      success: false,
+      message: generateErrorMessage(error),
+    };
   }
 });

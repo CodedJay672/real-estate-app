@@ -11,6 +11,7 @@ export const signUpSchema = z.object({
     .min(3, { message: "Name must be at least 3 characters long" }),
   email: z.string().email(),
   password: z.string().min(6),
+  role: z.enum(["user", "admin"]),
 });
 
 export const productSchema = z.object({

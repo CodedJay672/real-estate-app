@@ -1,6 +1,6 @@
-import { getAllProducts } from "@/lib/actions/auth";
 import Link from "next/link";
 import PropertyCard from "./PropertyCard";
+import { getAllProducts } from "@/lib/data/products.data";
 
 const SpecialOffers = async () => {
   const response = await getAllProducts();

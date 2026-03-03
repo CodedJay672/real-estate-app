@@ -1,13 +1,14 @@
 "use client";
 
-import { logOut } from "@/lib/actions/auth";
-import { cn } from "@/lib/utils";
 import { Building2, Home, ListFilter } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MdOutlineLogin } from "react-icons/md";
+
+
+import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 
@@ -40,32 +41,29 @@ const MobileSidebar = ({
               </p>
             </>
           ) : (
-            <Link
-              href="/profile-page"
+            <div
               className="flex flex-col items-center justify-center gap-1"
             >
               <Avatar className="size-16">
-                <AvatarFallback className="text-subtle-light bg-blue-300 font-semibold text-xl">
+                <AvatarFallback className="text-primary bg-accent-bright font-semibold text-xl">
                   {session?.user?.name?.[0]}
                 </AvatarFallback>
               </Avatar>
 
               <p className="text-xs text-gray-700">{session?.user?.name}</p>
               <p className="text-xs text-gray-400">{session?.user?.email}</p>
-            </Link>
+            </div>
           )}
         </div>
         <div className="p-2">
           {session ? (
-            <form action={logOut}>
-              <Button
-                type="submit"
-                className="w-full h-10 bg-transparent text-blue-300 hover:bg-transparent hover:text-blue-300 "
-                onClick={() => handleShowMenu(false)}
-              >
-                Sign Out
-              </Button>
-            </form>
+            <Button
+              type="submit"
+              className="w-full h-10 bg-transparent text-primary hover:bg-transparent hover:text-light-50 shadow-none border border-primary rounded-full px-2.5"
+              onClick={async () => await signOut()}
+            >
+              Sign Out
+            </Button>
           ) : (
             <Link
               href="/auth/sign-in"

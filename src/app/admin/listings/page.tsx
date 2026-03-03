@@ -1,7 +1,7 @@
 import AdminListing from "@/components/container/AdminListing";
 import Back from "@/components/shared/Back";
 import Searchbar from "@/components/shared/Searchbar";
-import { getAllProducts } from "@/lib/actions/auth";
+import { getAllProducts } from "@/lib/data/products.data";
 import Link from "next/link";
 import { Suspense } from "react";
 import { MdAdd } from "react-icons/md";
