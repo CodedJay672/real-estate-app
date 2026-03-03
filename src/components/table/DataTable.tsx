@@ -61,25 +61,25 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <Table className="w-[1000px] my-4">
+    <Table className="w-full my-4">
       <TableHeader>
         {table.getHeaderGroups().map((headerGroup) => (
           <TableRow
             key={headerGroup.id}
-            className="bg-blue-300 hover:bg-blue-300 rounded-s-md"
+            className="bg-light-100/40 rounded-s-md"
           >
             {headerGroup.headers.map((header) => {
               return (
                 <TableHead
                   key={header.id}
-                  className="text-sm font-semibold text-subtle-light text-left pl-2"
+                  className="text-sm md:text-base font-medium text-primary text-left pl-2"
                 >
                   {header.isPlaceholder
                     ? null
                     : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
                 </TableHead>
               );
             })}

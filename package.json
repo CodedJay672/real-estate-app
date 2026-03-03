@@ -11,6 +11,7 @@
     "migrate": "npx drizzle-kit migrate"
   },
   "dependencies": {
+    "@e965/xlsx": "^0.20.3",
     "@hookform/resolvers": "^4.0.0",
     "@imagekit/next": "^2.1.4",
     "@neondatabase/serverless": "^0.10.4",

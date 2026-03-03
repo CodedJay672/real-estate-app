@@ -6,10 +6,10 @@ import { User } from 'lucide-react';
 
 const AdminLogin = () => {
   return (
-    <section className='w-full h-full flex-center gap-2'>
+    <section className='w-full h-full flex-center flex-col gap-2'>
       <User size={20} className='fill-dark-200' />
-      <p className='text-sm md:text-base text-dark-200'>Login as</p>
-      <AuthForm type='signin' schema={signInSchema} defaultValues={{ email: "", password: "" }} role='admin' redirectUrl='/admins' />
+      <p className='text-sm md:text-base text-dark-200'>Admin Login</p>
+      <AuthForm type='signin' schema={signInSchema} defaultValues={{ email: "", password: "" }} role='admin' redirectUrl='/admin' />
     </section>
   )
 }
