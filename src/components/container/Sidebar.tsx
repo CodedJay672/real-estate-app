@@ -1,28 +1,25 @@
 "use client";
 
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import Link from "next/link";
-import { MdCategory, MdDashboard, MdList } from "react-icons/md";
-import { RiUser2Line } from "react-icons/ri";
+import { redirect, usePathname } from "next/navigation";
+
+
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
-import { usePathname } from "next/navigation";
+import { CircleSlash, LayoutDashboard, List, User2 } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
 
-interface Props {
-  id: string;
-  fullName: string;
-  email: string;
-  password: string;
-  createdAt: Date;
-  updatedAt: Date;
-  role: "user" | "admin";
-}
-
-const Sidebar = ({ fullName, email }: Partial<Props>) => {
+const Sidebar = () => {
+  const { data: session, status } = useSession()
   const pathname = usePathname();
 
+  if (status === 'loading') return null;
+  if (status === 'unauthenticated') redirect('/admin-login')
+
   return (
-    <nav className="w-full md:w-16 md:h-screen lg:w-64 bg-blue-50 border-r border-gray-200 flex flex-row md:flex-col justify-between items-center p-2 md:pt-4 md:pb-2 fixed md:sticky bottom-0 md:top-0 z-10">
+    <nav className="w-full md:w-16 md:h-screen lg:w-64 bg-primary border-r flex flex-row md:flex-col justify-between items-center p-2 md:pt-4 md:pb-2 fixed md:sticky bottom-0 md:top-0 z-10">
       <Link
         href="/"
         className="p-2 flex justify-center lg:w-full lg:justify-start items-center"
@@ -30,32 +27,21 @@ const Sidebar = ({ fullName, email }: Partial<Props>) => {
         <Image
           src="/assets/logo.png"
           alt="clean beautiful properties"
-          width={32}
-          height={32}
-          className="object cover"
+          width={72}
+          height={72}
+          className="object cover invert"
         />
-        <div className="text-blue-300 hidden lg:block">
-          <h3 className="text-[18px] tracking-widest font-bold">CLEAN &</h3>
-          <p className="text-[9px] font-semibold -mt-1">Beautiful Properties</p>
-        </div>
+
       </Link>
       <ul className="md:mt-10 p-1 space-x-6 md:space-x-0 md:space-y-4 flex flex-row md:flex-col justify-center md:justify-start items-center md:items-start md:w-full md:flex-1">
         <li className="w-full">
           <Link
             href="/admin"
             className={cn(
-              "w-full text-blue-300 p-2 flex flex-col md:flex-row justify-center items-center lg:justify-start lg:items-start gap-0 md:gap-1 rounded-md hover:bg-slate-200 cursor-pointer",
-              {
-                "text-subtle-light bg-blue-300 hover:text-white hover:bg-blue-300":
-                  pathname === "/admin",
-              }
+              "w-full p-2 flex flex-col md:flex-row justify-center items-center md:justify-start gap-0 md:gap-1 rounded-md cursor-pointer", pathname === '/admin' ? 'text-light-50 bg-light-200' : "text-light-100 hover:bg-seconday-light-50"
             )}
           >
-            <MdDashboard
-              className={cn("size-5 lg:size-6 text-blue-300", {
-                "brightness-0 invert": pathname === "/admin",
-              })}
-            />
+            <LayoutDashboard size={18} />
             <span className="text-[10px] md:text-base">Dashboard</span>
           </Link>
         </li>
@@ -63,19 +49,11 @@ const Sidebar = ({ fullName, email }: Partial<Props>) => {
           <Link
             href="/admin/listings"
             className={cn(
-              "w-full text-blue-300 p-2 flex flex-col md:flex-row justify-center items-center lg:justify-start lg:items-start gap-0 md:gap-1 rounded-md hover:bg-slate-200 cursor-pointer",
-              {
-                "text-subtle-light bg-blue-300 hover:text-white hover:bg-blue-300":
-                  pathname.includes("/listings"),
-              }
+              "w-full p-2 flex flex-col md:flex-row justify-center items-center lg:justify-start gap-0 md:gap-1 rounded-md cursor-pointer transition-colors", pathname === "/admin/listings" ? 'text-light-50 bg-light-200' : "text-light-100 hover:bg-seconday-light-50"
+
             )}
           >
-            <MdList
-              size={24}
-              className={cn("text-blue-300", {
-                "brightness-0 invert": pathname.includes("/listing"),
-              })}
-            />
+            <List size={18} />
             <span className="text-[10px] md:text-base">Listings</span>
           </Link>
         </li>
@@ -83,19 +61,10 @@ const Sidebar = ({ fullName, email }: Partial<Props>) => {
           <Link
             href="/admin/users"
             className={cn(
-              "w-full text-blue-300 p-2 flex flex-col md:flex-row justify-center items-center lg:justify-start lg:items-start gap-0 md:gap-1 rounded-md hover:bg-slate-200 cursor-pointer",
-              {
-                "text-subtle-light bg-blue-300 hover:text-white hover:bg-blue-300":
-                  pathname.includes("/user"),
-              }
+              "w-full p-2 flex flex-col md:flex-row justify-center items-center lg:justify-start gap-0 md:gap-1 rounded-md cursor-pointer", pathname === '/admin/users' ? "text-light-50 bg-light-200" : "text-light-100 hover:bg-seconday-light-50"
             )}
           >
-            <RiUser2Line
-              size={24}
-              className={cn("text-blue-300", {
-                "brightness-0 invert": pathname.includes("/users"),
-              })}
-            />
+            <User2 size={18} />
             <span className="text-[10px] md:text-base">Users</span>
           </Link>
         </li>
@@ -103,35 +72,34 @@ const Sidebar = ({ fullName, email }: Partial<Props>) => {
           <Link
             href="/admin/categories"
             className={cn(
-              "w-full text-blue-300 p-2 flex flex-col md:flex-row justify-center items-center lg:justify-start lg:items-start gap-0 md:gap-1 rounded-md hover:bg-slate-200 cursor-pointer",
-              {
-                "text-subtle-light bg-blue-300 hover:text-white hover:bg-blue-300":
-                  pathname.includes("/categories"),
-              }
+              "w-full p-2 flex flex-col md:flex-row justify-center items-center lg:justify-start gap-0 md:gap-1 rounded-md cursor-pointer", pathname === '/admin/categories' ? 'text-light-50 bg-light-200' : "text-light-100 hover:bg-seconday-light-50"
+
             )}
           >
-            <MdCategory
-              size={24}
-              className={cn("text-blue-300", {
-                "brightness-0 invert": pathname.includes("/categories"),
-              })}
-            />
+            <CircleSlash size={18} />
             <span className="text-[10px] md:text-base">Categories</span>
           </Link>
         </li>
       </ul>
 
-      <div className="lg:w-full border rounded-full flex items-center lg:pl-2">
-        <Avatar>
-          <AvatarFallback className="bg-gray-100">
-            {fullName?.[0]}
-          </AvatarFallback>
-        </Avatar>
-        <div className="w-full">
-          <p className="text-sm font-semibold hidden lg:block">{fullName}</p>
-          <p className="text-xs font-thin hidden lg:block">{email}</p>
-        </div>
-      </div>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <article className="flex items-center gap-1.5 px-1 rounded-lg select-none cursor-pointer hover:bg-seconday-light-50">
+            <Avatar className="size-8">
+              <AvatarFallback className="bg-gray-100">
+                {session?.user.name?.[0]}
+              </AvatarFallback>
+            </Avatar>
+            <div className="w-full text-seconday-dark-100">
+              <p className="text-sm font-semibold hidden md:flex truncate">{session?.user.name}</p>
+              <p className="text-xs font-thin hidden md:flex truncate">{session?.user.email}</p>
+            </div>
+          </article>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem onClick={async () => await signOut()} className="text-red-500 bg-red-50">Logout</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </nav>
   );
 };

@@ -73,6 +73,10 @@
     background: #5c5c7b;
     border-radius: 50px;
   }
+
+  .wrapper {
+    @apply w-full container mx-auto p-3 md:p-6 space-y-10;
+  }
 }
 
 /*

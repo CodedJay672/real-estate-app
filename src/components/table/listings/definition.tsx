@@ -1,6 +1,8 @@
 "use client";
 
 import Actions from "@/components/shared/Actions";
+import config from "@/lib/config";
+import { Image } from "@imagekit/next";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 
 
@@ -16,6 +18,26 @@ export const productColumns: ColumnDef<listings>[] = [
   {
     accessorKey: "name",
     header: "Name",
+    cell: ({ row }) => {
+      const { name, imageUrl, updatedAt, id, title } = row.original;
+
+
+      return <div className="space-y-1">
+        <small>#{id.split("-")[0]}</small>
+        {imageUrl ? (
+
+          <Image src={imageUrl} urlEndpoint={config.env.imagekit.urlEndpoint}
+            alt={name} width={32} height={32} />
+        ) : (
+          <div className="size-8 rounded-lg bg-light-100" />
+        )}
+        <h3 className="truncate">{name}</h3>
+        <p>{title}</p>
+        <p>Last modified: {updatedAt?.toLocaleDateString("en-UK", {
+          dateStyle: 'medium'
+        })}</p>
+      </div>
+    }
   },
   {
     accessorKey: "price",
@@ -25,6 +47,8 @@ export const productColumns: ColumnDef<listings>[] = [
       return price.toLocaleString("en-NG", {
         style: "currency",
         currency: "NGN",
+        compactDisplay: "short",
+        minimumFractionDigits: 0,
       });
     },
   },
@@ -50,7 +74,9 @@ export const productColumns: ColumnDef<listings>[] = [
   },
   {
     accessorKey: "createdAt",
-    header: "Posted At",
+    header: () => {
+      return <span className="whitespace-nowrap">Created At</span>
+    },
     cell: ({ row }) => {
       const date = row.getValue("createdAt") as Date;
       return date.toLocaleDateString();
