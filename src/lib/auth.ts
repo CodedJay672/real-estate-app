@@ -75,13 +75,15 @@ export const config = {
         const pwdCheck = await bcrypt.compare(password, user[0].passwordHash);
 
         // append user to "user info in jwt"
-        if (pwdCheck)
+        if (pwdCheck) {
+          console.log("successfully authenticated user.");
           return {
             id: user[0].id,
             name: user[0].fullName,
             email: user[0].email,
             role: user[0].role,
           } as User;
+        }
 
         // show error message;
         return null;

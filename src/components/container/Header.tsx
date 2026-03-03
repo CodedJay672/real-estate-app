@@ -3,12 +3,13 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
-import { useSession } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 
 import CustomSheet from "../shared/CustomSheet";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import MobileSidebar from "./MobileSidebar";
 import { Button } from "../ui/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
 
 const Header = () => {
 
@@ -18,20 +19,27 @@ const Header = () => {
   return (
     <>
       {session ? (
-        <Avatar className="w-6 h-6 hidden md:flex cursor-pointer">
-          <AvatarFallback>
-            {session?.user?.name?.[0]}
-          </AvatarFallback>
-        </Avatar>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Avatar className="w-6 h-6 hidden md:flex cursor-pointer">
+              <AvatarFallback className="text-primary bg-accent-bright font-semibold text-sm">
+                {session?.user?.name?.[0]}
+              </AvatarFallback>
+            </Avatar>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" alignOffset={20} className="bg-light-50 border-border">
+            <DropdownMenuItem onClick={async () => await signOut()} className="text-red-500 cursor-pointer hover:bg-red-50 hover:text-red-500">Log out</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       ) : (
-        <Link href="/auth/become-a-member" className="py-2 px-3 text-sm bg-accent-bright text-primary rounded-lg text-center  hover:opacity-95 transition-colors font-bold">Join Us</Link>
+        <Link href="/sign-up" className="py-2 px-3 text-sm bg-accent-bright text-primary rounded-lg text-center  hover:opacity-95 transition-colors font-bold">Join Us</Link>
       )}
 
       {/** Mobile Menu */}
-      <div className="flex items-center gap-2 md:hidden">
+      <div className="flex-center gap-2 md:hidden">
         {session && (
-          <Avatar className="size-10">
-            <AvatarFallback className="text-subtle-light bg-blue-300 font-semibold text-sm md:text-base">
+          <Avatar className="size-9.5 flex-center">
+            <AvatarFallback className="text-primary bg-accent-bright font-semibold text-sm md:text-base">
               {session?.user?.name?.[0]}
             </AvatarFallback>
           </Avatar>
@@ -48,7 +56,6 @@ const Header = () => {
             className="bg-light-50 border-2 border-border text-dark-200"
           >
             <Menu
-              size={32}
             />
           </Button>
         )}

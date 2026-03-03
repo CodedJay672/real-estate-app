@@ -1,10 +1,44 @@
 import "server-only";
 
-import { cache } from "react";
 import { db } from "@/db/drizzle";
 import { products } from "@/db/schema";
+import { eq, ilike } from "drizzle-orm";
+import { cache } from "react";
 import { generateErrorMessage } from "../utils";
-import { eq } from "drizzle-orm";
+
+export const getAllProducts = cache(
+  async (query?: string): Promise<ApiResponse<listings[]>> => {
+    let response: listings[];
+
+    try {
+      if (query) {
+        response = await db
+          .select()
+          .from(products)
+          .where(ilike(products.name, `%${query}%`));
+      } else {
+        response = await db.select().from(products);
+      }
+
+      if (!response || response.length === 0)
+        return {
+          success: false,
+          message: "Failed to get all products",
+        };
+
+      return {
+        success: true,
+        message: "Success fetching all products.",
+        data: response,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: generateErrorMessage(error),
+      };
+    }
+  },
+);
 
 export const getProductById = cache(
   async (id: string): Promise<ApiResponse<listings>> => {

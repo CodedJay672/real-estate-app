@@ -5,10 +5,10 @@ import {
 } from "@/components/table/listings/definition";
 import { userColumn } from "@/components/table/users/definition";
 import {
-  getAllProducts,
-  getAllUsers,
   getProductsWithWatchlists,
 } from "@/lib/actions/auth";
+import { getAllProducts } from "@/lib/data/products.data";
+import { getAllUsers } from "@/lib/data/users.data";
 import { Share2 } from "lucide-react";
 
 const AdminPage = async () => {

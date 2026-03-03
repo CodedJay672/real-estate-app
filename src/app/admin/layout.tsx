@@ -1,9 +1,11 @@
-import Sidebar from "@/components/container/Sidebar";
-import { getUser } from "@/lib/actions/auth";
-import { redirect } from "next/navigation";
-import React, { ReactNode } from "react";
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
+import { ReactNode } from "react";
+
+
+import Sidebar from "@/components/container/Sidebar";
 import { auth } from "@/lib/auth";
+import { getUser } from "@/lib/data/users.data";
 
 export const metadata: Metadata = {
   title: "Admin | Clean Beautiful Properties",

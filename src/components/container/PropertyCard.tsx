@@ -29,6 +29,7 @@ const PropertyCard = (props: listings) => {
             urlEndpoint={config.env.imagekit.urlEndpoint}
             alt={props.name!}
             loading="lazy"
+            sizes="(max-width: 360px) 100%"
             fill
             className="object-cover"
           />

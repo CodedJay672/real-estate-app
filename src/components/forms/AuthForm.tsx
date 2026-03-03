@@ -1,6 +1,14 @@
 "use client";
 
-import React from "react";
+import { FIELD_NAMES, FIELD_TYPES } from "@/constants";
+import { useToast } from "@/hooks/use-toast";
+import { signUp } from "@/lib/actions/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
+import { signIn } from "next-auth/react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Fragment, useState } from "react";
 import {
   DefaultValues,
   FieldValues,
@@ -9,8 +17,8 @@ import {
   useForm,
   UseFormReturn,
 } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { ZodType } from "zod";
+import { Button } from "../ui/button";
 import {
   Form,
   FormControl,
@@ -20,30 +28,27 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { FIELD_NAMES, FIELD_TYPES } from "@/constants";
-import Link from "next/link";
-import { useToast } from "@/hooks/use-toast";
-import { RiLoader5Line } from "react-icons/ri";
-import { useRouter } from "next/navigation";
 
 interface AuthFormProps<T extends FieldValues> {
   type: "signin" | "signup";
   schema: ZodType<T>;
   defaultValues: T;
-  onSubmit: (values: T) => Promise<{ success: boolean; message: string }>;
+  role: 'admin' | "user";
   redirectUrl?: string
 }
 
 const AuthForm = <T extends FieldValues>({
   type,
   schema,
+  role,
   defaultValues,
-  onSubmit,
   redirectUrl
 }: AuthFormProps<T>) => {
   const { toast } = useToast();
   const router = useRouter();
+  const [error, setError] = useState<Record<string, string[]> | null>(null);
+
+
   const isSignIn = type === "signin";
 
   const form: UseFormReturn<T> = useForm({
@@ -52,20 +57,54 @@ const AuthForm = <T extends FieldValues>({
   });
 
   const handleSubmit: SubmitHandler<T> = async (values) => {
-    try {
-      const res = await onSubmit(values);
+    setError(null);
 
-      if (!res.success) {
+    try {
+      // handle new users
+      if (type === "signup") {
+        console.log('debug signup')
+        const newSignUp = await signUp({ fullName: values.fullName, email: values.email, password: values.password, role });
+
+        // handle error;
+        if (!newSignUp.success) {
+          if (newSignUp.error) {
+            setError(newSignUp.error);
+          }
+
+          toast({
+            title: "Error",
+            description: newSignUp?.message || "Failed to sign in",
+            variant: "destructive",
+          });
+          return;
+        }
+
+        toast({
+          title: "Success",
+          description: newSignUp.message,
+          variant: "default"
+        });
+      }
+
+      //go on to sign user in
+      const res = await signIn("credentials", {
+        email: values.email,
+        password: values.password,
+        redirect: false,
+      });
+
+      if (!res?.ok) {
         toast({
           title: "Error",
-          description: res.message,
+          description: res?.error || "Failed to sign in",
           variant: "destructive",
         });
+        return;
       }
 
       toast({
         title: "Success",
-        description: res.message,
+        description: "Successfully signed in",
       });
       router.push(redirectUrl || "/");
     } catch (error: any) {
@@ -95,7 +134,7 @@ const AuthForm = <T extends FieldValues>({
                     <Input
                       type={FIELD_TYPES[field.name as keyof typeof FIELD_TYPES]}
                       {...field}
-                      className="w-full p-2 h-14 focus-visible::ring-0 focus-visible:ring-offset-0"
+                      className="w-full p-2 h-12 focus-visible::ring-0 focus-visible:ring-offset-0"
                     />
                   </FormControl>
                   <FormMessage />
@@ -103,14 +142,34 @@ const AuthForm = <T extends FieldValues>({
               )}
             />
           ))}
+          {type === 'signin' && (
+            <Link href="/forgot-password" className="text-sm text-right block text-red-500">
+              Forgot password?
+            </Link>
+          )}
         </fieldset>
+
+        {error &&
+          <fieldset className="bg-red-100 rounded-lg p-1.5 space-y-2">
+            {Object.entries(error).map(([field, messages]) => (
+              <Fragment key={field}>
+                {messages.map((message, index) => (
+                  <p key={index} className="text-sm text-red-500">
+                    {FIELD_NAMES[field as keyof typeof FIELD_NAMES]}: {message}
+                  </p>
+                ))}
+              </Fragment>
+            ))}
+          </fieldset>
+        }
+
         <Button
           type="submit"
           disabled={form.formState.isSubmitting}
           className="w-full h-12 cursor-pointer"
         >
           {form.formState.isSubmitting && (
-            <RiLoader5Line className="animate-spin mr-2" />
+            <Loader2 className="animate-spin mr-2" />
           )}
 
           {isSignIn ? "Sign In" : "Sign Up"}
@@ -119,11 +178,11 @@ const AuthForm = <T extends FieldValues>({
         <p className="text-sm text-center">
           {isSignIn ? "Don't have an account? " : "Already have an account? "}
           {isSignIn ? (
-            <Link href="/auth/signup" className="font-medium text-green-500 text-sm">
+            <Link href="/sign-up" className="font-medium text-green-500 text-sm">
               Sign up
             </Link>
           ) : (
-            <Link href="/auth/sign-in" className="font-medium text-green-500 text-lg">
+            <Link href="/sign-in" className="font-medium text-green-500 text-sm">
               Login
             </Link>
           )}

@@ -35,7 +35,7 @@ const Footer = () => {
             <li className="py-1" key={link.link + idx}>
               <a
                 href={link.link}
-                className="text-xs lg:text-sm hover:underline transition-all"
+                className="text-sm hover:underline transition-all"
               >
                 {link.lable}
               </a>
@@ -51,7 +51,7 @@ const Footer = () => {
             <Link
               href="https://www.facebook.com/profile.php?id=100063960527914"
               target="_blank"
-              className="text-xs lg:text-sm hover:underline transition-all"
+              className="text-sm hover:underline transition-all"
             >
               Facebook
             </Link>
@@ -59,7 +59,7 @@ const Footer = () => {
           <li className="py-1">
             <Link
               href="https://youtube.com" target="_blank"
-              className="text-xs lg:text-sm hover:underline transition-all"
+              className="text-sm hover:underline transition-all"
             >
               YouTube
             </Link>
@@ -68,7 +68,7 @@ const Footer = () => {
             <Link
               href="https://www.instagram.com/laurettaasemota?igsh=MXBsazJrOG1tdzB6bQ=="
               target="_blank"
-              className="text-xs lg:text-sm hover:underline transition-all"
+              className="text-sm hover:underline transition-all"
             >
               Instagram
             </Link>

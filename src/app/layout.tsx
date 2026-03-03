@@ -2,10 +2,9 @@ import { ReactNode } from "react";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 
-import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
-import { AuthProvider } from "@/components/providers/AuthProvider";
-import { auth } from "@/lib/auth";
+import "./globals.css";
+import { LayoutProvider } from "@/components/providers/LayoutProvider";
 
 
 export const metadata: Metadata = {
@@ -42,16 +41,15 @@ const lufga = localFont({
   ],
 });
 
-export default async function RootLayout({ children }: { children: ReactNode }) {
-  const session = await auth();
+export default function RootLayout({ children }: { children: ReactNode }) {
 
   return (
     <html lang="en">
       <body className={`${lufga.className} antialiased`}>
-        <AuthProvider session={session}>
+        <LayoutProvider>
           {children}
           <Toaster />
-        </AuthProvider>
+        </LayoutProvider>
       </body>
     </html>
   );
