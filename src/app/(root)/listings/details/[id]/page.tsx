@@ -138,7 +138,7 @@ const PropertyDetails = async ({
           </div>
 
           {para.map((text: string, idx: number) => (
-            <p key={idx} className="text-sm lg:text-base  text-dark-200">
+            <p key={idx} className="text-base  text-dark-200">
               {text}
             </p>
           ))}
