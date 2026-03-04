@@ -33,9 +33,7 @@ export const userColumn: ColumnDef<user>[] = [
     cell: ({ row }) => {
       const date = row.getValue("createdAt") as Date;
       return date.toLocaleDateString("en-NG", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
+        dateStyle: 'medium'
       });
     },
   },

@@ -2,10 +2,11 @@
 
 import { useToast } from "@/hooks/use-toast";
 import { deleteProduct } from "@/lib/actions/auth";
-import { useState } from "react";
-import { MdOutlineDelete, MdOutlineEdit } from "react-icons/md";
-import CustomAlertDialog from "./CustomAlertDialog";
+import { Edit2, Trash2 } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
+import { Button } from "../ui/button";
+import CustomAlertDialog from "./CustomAlertDialog";
 
 const Actions = (id: string) => {
   const { toast } = useToast();
@@ -38,15 +39,22 @@ const Actions = (id: string) => {
   };
 
   return (
-    <div className="w-full flex gap-6 items-center">
-      <Link href={`admin/listings/update/${id}`}>
-        <MdOutlineEdit size={16} className="cursor-pointer" />
+    <div className="w-full flex gap-2 items-center">
+      <Link href={`admin/listings/update/${id}`} className="size-8 p-1 bg-light-50 hover:bg-green-50 flex-center rounded-full transition-colors">
+        <Edit2 size={16} className="text-green-500" />
       </Link>
-      <MdOutlineDelete
-        size={16}
-        className="cursor-pointer"
+
+
+      <Button type="button" variant="ghost" size="sm"
         onClick={() => setShowModal(true)}
-      />
+        className="size-8 bg-light-50 hover:bg-red-50 rounded-full cursor-pointer"
+      >
+
+        <Trash2
+          size={16}
+          className="text-red-500"
+        />
+      </Button>
       <CustomAlertDialog
         open={showModal}
         onOpenChange={setShowModal}

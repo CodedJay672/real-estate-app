@@ -2,6 +2,7 @@
 
 import Actions from "@/components/shared/Actions";
 import config from "@/lib/config";
+import { cn } from "@/lib/utils";
 import { Image } from "@imagekit/next";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 
@@ -22,8 +23,7 @@ export const productColumns: ColumnDef<listings>[] = [
       const { name, imageUrl, updatedAt, id, title } = row.original;
 
 
-      return <div className="space-y-1">
-        <small>#{id.split("-")[0]}</small>
+      return <div className="flex gap-1">
         {imageUrl ? (
 
           <Image src={imageUrl} urlEndpoint={config.env.imagekit.urlEndpoint}
@@ -31,11 +31,18 @@ export const productColumns: ColumnDef<listings>[] = [
         ) : (
           <div className="size-8 rounded-lg bg-light-100" />
         )}
-        <h3 className="truncate">{name}</h3>
-        <p>{title}</p>
-        <p>Last modified: {updatedAt?.toLocaleDateString("en-UK", {
-          dateStyle: 'medium'
-        })}</p>
+        <div className="space-y-1">
+
+          <small>#{id.split("-")[0]}</small>
+          <div>
+            <h3 className="text-dark-200 font-semibold truncate">{name}</h3>
+            <p className="text-dark-50">{title}</p>
+            <p className="text-xs text-light-100">Last modified: {updatedAt?.toLocaleDateString("en-UK", {
+              dateStyle: 'medium'
+            })}
+            </p>
+          </div>
+        </div>
       </div>
     }
   },
@@ -61,16 +68,26 @@ export const productColumns: ColumnDef<listings>[] = [
     header: "Type",
   },
   {
-    accessorKey: "size",
+    accessorKey: "Size",
     cell: ({ row }) => {
-      const size = row.getValue("size") as number;
-      const type = row.getValue("propertyType") as string;
-      return type === "land" ? `${size} sqm` : "N/A";
+      const { type, size } = row.original;
+      return type === "land" ? `${size} SQM` : "N/A";
     },
   },
   {
     accessorKey: "listingStatus",
     header: "Status",
+    cell: ({ row }) => {
+      const { listingStatus } = row.original;
+
+      return <span className={cn('text-sm inline-block px-2 py-0.5 rounded-full', {
+        'text-green-500 bg-green-50': listingStatus === 'selling',
+        'text-red-500 bg-red-50': listingStatus === 'closed',
+        'text-gray-500 bg-gray-50': listingStatus === 'sold out',
+        'text-blue-500 bg-blue-50': listingStatus === 'reopened',
+
+      })}>{listingStatus}</span>
+    }
   },
   {
     accessorKey: "createdAt",

@@ -22,7 +22,7 @@ async function SearchResultsPage({ searchParams }: { searchParams: { query: stri
           <hr className="border-border" />
 
           <Suspense key={query} fallback={
-            <div className='flex gap-3 flex-wrap'>
+            <div className='property-grid'>
               {new Array(12).fill(0).map((_, i) => (
                 <PropertyCardSkeleton key={i} />
               ))}
