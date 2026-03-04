@@ -2,7 +2,7 @@ import { withAuth } from "next-auth/middleware";
 
 export default withAuth(
   function middleware(req) {
-    console.log(req.nextauth.token);
+    console.log("admin only.", req.nextauth.token);
   },
   {
     callbacks: {
@@ -11,4 +11,4 @@ export default withAuth(
   },
 );
 
-export const config = { matcher: ["/admin"] };
+export const config = { matcher: ["/admin/:path*"] };

@@ -223,4 +223,8 @@ export const quickLinks = [
     lable: "FAQ",
     link: "#faq",
   },
+  {
+    lable: "Admin only",
+    link: "/admin",
+  },
 ];

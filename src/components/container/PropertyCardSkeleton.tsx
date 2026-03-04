@@ -2,7 +2,7 @@ import { Skeleton } from "../ui/skeleton";
 
 const PropertyCardSkeleton = () => {
   return (
-    <article className="w-full max-w-3xs shadow-md rounded-lg overflow-hidden bg-subtle-light border border-blue-200">
+    <article className="w-full shadow-md rounded-lg overflow-hidden bg-subtle-light border border-blue-200">
       <div className="w-full min-h-48 overflow-hidden relative bg-light-100">
         <div className="absolute top-1 left-1 z-10 bg-gray-200/75 rounded-xl flex gap-0">
           <Skeleton className="h-8 w-16 rounded-s-lg" />

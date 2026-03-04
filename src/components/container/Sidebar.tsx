@@ -85,19 +85,19 @@ const Sidebar = () => {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <article className="flex items-center gap-1.5 px-1 rounded-lg select-none cursor-pointer hover:bg-seconday-light-50">
-            <Avatar className="size-8">
+            <Avatar className="size-6">
               <AvatarFallback className="bg-gray-100">
                 {session?.user.name?.[0]}
               </AvatarFallback>
             </Avatar>
             <div className="w-full text-seconday-dark-100">
-              <p className="text-sm font-semibold hidden md:flex truncate">{session?.user.name}</p>
-              <p className="text-xs font-thin hidden md:flex truncate">{session?.user.email}</p>
+              <p className="text-xs text-light-50 font-semibold hidden md:flex truncate">{session?.user.name}</p>
+              <p className="text-[10px] text-light-100 font-thin hidden md:flex truncate">{session?.user.email}</p>
             </div>
           </article>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem onClick={async () => await signOut()} className="text-red-500 bg-red-50">Logout</DropdownMenuItem>
+          <DropdownMenuItem onClick={async () => await signOut({ callbackUrl: "/" })} className="text-red-500 bg-red-50">Logout</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </nav>

@@ -1,9 +1,5 @@
 "use client";
 
-import { FIELD_NAMES, FIELD_TYPES } from "@/constants";
-import { useToast } from "@/hooks/use-toast";
-import { signUp } from "@/lib/actions/auth";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
@@ -18,6 +14,11 @@ import {
   UseFormReturn,
 } from "react-hook-form";
 import { ZodType } from "zod";
+
+import { FIELD_NAMES, FIELD_TYPES } from "@/constants";
+import { useToast } from "@/hooks/use-toast";
+import { signUp } from "@/lib/actions/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../ui/button";
 import {
   Form,
@@ -33,14 +34,12 @@ interface AuthFormProps<T extends FieldValues> {
   type: "signin" | "signup";
   schema: ZodType<T>;
   defaultValues: T;
-  role: 'admin' | "user";
   redirectUrl?: string
 }
 
 const AuthForm = <T extends FieldValues>({
   type,
   schema,
-  role,
   defaultValues,
   redirectUrl
 }: AuthFormProps<T>) => {
@@ -48,6 +47,8 @@ const AuthForm = <T extends FieldValues>({
   const router = useRouter();
   const [error, setError] = useState<Record<string, string[]> | null>(null);
 
+
+  const { role, ...otherFields } = defaultValues;
 
   const isSignIn = type === "signin";
 
@@ -62,8 +63,8 @@ const AuthForm = <T extends FieldValues>({
     try {
       // handle new users
       if (type === "signup") {
-        console.log('debug signup')
-        const newSignUp = await signUp({ fullName: values.fullName, email: values.email, password: values.password, role });
+
+        const newSignUp = await signUp({ fullName: values.fullName, email: values.email, password: values.password, role: values.role });
 
         // handle error;
         if (!newSignUp.success) {
@@ -118,9 +119,9 @@ const AuthForm = <T extends FieldValues>({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="w-full max-w-md space-y-8">
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="w-full max-w-md space-y-8 p-3">
         <fieldset className="space-y-2">
-          {Object.keys(defaultValues).map((key) => (
+          {Object.keys(otherFields).map((key) => (
             <FormField
               key={key}
               control={form.control}
@@ -134,7 +135,7 @@ const AuthForm = <T extends FieldValues>({
                     <Input
                       type={FIELD_TYPES[field.name as keyof typeof FIELD_TYPES]}
                       {...field}
-                      className="w-full p-2 h-12 focus-visible::ring-0 focus-visible:ring-offset-0"
+                      className="w-full focus-visible::ring-0 focus-visible:ring-offset-0"
                     />
                   </FormControl>
                   <FormMessage />
