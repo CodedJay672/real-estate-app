@@ -59,7 +59,12 @@ const ProductActions = ({ data }: ProductActionsProps) => {
   return (
 
     <div className="w-full flex gap-2 items-center">
-      <Link href={`admin/listings/update/${data.id}`} className="size-8 p-1 bg-light-50 hover:bg-green-50 flex-center rounded-full transition-colors">
+      <Link href={{
+        pathname: '/admin/listings/add-new',
+        query: {
+          productId: data.id
+        }
+      }} className="size-8 p-1 bg-light-50 hover:bg-green-50 flex-center rounded-full transition-colors">
         <Edit2 size={16} className="text-green-500" />
       </Link>
 

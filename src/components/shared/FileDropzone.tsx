@@ -15,7 +15,9 @@ export default function FileDropzone({ onFileChangeAction, setImgUrlAction }: { 
       {
         isDragActive ?
           <p>Drop the files here ...</p> :
-          <p>Drag 'n' drop some files here, or click to select files</p>
+          <p className='text-sm md:text-base text-light-200'>Drag 'n' drop some files here
+            <span className='text-green-500 bg-green-50 px-2 rounded-full block w-max mx-auto cursor-pointer select-none'>or click to select</span>
+          </p>
       }
     </div>
   )

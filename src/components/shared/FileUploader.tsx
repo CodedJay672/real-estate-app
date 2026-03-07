@@ -1,14 +1,12 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import { useState } from "react";
 import { MdUploadFile } from "react-icons/md";
-import { ImageKitAbortError, ImageKitInvalidRequestError, ImageKitServerError, ImageKitUploadNetworkError, upload } from '@imagekit/next';
+import { Image, ImageKitAbortError, ImageKitInvalidRequestError, ImageKitServerError, ImageKitUploadNetworkError, upload } from '@imagekit/next';
 import config from "@/lib/config";
 import FileDropzone from "./FileDropzone";
-import Image from "next/image";
 
 
-// helper function to authenticate users before uploading assets
 const authenticator = async () => {
   try {
     const res = await fetch(`${config.env.prodEndpoint}/api/imagekit`);
@@ -32,12 +30,11 @@ const FileUploader = ({
   onFieldChange: (filePath: string) => void;
 }) => {
   const [file, setFile] = useState<File | null>(null);
-  const [imgUrl, setImgUrl] = useState('');
+  const [productImg, setProductImg] = useState('');
   const [progress, setProgress] = useState<number | null>(null);
 
 
   const handleUpload = async () => {
-
     if (!file) {
       alert("Please select a file to upload");
       return;
@@ -86,28 +83,18 @@ const FileUploader = ({
   }
 
   return (
-    <div className="w-full h-32 rounded-lg border border-primary">
-      <FileDropzone onFileChangeAction={setFile} setImgUrlAction={setImgUrl} />
-      <button
-        className="w-full p-2 border-2 border-dashed border-light-200 rounded-lg"
+    <div className="w-full h-32 flex-center flex-col rounded-lg border border-border relative">
+      <FileDropzone onFileChangeAction={setFile} setImgUrlAction={setProductImg} />
+      <div className="w-full mt-2 flex flex-col items-center justify-center">
+        {progress !== null && (
+          <progress
+            value={progress}
+            max="100"
+            className="w-full h-4 mt-2 bg-subtle-light rounded-lg"
+          />
+        )}
+      </div>
 
-      >
-        <div className="flex justify-center items-center w-full">
-          <MdUploadFile size={24} />
-          <span className="text-base text-light-100">
-            click to {file ? "change" : "upload"} file
-          </span>
-        </div>
-        <div className="w-full mt-2 flex flex-col items-center justify-center">
-          {progress !== null && (
-            <progress
-              value={progress}
-              max="100"
-              className="w-full h-4 mt-2 bg-subtle-light rounded-lg"
-            />
-          )}
-        </div>
-      </button>
     </div>
   );
 };

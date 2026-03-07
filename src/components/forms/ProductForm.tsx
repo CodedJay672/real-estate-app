@@ -18,53 +18,66 @@ import { Textarea } from "../ui/textarea";
 import FileUploader from "../shared/FileUploader";
 import { useToast } from "@/hooks/use-toast";
 import { updateProductById, uploadProducts } from "@/lib/actions/auth";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import CustomInput from "./CustomInput";
 import CustomSelect from "./CustomSelect";
+import { generateErrorMessage } from "@/lib/utils";
+import { use } from "react";
+
+interface ProductFormProps {
+  productId: string;
+  type: 'add-new' | 'update',
+  product: Promise<ApiResponse<listings>>;
+  categories: Promise<ApiResponse<categoryResponse[]>>
+}
 
 const ProductForm = ({
+  productId,
   type,
   product,
   categories,
-}: {
-  type: string;
-  product?: any;
-  categories: any[];
-}) => {
+}: ProductFormProps) => {
   const { toast } = useToast();
   const router = useRouter();
-  const id = product ? product.id : null;
 
-  const productCategories = categories.map((category) => ({
+
+
+  // resolve categories
+  const categoryList = use(categories);
+  const productCategories = categoryList.data?.map((category) => ({
     value: category.id,
     label: category.name,
   }));
 
+  // resolve the product if an id is available
+  let productInfo: ApiResponse<listings> | undefined;
+  if (productId) productInfo = use(product);
+
   const form = useForm<z.infer<typeof productSchema>>({
     resolver: zodResolver(productSchema),
     defaultValues: {
-      name: product?.name || "",
-      title: product?.title || "",
-      description: product?.description || "",
-      price: product?.price || 0,
-      location: product?.location || "",
-      bedrooms: product?.bedrooms || 0,
-      bathrooms: product?.bathrooms || 0,
-      size: product?.size || 0,
-      type: product?.type || "",
-      categoryId: product?.categoryId || "",
-      listingStatus: product?.listingStatus || "selling",
-      imageUrl: product?.imageUrl || "",
-      amenities: product?.amenities || "",
+      name: productInfo?.data?.name || "",
+      title: productInfo?.data?.title || "",
+      description: productInfo?.data?.description || "",
+      price: productInfo?.data?.price || 0,
+      location: productInfo?.data?.location || "",
+      bedrooms: productInfo?.data?.bedrooms || 0,
+      bathrooms: productInfo?.data?.bathrooms || 0,
+      size: productInfo?.data?.size || 0,
+      type: productInfo?.data?.type || "",
+      categoryId: productInfo?.data?.categoryId || "",
+      listingStatus: productInfo?.data?.listingStatus || "selling",
+      imageUrl: productInfo?.data?.imageUrl || "",
+      amenities: "",
     },
   });
 
   const handleSubmit = async (values: z.infer<typeof productSchema>) => {
     try {
       const response =
-        type === "add-new " || !id
+        type === "add-new" || !productId
           ? await uploadProducts(values)
-          : await updateProductById(id, values);
+          : await updateProductById(productId, values);
 
       if (!response.success) {
         toast({
@@ -79,10 +92,10 @@ const ProductForm = ({
         description: response.message,
       });
       router.push("/admin");
-    } catch (error: any) {
+    } catch (error) {
       toast({
         title: "An error occurred",
-        description: error.message,
+        description: generateErrorMessage(error),
         variant: "destructive",
       });
     }
@@ -144,7 +157,7 @@ const ProductForm = ({
                 </FormLabel>
                 <FormControl>
                   <CustomSelect
-                    options={productCategories}
+                    options={productCategories ?? []}
                     onChange={field.onChange}
                   />
                 </FormControl>
@@ -245,13 +258,13 @@ const ProductForm = ({
           )}
         />
 
-        <CustomInput
+        {/* <CustomInput
           name="amenities"
           label="Amenities"
           type="text"
           control={form.control}
           placeholder="Seperate list with a comma (,)"
-        />
+        /> */}
 
         <Button
           type="submit"

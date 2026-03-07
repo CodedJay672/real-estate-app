@@ -99,7 +99,6 @@ export const productColumns: ColumnDef<(listings & {
 
         return <span className={cn('text-sm inline-block px-2 py-0.5 rounded-full whitespace-nowrap', {
           'text-green-500 bg-green-50': listingStatus === 'selling',
-          'text-red-500 bg-red-50': listingStatus === 'closed',
           'text-gray-500 bg-gray-50': listingStatus === 'sold out',
           'text-blue-500 bg-blue-50': listingStatus === 'reopened',
 

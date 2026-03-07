@@ -59,7 +59,7 @@ type listings = {
   title: string;
   price: number;
   location: string;
-  listingStatus: string;
+  listingStatus: "selling" | "sold out" | "reopened";
   type: string;
   size: number | null;
   categoryId: string | null;
