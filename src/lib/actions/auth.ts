@@ -20,6 +20,7 @@ import {
   productSchema,
   signUpSchema,
 } from "../validations/schema";
+import { requireAuth } from "../data/users.data";
 
 export const signUp = async ({
   email,
@@ -131,11 +132,7 @@ export const uploadProducts = async (data: any) => {
 export const deleteProduct = async (id: string) => {
   try {
     // verify auth
-    const session = await auth();
-
-    if (!session) {
-      return { success: false, message: "User not authenticated" };
-    }
+    await requireAuth();
 
     // make delete request
     const response = await db.delete(products).where(eq(products.id, id));
@@ -245,45 +242,6 @@ export const likeProduct = cache(async (userId: string, productId: string) => {
   }
 });
 
-export const getLikedProducts = cache(async (query?: string) => {
-  try {
-    let response;
-    if (query) {
-      response = await db.query.products.findMany({
-        with: {
-          likes: true,
-        },
-        where: (products, { ilike }) => ilike(products.name, `%${query}%`),
-      });
-    } else {
-      response = await db.query.products.findMany({
-        with: {
-          likes: true,
-        },
-      });
-    }
-
-    if (!response)
-      return {
-        success: false,
-        message: "Failed to get products.",
-      };
-
-    console.log("All product likes fetched!");
-
-    return {
-      success: true,
-      message: "Liked products fetched",
-      data: response,
-    };
-  } catch (error) {
-    return {
-      success: false,
-      message: generateErrorMessage(error),
-    };
-  }
-});
-
 export const getProductLikes = async (
   productId: string,
 ): Promise<
@@ -372,46 +330,6 @@ export const getAllLikes = async () => {
     throw new Error(`Error: ${error}`);
   }
 };
-
-export const getAllCategories = async () => {
-  try {
-    const response = await db.select().from(categoriesTable);
-
-    if (!response) console.log("No categories found");
-
-    return response;
-  } catch (error) {
-    throw new Error(`Error: ${error}`);
-  }
-};
-
-export const getAllCategoriesWithProducts = cache(async () => {
-  const session = await auth();
-
-  if (!session?.user) {
-    return {
-      success: false,
-      message: "Please sign In as an admin",
-    };
-  }
-
-  try {
-    const response = await db.query.categoriesTable.findMany({
-      with: {
-        products: true,
-      },
-    });
-
-    if (!response) notFound();
-
-    return {
-      success: true,
-      data: response,
-    };
-  } catch (error) {
-    throw new Error(`Error: ${error}`);
-  }
-});
 
 export const createCategory = async (data: {
   name: string;

@@ -43,6 +43,13 @@
       "when": 1740489005388,
       "tag": "0005_colossal_ozymandias",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1772877150190,
+      "tag": "0006_uneven_scorpion",
+      "breakpoints": true
     }
   ]
 }

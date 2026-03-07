@@ -29,7 +29,7 @@ const CustomAlertDialog = ({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={action} className="bg-red-500 text-light-50">Continue</AlertDialogAction>
+          <AlertDialogAction onClick={action} className="bg-red-500 text-light-50 hover:bg-red-600">Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

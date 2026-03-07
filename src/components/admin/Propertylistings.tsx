@@ -1,12 +1,12 @@
 import { File } from 'lucide-react';
 
-import { getAllProducts } from '@/lib/data/products.data';
+import { getAdminProductsWithCategories } from '@/lib/data/products.data';
 import AdminListing from '../container/AdminListing';
 import { DataTable } from '../table/DataTable';
 import { productColumns } from '../table/listings/definition';
 
 async function Propertylistings({ query }: { query: string }) {
-  const properties = await getAllProducts(query);
+  const properties = await getAdminProductsWithCategories();
   if (!properties.success) {
     return (
       <div className="w-full h-screen flex-center">
