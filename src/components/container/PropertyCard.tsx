@@ -1,16 +1,18 @@
-
-import { getProductLikes } from "@/lib/actions/auth";
-import config from "@/lib/config";
 import { Image } from "@imagekit/next";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
+
+import { getProductLikes } from "@/lib/actions/auth";
+import config from "@/lib/config";
 import Likes from "@/components/shared/Likes";
+import PropertyCategory from "../shared/PropertyCategory";
 
 
 
 const PropertyCard = (props: listings) => {
   const allLikes = getProductLikes(props.id);
+
 
   return (
     <article className="w-full shadow-md rounded-lg overflow-hidden bg-subtle-light border border-blue-200">
@@ -19,9 +21,9 @@ const PropertyCard = (props: listings) => {
           <span className="text-sm md:text-xs inline-block bg-green-600 text-light-50 rounded-s-lg p-1.5 font-medium">
             {props.listingStatus}
           </span>
-          <span className="text-dark-200 px-1.5 text-sm md:text-xs font-medium inline-block rounded-md capitalize ">
-            {props.type}
-          </span>
+          <Suspense fallback={<Loader2 size={14} className="animate-spin" />}>
+            <PropertyCategory catId={props.categoryId ?? ""} />
+          </Suspense>
         </div>
         {props.imageUrl ? (
           <Image

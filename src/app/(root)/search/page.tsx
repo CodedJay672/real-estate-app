@@ -5,30 +5,37 @@ import { Search } from "lucide-react";
 import ProductList from "@/components/container/ProductList";
 import PropertyCardSkeleton from "@/components/container/PropertyCardSkeleton";
 import Searchbar from "@/components/shared/Searchbar";
+import { getAllCategories } from "@/lib/data/category.data";
 
 
-async function SearchResultsPage({ searchParams }: { searchParams: { query: string } }) {
-  const { query } = await searchParams;
-
+async function SearchResultsPage({ searchParams }: { searchParams: Promise<TFilterQuery> }) {
+  const { baths, beds, category, price } = await searchParams;
+  const categories = getAllCategories();
 
   return (
     <section className="w-full p-2 py-24 md:p-10 md:py-24 space-y-10">
-      <div className="w-full max-w-3xl bg-light-100/10 rounded-full focus-within:bg-light-50 border border-border px-1 md:px-2.5 mx-auto">
-        <Searchbar placeholder="quickly search through a collection of properties..." />
-      </div>
-      {query ? (
+      <Suspense>
+        <Searchbar getCategories={categories} />
+      </Suspense>
+      {baths || beds || category || price ? (
         <div className="container mx-auto">
-          <h1 className="text-xl md:text-2xl font-bold mb-4">Search Results for "{query}"</h1>
+          <h1 className="text-xl md:text-2xl mb-4">Filter by: {
+            Object.entries({ baths, beds, category, price }).map(([key, val]) => (
+              val && (
+                <span key={key} className="text-sm md:text-base text-green-500 px-1.5 rounded-full font-semibold bg-green-50">{key}: {val}, </span>
+              ))
+            )
+          }</h1>
           <hr className="border-border" />
 
-          <Suspense key={query} fallback={
+          <Suspense key={JSON.stringify({ baths, beds, category, price })} fallback={
             <div className='property-grid'>
               {new Array(12).fill(0).map((_, i) => (
                 <PropertyCardSkeleton key={i} />
               ))}
             </div>
           }>
-            <ProductList query={query} />
+            <ProductList query={{ baths, beds, category, price }} />
           </Suspense>
         </div>
       ) : (

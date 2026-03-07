@@ -1,9 +1,13 @@
+import type { Metadata } from 'next';
+import { Suspense } from 'react';
+
+
+import GroupFilter from '@/components/container/GroupFilter';
+import { getAllCategories } from '@/lib/data/category.data';
 import ProductList from '@/components/container/ProductList';
 import PropertyCardSkeleton from '@/components/container/PropertyCardSkeleton';
 import LoadingSpinner from '@/components/shared/LoadingSpinner';
-import Searchbar from "@/components/shared/Searchbar";
-import type { Metadata } from 'next';
-import { Suspense } from 'react';
+import MobileFilter from '@/components/shared/MobileFilter';
 
 
 
@@ -19,37 +23,45 @@ export async function generateMetadata(
 const ProductListings = async ({
   searchParams,
 }: {
-  searchParams: Promise<{ query: string }>;
+  searchParams: Promise<TFilterQuery>;
 }) => {
-  const { query } = await searchParams;
+  const query = await searchParams;
+  const categories = getAllCategories();
 
   return (
     <section className="w-full py-20">
       <div className="container flex gap-4 md:gap-8 mx-auto p-2 md:p-4">
-        <div className="hidden md:block h-max w-full md:w-1/4 sticky top-24 left-0">
-          <div className="sticky top-20">
-            <h1 className="text-lg font-semibold">Filter searches</h1>
-            <div className="mt-2">
-              <h2 className="text-base font-normal">Date Posted</h2>
-            </div>
+        <div className="hidden md:block h-max w-full md:w-1/4 sticky top-10 left-0 space-y-10">
+          <h1 className="text-lg font-semibold">Filter searches</h1>
+          <div className="p-2 bg-light-100/10 rounded-xl border border-border">
+            <Suspense fallback={<LoadingSpinner />}>
+              <GroupFilter getCategories={categories} />
+            </Suspense>
           </div>
+
         </div>
 
-        <div className="flex-1 space-y-10">
-          <div className="w-full bg-light-100/10 rounded-full focus-within:bg-light-50 border border-border px-1 md:px-2.5">
-            <Searchbar placeholder="quickly search through a collection of properties..." />
+        <div className="flex-1 space-y-4">
+          <div className='flex-between gap-2'>
+            <h1 className="text-lg md:text-2xl font-semibold">Explore All Products</h1>
+            <div className='flex md:hidden bg-light-100/30 border border-border rounded-lg p-2'>
+              <MobileFilter categories={categories} />
+            </div>
           </div>
 
-          <h1 className="text-lg md:text-2xl font-semibold">{query ? `Search: ${query}` : "Explore All Products"}</h1>
-
-          <Suspense key={query} fallback={
+          <Suspense key={JSON.stringify(query)} fallback={
             <div className='property-grid'>
               {new Array(12).fill(0).map((_, i) => (
                 <PropertyCardSkeleton key={i} />
               ))}
             </div>
           }>
-            <ProductList query={query} />
+            <ProductList
+              query={{
+                ...query,
+                postedOn: query.postedOn ? new Date(query.postedOn as any) : null,
+              }}
+            />
           </Suspense>
 
         </div>

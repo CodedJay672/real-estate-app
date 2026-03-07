@@ -1,10 +1,15 @@
 import { Suspense } from "react";
 import Searchbar from "../shared/Searchbar";
+import { getAllCategories } from "@/lib/data/category.data";
 
 const Herosection = () => {
+  // get the categories
+  const categories = getAllCategories();
+
+
   return (
-    <section className="w-full h-screen flex justify-center items-center bg-dark-200/50 bg-[url(/assets/hero-banner.jpg)] bg-blend-overlay bg-center bg-no-repeat">
-      <div className="w-full lg:w-4/5 mx-auto py-12 px-2 flex justify-center items-center flex-col relative z-10">
+    <section className="w-full h-screen flex justify-center items-center bg-dark-200/50 bg-[url(/assets/hero-banner.jpg)] bg-blend-overlay bg-center bg-cover bg-no-repeat">
+      <div className="container mx-auto py-12 px-2 flex justify-center items-center flex-col relative z-10">
         <div className="p-2">
           <h1 className="text-accent-brown font-semibold text-3xl md:text-3xl lg:text-5xl text-center w-full max-w-xl">
             Find Your Dream Home With{" "}
@@ -20,11 +25,9 @@ const Herosection = () => {
           </p>
         </div>
 
-        <div className="w-full h-12 md:h-14 max-w-3xl bg-light-50 rounded-full px-1 md:px-1.5 lg:px-2">
-          <Suspense>
-            <Searchbar url="/search" placeholder="Try 'luxury apartments in banana island...'" />
-          </Suspense>
-        </div>
+        <Suspense>
+          <Searchbar getCategories={categories} url="/search" />
+        </Suspense>
       </div>
     </section>
   );

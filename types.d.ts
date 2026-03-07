@@ -20,6 +20,39 @@ type TProperties = {
   amenities: string[];
 };
 
+type categoryResponse = {
+  id: string;
+  name: string;
+  description: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+type categoryWithProductsResponse = {
+  id: string;
+  name: string;
+  createdAt: Date;
+  updatedAt: Date;
+  description: string;
+  products: {
+    id: string;
+    name: string;
+    createdAt: Date;
+    updatedAt: Date;
+    title: string;
+    createdAt: Date;
+    updatedAt: Date;
+    location: string;
+    listingStatus: "selling" | "sold out" | "reopened";
+    description: string;
+    imageUrl: string;
+    categoryId: string | null;
+    bedrooms: number | null;
+    bathrooms: number | null;
+    price: number;
+  }[];
+};
+
 type listings = {
   id: string;
   name: string;
@@ -29,6 +62,7 @@ type listings = {
   listingStatus: string;
   type: string;
   size: number | null;
+  categoryId: string | null;
   createdAt: Date;
   updatedAt?: Date;
   imageUrl?: string;
@@ -43,3 +77,18 @@ type ApiResponse<T> = {
   data?: T;
   error?: Record<string, string[]>;
 };
+
+type TFilterQuery = {
+  name?: string;
+  category?: string;
+  price?: number | null;
+  baths?: number | null;
+  beds?: number | null;
+  postedOn?: Date | null;
+  cursor?: {
+    id: string;
+    name: string;
+  };
+};
+
+type TabsType = { id: string; label: string; value: string };

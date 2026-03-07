@@ -35,15 +35,10 @@ export const getUser = async (email: string) => {
   }
 };
 
-export const getAllUsers = cache(async () => {
+export const getAllUsers = async () => {
   try {
     // verify auth
-    const token = await auth();
-    if (!token?.user)
-      return {
-        success: false,
-        message: "Unauthorized",
-      };
+    await requireAuth();
 
     // make user request
     const users = await db.select().from(usersTable);
@@ -58,4 +53,16 @@ export const getAllUsers = cache(async () => {
       message: generateErrorMessage(error),
     };
   }
-});
+};
+
+export const requireAuth = async () => {
+  try {
+    const session = await auth();
+    if (!session?.user || session.user.role !== "admin")
+      throw new Error(
+        "Action not allowed. unauthorized access. Please go back to home page.",
+      );
+  } catch (error) {
+    throw error;
+  }
+};

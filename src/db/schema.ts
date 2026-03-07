@@ -1,5 +1,6 @@
 import { relations } from "drizzle-orm";
 import {
+  index,
   integer,
   pgEnum,
   pgTable,
@@ -27,23 +28,30 @@ export const LISTING_STATUS = pgEnum("status", [
   "reopened",
 ]);
 
-export const products = pgTable("products", {
-  id: uuid("id").primaryKey().defaultRandom().notNull().unique(),
-  name: text("name").notNull(),
-  title: varchar("title", { length: 255 }).notNull(),
-  location: varchar("location", { length: 255 }).notNull(),
-  listingStatus: LISTING_STATUS("status").notNull().default("selling"),
-  type: varchar("type", { length: 256 }).notNull(),
-  description: text("description").notNull(),
-  imageUrl: text("image_url").notNull(),
-  categoryId: uuid("category_id").references(() => categoriesTable.id),
-  bedrooms: integer("bedrooms"),
-  bathrooms: integer("bathrooms"),
-  size: integer("size"),
-  price: integer("price").notNull(),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
-});
+export const products = pgTable(
+  "products",
+  {
+    id: uuid("id").primaryKey().defaultRandom().notNull().unique(),
+    name: text("name").notNull(),
+    title: varchar("title", { length: 255 }).notNull(),
+    location: varchar("location", { length: 255 }).notNull(),
+    listingStatus: LISTING_STATUS("status").notNull().default("selling"),
+    type: varchar("type", { length: 256 }).notNull(),
+    description: text("description").notNull(),
+    imageUrl: text("image_url").notNull(),
+    categoryId: uuid("category_id").references(() => categoriesTable.id),
+    bedrooms: integer("bedrooms"),
+    bathrooms: integer("bathrooms"),
+    size: integer("size"),
+    price: integer("price").notNull(),
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+    updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  },
+  (t) => [
+    index("name_index").on(t.name),
+    index("name_and_id_index").on(t.name, t.id),
+  ],
+);
 
 export const categoriesTable = pgTable("categories", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),

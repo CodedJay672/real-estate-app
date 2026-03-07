@@ -1,24 +1,42 @@
 import "server-only";
 
+import { cache } from "react";
+import { and, eq, gte, ilike } from "drizzle-orm";
+
 import { db } from "@/db/drizzle";
 import { products } from "@/db/schema";
-import { eq, ilike } from "drizzle-orm";
-import { cache } from "react";
 import { generateErrorMessage } from "../utils";
+import { auth } from "../auth";
+
+const pageSize = 24;
 
 export const getAllProducts = cache(
-  async (query?: string): Promise<ApiResponse<listings[]>> => {
-    let response: listings[];
-
+  async (query?: TFilterQuery): Promise<ApiResponse<listings[]>> => {
     try {
-      if (query) {
-        response = await db
-          .select()
-          .from(products)
-          .where(ilike(products.name, `%${query}%`));
-      } else {
-        response = await db.select().from(products);
-      }
+      const response = await db
+        .select()
+        .from(products)
+        .where(
+          and(
+            query?.name ? ilike(products.name, `%${query.name}%`) : undefined,
+            query?.price ? gte(products.price, query.price) : undefined,
+            query?.beds ? eq(products.bedrooms, query.beds) : undefined,
+            query?.baths ? eq(products.bathrooms, query.baths) : undefined,
+            query?.category
+              ? eq(products.categoryId, query.category)
+              : undefined,
+            query?.postedOn
+              ? gte(products.createdAt, query.postedOn)
+              : undefined,
+            query?.cursor
+              ? and(
+                  eq(products.name, query?.cursor?.name),
+                  eq(products.id, query?.cursor.id),
+                )
+              : undefined,
+          ),
+        )
+        .limit(pageSize);
 
       if (!response || response.length === 0)
         return {
@@ -29,6 +47,47 @@ export const getAllProducts = cache(
       return {
         success: true,
         message: "Success fetching all products.",
+        data: response,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        success: false,
+        message: generateErrorMessage(error),
+      };
+    }
+  },
+);
+
+export const getAdminProductsWithCategories = cache(
+  async (): Promise<
+    ApiResponse<
+      (listings & {
+        category: {
+          id: string;
+          name: string;
+          createdAt: Date;
+          updatedAt: Date;
+          description: string;
+        } | null;
+      })[]
+    >
+  > => {
+    try {
+      const session = await auth();
+      if (!session?.user || session?.user.role !== "admin")
+        throw new Error("Unathorized access. Please go back to the home page.");
+
+      const response = await db.query.products.findMany({
+        with: {
+          category: true,
+        },
+        limit: pageSize,
+      });
+
+      return {
+        success: true,
+        message: "Admin products fetched successfully",
         data: response,
       };
     } catch (error) {
@@ -73,3 +132,43 @@ export const getProductById = cache(
     }
   },
 );
+
+export const getLikedProducts = cache(async (query?: TFilterQuery) => {
+  try {
+    let response;
+
+    if (query) {
+      response = await db.query.products.findMany({
+        with: {
+          likes: true,
+        },
+        where: (products, { ilike }) => ilike(products.name, `%${query}%`),
+      });
+    } else {
+      response = await db.query.products.findMany({
+        with: {
+          likes: true,
+        },
+      });
+    }
+
+    if (!response)
+      return {
+        success: false,
+        message: "Failed to get products.",
+      };
+
+    console.log("All product likes fetched!");
+
+    return {
+      success: true,
+      message: "Liked products fetched",
+      data: response,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: generateErrorMessage(error),
+    };
+  }
+});

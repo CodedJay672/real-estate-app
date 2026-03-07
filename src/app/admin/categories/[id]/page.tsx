@@ -1,13 +1,8 @@
-import React from "react";
 
-const CategoryAction = ({
-  params,
-}: {
-  params: {
-    id: string;
-  };
-}) => {
-  return <section></section>;
-};
+function CategoryDetailsPage() {
+  return (
+    <div>CategoryDetailsPage</div>
+  )
+}
 
-export default CategoryAction;
+export default CategoryDetailsPage

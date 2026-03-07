@@ -1,26 +1,17 @@
 "use client";
 
-import { useToast } from "@/hooks/use-toast";
-import { deleteProduct } from "@/lib/actions/auth";
-import { Edit2, Eye, Loader, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useState, useTransition } from "react";
+import { Edit2, Eye, Loader, Trash2 } from "lucide-react";
+
+import { useToast } from "@/hooks/use-toast";
+import { deleteCategoryById } from "@/lib/actions/category.actions";
 import { Button } from "../ui/button";
 import CustomAlertDialog from "./CustomAlertDialog";
+import { getCategoryWithProducts } from "@/lib/data/category.data";
 
-interface ProductActionsProps {
-  data: (listings & {
-    category: {
-      id: string;
-      name: string;
-      createdAt: Date;
-      updatedAt: Date;
-      description: string;
-    } | null;
-  })
-}
 
-const ProductActions = ({ data }: ProductActionsProps) => {
+const CategoryActions = (data: categoryResponse) => {
   const { toast } = useToast();
   const [showModal, setShowModal] = useState(false);
   const [isDeleting, startDeleting] = useTransition();
@@ -31,8 +22,7 @@ const ProductActions = ({ data }: ProductActionsProps) => {
 
     startDeleting(async () => {
       try {
-        const res = await deleteProduct(data.id);
-
+        const res = await deleteCategoryById(data.id);
         if (!res.success) {
           toast({
             title: "Error",
@@ -59,7 +49,12 @@ const ProductActions = ({ data }: ProductActionsProps) => {
   return (
 
     <div className="w-full flex gap-2 items-center">
-      <Link href={`admin/listings/update/${data.id}`} className="size-8 p-1 bg-light-50 hover:bg-green-50 flex-center rounded-full transition-colors">
+      <Link href={{
+        pathname: '/admin/category/create-new',
+        query: {
+          catId: data.id
+        }
+      }} className="size-8 p-1 bg-light-50 hover:bg-green-50 flex-center rounded-full transition-colors">
         <Edit2 size={16} className="text-green-500" />
       </Link>
 
@@ -87,11 +82,11 @@ const ProductActions = ({ data }: ProductActionsProps) => {
       <CustomAlertDialog
         open={showModal}
         onOpenChange={setShowModal}
-        description="Are you sure you want to delete this product?"
+        description="Are you sure you want to delete this category?"
         action={handleDelete}
       />
     </div>
   );
 };
 
-export default ProductActions;
+export default CategoryActions;
