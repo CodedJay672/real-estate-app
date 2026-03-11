@@ -1,10 +1,10 @@
 'use client';
 
+import { useCallback, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { Button } from '../ui/button';
 import { cn } from '@/lib/utils';
-import { useCallback, useEffect } from 'react';
 
 function CustomTabs({ tabs }: { tabs: TabsType[] }) {
   const params = useSearchParams()
@@ -28,7 +28,7 @@ function CustomTabs({ tabs }: { tabs: TabsType[] }) {
     query.set('tab', val);
 
     replace(`?${query.toString()}`);
-  }, [params, tabLabel])
+  }, [params.toString(), tabLabel])
 
   return (
     <div className='w-max p-0.5 bg-light-100/50 rounded-lg flex items-center gap-1 border border-light-200'>

@@ -1,5 +1,9 @@
 "use client";
 
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Loader2 } from "lucide-react";
+
 import {
   Form,
   FormControl,
@@ -11,27 +15,33 @@ import {
 import { Input } from "@/components/ui/input";
 import { categorySchema } from "@/lib/validations/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { ImSpinner4 } from "react-icons/im";
-import { createCategory } from "@/lib/actions/auth";
+import { useParams, useRouter } from "next/navigation";
+import { createCategory, updateCategory } from "@/lib/actions/category.actions";
 
-const CategoriesForm = () => {
+const CategoriesForm = ({ default: defaultValues, cb }: { default?: { name: string, description?: string }; cb?: () => void }) => {
   const { toast } = useToast();
+  const { id } = useParams<{ id: string }>();
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof categorySchema>>({
     resolver: zodResolver(categorySchema),
     defaultValues: {
-      name: "",
-      description: "",
+      name: defaultValues?.name || "",
+      description: defaultValues?.description || "",
     },
   });
 
   const onSubmit = async (values: z.infer<typeof categorySchema>) => {
+    let response: ApiResponse<categoryResponse>;
     try {
-      const response = await createCategory(values);
+      if (defaultValues) {
+        response = await updateCategory(id, values);
+      } else {
+        response = await createCategory(values);
+      }
 
       if (!response.success) {
         toast({
@@ -46,6 +56,10 @@ const CategoriesForm = () => {
         title: "Success!!",
         description: response.message,
       });
+
+      // return to category table if callback is not specified
+      if (cb) cb()
+      else router.push('/admin/listings?tab=categories')
     } catch (error: any) {
       toast({
         title: "Error",
@@ -57,7 +71,7 @@ const CategoriesForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full max-w-xl space-y-4 mx-auto">
         <FormField
           control={form.control}
           name="name"
@@ -67,7 +81,7 @@ const CategoriesForm = () => {
                 Name
               </FormLabel>
               <FormControl>
-                <Input {...field} className="h-10 md:h-14 rounded-md" />
+                <Input {...field} required placeholder="e.g Penthouses" className="h-10 md:h-14 rounded-md" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -79,11 +93,11 @@ const CategoriesForm = () => {
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="capitalize font-light text-sm after:content-['*'] after:text-red-500 after:inline-block after:ml-1">
+              <FormLabel className="capitalize font-light">
                 Description
               </FormLabel>
               <FormControl>
-                <Textarea {...field} />
+                <Textarea {...field} rows={6} maxLength={1000} placeholder="Add a brief description" className="resize-none" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -97,14 +111,14 @@ const CategoriesForm = () => {
         >
           {form.formState.isSubmitting ? (
             <>
-              <ImSpinner4
+              <Loader2
                 size={20}
                 className="text-subtle-light animate-spin"
               />
-              <span className="text-base  font-thin">Creating...</span>
+              <span className="text-base  font-thin">{id ? 'Updating...' : 'Creating...'}</span>
             </>
           ) : (
-            <span className="text-base  font-thin">Create</span>
+            <span className="text-base  font-thin">{id ? 'Update' : 'Create'}</span>
           )}
         </Button>
       </form>

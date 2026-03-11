@@ -9,11 +9,10 @@ async function Propertylistings({ query }: { query: string }) {
   const properties = await getAdminProductsWithCategories();
   if (!properties.success) {
     return (
-      <div className="w-full h-screen flex-center">
-        <div>
-          <File size={20} className='text-light-100' />
-          <p className='text-sm md:text-base text-light-100'>Something went wrong. Please refresh again.</p>
-        </div>
+      <div className="w-full h-[50vh] flex-center flex-col gap-1">
+        <File size={64} className='text-light-200' />
+        <h3 className="text-base text-center font-semibold">No properties found.</h3>
+        <p className='w-full max-w-xl text-sm md:text-base text-light-200 text-center'>Something went wrong. It might be a technical issue we are trying to fix. Please refresh the page.</p>
       </div>
     )
   }
@@ -25,18 +24,12 @@ async function Propertylistings({ query }: { query: string }) {
         <DataTable columns={productColumns} data={properties.data ?? []} />
       </div>
 
-      <div className="w-full sm:hidden space-y-8 mt-4">
+      <div className="w-full sm:hidden space-y-8 mt-4 p-1.5">
         {properties.data && properties.data?.length > 0 ? (
           properties.data.map((product) => (
             <AdminListing
               key={product.id}
-              name={product.name}
-              title={product.title}
-              location={product.location}
-              price={product.price}
-              imageUrl={product.imageUrl ?? ""}
-              id={product.id}
-              updatedAt={product.updatedAt}
+              {...product}
             />
           ))
         ) : (

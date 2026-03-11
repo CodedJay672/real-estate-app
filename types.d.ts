@@ -1,25 +1,3 @@
-type TProperties = {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  address: string;
-  city: string;
-  state: string;
-  zipCode: number;
-  country: string;
-  propertyType: string;
-  bedrooms: number;
-  bathrooms: number;
-  squareFeet: number;
-  lotSize: number;
-  yearBuilt: number;
-  listingStatus: string;
-  listingDate: string;
-  images: string[];
-  amenities: string[];
-};
-
 type categoryResponse = {
   id: string;
   name: string;
@@ -34,23 +12,7 @@ type categoryWithProductsResponse = {
   createdAt: Date;
   updatedAt: Date;
   description: string;
-  products: {
-    id: string;
-    name: string;
-    createdAt: Date;
-    updatedAt: Date;
-    title: string;
-    createdAt: Date;
-    updatedAt: Date;
-    location: string;
-    listingStatus: "selling" | "sold out" | "reopened";
-    description: string;
-    imageUrl: string;
-    categoryId: string | null;
-    bedrooms: number | null;
-    bathrooms: number | null;
-    price: number;
-  }[];
+  products: listings[];
 };
 
 type listings = {

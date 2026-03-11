@@ -18,17 +18,19 @@ import { Textarea } from "../ui/textarea";
 import FileUploader from "../shared/FileUploader";
 import { useToast } from "@/hooks/use-toast";
 import { updateProductById, uploadProducts } from "@/lib/actions/auth";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import CustomInput from "./CustomInput";
 import CustomSelect from "./CustomSelect";
 import { generateErrorMessage } from "@/lib/utils";
 import { use } from "react";
 
 interface ProductFormProps {
-  productId: string;
   type: 'add-new' | 'update',
-  product: Promise<ApiResponse<listings>>;
   categories: Promise<ApiResponse<categoryResponse[]>>
+  productId?: string;
+  defaultCategoryId?: string;
+  product?: Promise<ApiResponse<listings>>;
+  callbackFn?: () => void
 }
 
 const ProductForm = ({
@@ -36,10 +38,11 @@ const ProductForm = ({
   type,
   product,
   categories,
+  defaultCategoryId,
+  callbackFn
 }: ProductFormProps) => {
   const { toast } = useToast();
   const router = useRouter();
-
 
 
   // resolve categories
@@ -51,7 +54,7 @@ const ProductForm = ({
 
   // resolve the product if an id is available
   let productInfo: ApiResponse<listings> | undefined;
-  if (productId) productInfo = use(product);
+  if (productId && product) productInfo = use(product);
 
   const form = useForm<z.infer<typeof productSchema>>({
     resolver: zodResolver(productSchema),
@@ -91,7 +94,9 @@ const ProductForm = ({
         title: "Success!!",
         description: response.message,
       });
-      router.push("/admin");
+
+      if (callbackFn) callbackFn()
+      else router.push("/admin/listings?tab=products");
     } catch (error) {
       toast({
         title: "An error occurred",
@@ -118,35 +123,15 @@ const ProductForm = ({
           control={form.control}
           placeholder="Location of property"
         />
-        <CustomInput
-          name="title"
-          label="Title"
-          type="text"
-          control={form.control}
-          placeholder="Enter property title"
-        />
         <div className="flex items-center justify-between gap-2">
-          <FormField
+          <CustomInput
+            name="title"
+            label="Title"
+            type="text"
             control={form.control}
-            name="type"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel className="capitalize font-light text-sm after:content-['*'] after:text-red-500 after:inline-block after:ml-1">
-                  Property Type
-                </FormLabel>
-                <FormControl>
-                  <CustomSelect
-                    options={[
-                      { value: "house", label: "House" },
-                      { value: "land", label: "Land" },
-                    ]}
-                    onChange={field.onChange}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            placeholder="Enter property title"
           />
+
           <FormField
             control={form.control}
             name="categoryId"
@@ -157,6 +142,8 @@ const ProductForm = ({
                 </FormLabel>
                 <FormControl>
                   <CustomSelect
+                    value={field.value}
+                    defaultValue={defaultCategoryId || ""}
                     options={productCategories ?? []}
                     onChange={field.onChange}
                   />
@@ -177,6 +164,7 @@ const ProductForm = ({
                 </FormLabel>
                 <FormControl>
                   <CustomSelect
+                    value={field.value}
                     options={[
                       { value: "selling", label: "Selling" },
                       { value: "sold out", label: "Sold Out" },

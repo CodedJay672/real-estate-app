@@ -6,7 +6,7 @@ import { and, eq, gte, ilike } from "drizzle-orm";
 import { db } from "@/db/drizzle";
 import { products } from "@/db/schema";
 import { generateErrorMessage } from "../utils";
-import { auth } from "../auth";
+import { requireAuth } from "./users.data";
 
 const pageSize = 24;
 
@@ -74,10 +74,10 @@ export const getAdminProductsWithCategories = cache(
     >
   > => {
     try {
-      const session = await auth();
-      if (!session?.user || session?.user.role !== "admin")
-        throw new Error("Unathorized access. Please go back to the home page.");
+      //validate user auth and persmissions
+      await requireAuth();
 
+      // make request to the database
       const response = await db.query.products.findMany({
         with: {
           category: true,

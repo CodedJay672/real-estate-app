@@ -5,6 +5,7 @@ import { generateErrorMessage } from "../utils";
 import { categoriesTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { auth } from "../auth";
+import { requireAuth } from "./users.data";
 
 export const getAllCategories = async (): Promise<
   ApiResponse<
@@ -118,6 +119,10 @@ export const getCategoryWithProducts = async (
   }
 
   try {
+    // validate user auth and permissions
+    await requireAuth();
+
+    // make database request
     const response = await db.query.categoriesTable.findFirst({
       with: {
         products: true,
@@ -125,6 +130,7 @@ export const getCategoryWithProducts = async (
       where: eq(categoriesTable.id, id),
     });
 
+    // error handling
     if (!response)
       return {
         success: false,

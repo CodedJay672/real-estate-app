@@ -3,22 +3,20 @@ import Back from "@/components/shared/Back";
 
 const CreateCategory = () => {
   return (
-    <section className="wrapper flex flex-col">
-      <Back />
-      <div className="w-full lg:max-w-(--breakpoint-md) my-4">
-        <h1 className="text-xl lg:text-2xl font-semibold text-blue-300">
-          Create category
-        </h1>
-        <p className="text-sm lg:text-base font-normal text-blue-300">
-          Enter category details below
-        </p>
-      </div>
-
-      <div className="w-full flex-1 flex-center">
-        <div className="w-4/5 md:w-1/3 bg-subtle-light rounded-lg p-4 shadow-md">
-          <CategoriesForm />
+    <section className="wrapper">
+      <div className="flex gap-1">
+        <Back />
+        <div className="space-y-0.5">
+          <h1 className="text-lg md:text-xl font-semibold text-dark-200">
+            Create category
+          </h1>
+          <p className="text-sm md:text-base font-normal text-dark-50">
+            Enter category details below
+          </p>
         </div>
       </div>
+
+      <CategoriesForm />
     </section>
   );
 };

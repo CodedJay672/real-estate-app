@@ -95,32 +95,34 @@ export const signUp = async ({
   }
 };
 
-export const uploadProducts = async (data: any) => {
+export const uploadProducts = async (
+  data: any,
+): Promise<ApiResponse<listings>> => {
   const parsedData = productSchema.safeParse(data);
 
   if (!parsedData.success) {
-    return { success: false, message: parsedData.error.errors[0].message };
+    return {
+      success: false,
+      message: "Input validation failed",
+      error: parsedData.error.flatten().fieldErrors,
+    };
   }
 
   try {
     // verify user auth
-    const session = await auth();
-    if (!session) {
-      return { success: false, message: "User not authenticated" };
-    }
+    await requireAuth();
 
-    const res = await db
-      .insert(products)
-      .values({
-        ...data,
-      })
-      .returning();
-
+    const res = await db.insert(products).values(data).returning();
     if (!res || res.length === 0) {
       return { success: false, message: "Error uploading product" };
     }
 
-    return { success: true, message: `${res?.[0].name} uploaded successfully` };
+    revalidatePath("/admin/categories/[id]");
+    return {
+      success: true,
+      message: `${res?.[0].name} uploaded successfully`,
+      data: res[0],
+    };
   } catch (error) {
     return {
       success: false,
@@ -326,58 +328,6 @@ export const getAllLikes = async () => {
     if (!response) return notFound();
     console.log("Likes fetched");
     return response;
-  } catch (error) {
-    throw new Error(`Error: ${error}`);
-  }
-};
-
-export const createCategory = async (data: {
-  name: string;
-  description: string;
-}) => {
-  try {
-    const parsedData = categorySchema.safeParse(data);
-
-    if (!parsedData.success) {
-      return { success: false, message: parsedData.error.errors[0].message };
-    }
-
-    // check if the category already exists
-    const res = await db
-      .select()
-      .from(categoriesTable)
-      .where(ilike(categoriesTable?.name, data.name))
-      .limit(1);
-
-    if (res.length > 0) {
-      return {
-        success: false,
-        message: `${res?.[0].name} already exists!`,
-      };
-    }
-
-    // add the new category
-    const response = await db
-      .insert(categoriesTable)
-      .values({
-        ...data,
-      })
-      .returning();
-
-    if (!response) {
-      return {
-        success: false,
-        message: "Cannot create that category",
-      };
-    }
-
-    // clear cache and fetch new categories
-    revalidatePath("/admin/categories");
-
-    return {
-      success: true,
-      message: "Category created!",
-    };
   } catch (error) {
     throw new Error(`Error: ${error}`);
   }
