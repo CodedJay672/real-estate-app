@@ -1,10 +1,12 @@
+import { Suspense } from "react";
+import { Plus } from "lucide-react";
+import Link from "next/link";
+
+
 import AdminCategories from "@/components/admin/AdminCategories";
 import CustomTabs from "@/components/admin/CustomTabs";
 import Propertylistings from "@/components/admin/Propertylistings";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
-import { Plus } from "lucide-react";
-import Link from "next/link";
-import { Suspense } from "react";
 
 const Listings = async ({
   searchParams,
@@ -12,7 +14,6 @@ const Listings = async ({
   searchParams: Promise<{ query: string, tab: string }>;
 }) => {
   const { query, tab } = await searchParams;
-
 
   const tabs: TabsType[] = [
     {
@@ -41,7 +42,7 @@ const Listings = async ({
           <CustomTabs tabs={tabs} />
         </div>
         <Link
-          href={tab === "products" ? "/admin/listings/add-new" : "/admin/category/create-new"}
+          href={tab === "products" ? "/admin/listings/add-new" : "/admin/categories/create-new"}
           className="text-sm md:text-base text-light-50 bg-primary p-2 rounded-md flex justify-center items-center gap-1  ml-auto"
         >
           <Plus size={20} className="text-subtle-light" />
@@ -52,29 +53,27 @@ const Listings = async ({
       </div>
 
       <div className="w-full rounded-xl border border-border">
-        <div className="w-full p-4 flex justify-between items-center">
-          <div>
-
-            <h2 className="text-sm lg:text-lg font-semibold">{tab === "products" ? "Listings" : "Categories"}</h2>
-            <p className="text-sm md:text-base text-dark-50">Manage all property {tab === "products" ? 'listings' : "categories"} easily from one place</p>
-          </div>
-          {/* <ExportButton data={response.data ?? []} label="listing" /> */}
+        <div className="p-2">
+          <h2 className="text-sm lg:text-lg font-semibold">{tab === "products" ? "Listings" : "Categories"}</h2>
+          <p className="text-sm md:text-base text-dark-50">Manage all property {tab === "products" ? 'listings' : "categories"} easily from one place</p>
         </div>
 
-        <Suspense key={JSON.stringify({ query, tab })} fallback={<LoadingSpinner />}>
-          {tab === "products" ? (
-            <Propertylistings query={query} />
-          ) : (
-            <AdminCategories />
-          )}
-        </Suspense>
+        {tab ? (
+          <Suspense key={JSON.stringify({ query, tab })} fallback={<LoadingSpinner />}>
+            {tab === "products" ? (
+              <Propertylistings query={query} />
+            ) : (
+              <AdminCategories />
+            )}
+          </Suspense>
+        ) : (
+          <LoadingSpinner />
+        )}
       </div>
-
 
       <p className="text-sm font-light text-gray-300 mb-14 mt-2 text-center">
         --The End--
       </p>
-
     </section>
   );
 };

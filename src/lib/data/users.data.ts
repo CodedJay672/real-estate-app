@@ -56,13 +56,9 @@ export const getAllUsers = async () => {
 };
 
 export const requireAuth = async () => {
-  try {
-    const session = await auth();
-    if (!session?.user || session.user.role !== "admin")
-      throw new Error(
-        "Action not allowed. unauthorized access. Please go back to home page.",
-      );
-  } catch (error) {
-    throw error;
-  }
+  const session = await auth();
+  if (!session?.user || session.user.role !== "admin")
+    throw new Error(
+      "Action not allowed. unauthorized access. Please go back to home page.",
+    );
 };

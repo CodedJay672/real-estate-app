@@ -8,11 +8,10 @@ async function UsersManager({ query }: { query: string }) {
   const allUsers = await getAllUsers();
   if (!allUsers.success) {
     return (
-      <div className='w-full h-screen flex-center'>
-        <div>
-          <File size={24} className='text-light-200' />
-          <p className='text-sm md:text-base text-light-100'>Something went wrong. Please refresh the page.</p>
-        </div>
+      <div className='w-full h-[50vh] flex-center flex-col'>
+        <File size={64} className='text-light-200' />
+        <h3 className="text-base text-center font-semibold">No leads found.</h3>
+        <p className='w-full max-w-xl text-sm md:text-base text-light-200 text-center'>Something went wrong. It might be a technical issue we are trying to fix. Please refresh the page.</p>
       </div>
     )
   }

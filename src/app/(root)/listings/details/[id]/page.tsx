@@ -1,3 +1,7 @@
+import { Image } from "@imagekit/next";
+import { Bath, BedDouble, MapPin, Waypoints } from "lucide-react";
+import { notFound } from "next/navigation";
+
 import ContactForm from "@/components/forms/ContactForm";
 import Back from "@/components/shared/Back";
 import Likes from "@/components/shared/Likes";
@@ -6,9 +10,6 @@ import ShareButton from "@/components/shared/ShareButton";
 import { getProductLikes } from "@/lib/actions/auth";
 import config from "@/lib/config";
 import { getProductById } from "@/lib/data/products.data";
-import { Image } from "@imagekit/next";
-import { Bath, BedDouble, MapPin, Waypoints } from "lucide-react";
-import { notFound } from "next/navigation";
 
 
 import type { Metadata, ResolvingMetadata } from 'next'

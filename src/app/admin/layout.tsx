@@ -8,7 +8,7 @@ import Sidebar from "@/components/container/Sidebar";
 export const metadata: Metadata = {
   title: "Admin | Clean Beautiful Properties",
   description:
-    "Clean beautiful properties is a real estate listing platform where you can find your next home or investment property.",
+    "This is an admin app for clean beautiful properties realty.",
 };
 
 const AdminLayout = async ({ children }: { children: ReactNode }) => {

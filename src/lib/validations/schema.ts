@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z, infer } from "zod";
 
 export const signInSchema = z.object({
   email: z.string().email(),
@@ -42,5 +42,5 @@ export const categorySchema = z.object({
   name: z.string().min(4, {
     message: "Name should be at least 4 letters",
   }),
-  description: z.string(),
+  description: z.string().optional(),
 });

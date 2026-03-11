@@ -1,14 +1,13 @@
 "use client";
 
-import Link from "next/link";
 import { useState, useTransition } from "react";
-import { Edit2, Eye, Loader, Trash2 } from "lucide-react";
+import Link from "next/link";
+import { Edit2, Loader, Trash2 } from "lucide-react";
 
 import { useToast } from "@/hooks/use-toast";
 import { deleteCategoryById } from "@/lib/actions/category.actions";
 import { Button } from "../ui/button";
 import CustomAlertDialog from "./CustomAlertDialog";
-import { getCategoryWithProducts } from "@/lib/data/category.data";
 
 
 const CategoryActions = (data: categoryResponse) => {
@@ -49,21 +48,9 @@ const CategoryActions = (data: categoryResponse) => {
   return (
 
     <div className="w-full flex gap-2 items-center">
-      <Link href={{
-        pathname: '/admin/category/create-new',
-        query: {
-          catId: data.id
-        }
-      }} className="size-8 p-1 bg-light-50 hover:bg-green-50 flex-center rounded-full transition-colors">
+      <Link href={`/admin/categories/${data.id}`} className="size-8 p-1 bg-light-50 hover:bg-green-50 flex-center rounded-full transition-colors">
         <Edit2 size={16} className="text-green-500" />
       </Link>
-
-      <Button type="button" variant="ghost" size="sm"
-        disabled={isDeleting}
-        className="size-8 bg-light-50 hover:bg-blue-50 rounded-full cursor-pointer"
-      >
-        <Eye size={16} className="text-blue-500" />
-      </Button>
 
       <Button type="button" variant="ghost" size="sm"
         onClick={() => setShowModal(true)}
