@@ -2,9 +2,9 @@ import { File } from 'lucide-react';
 
 import { getAdminProductsWithCategories } from '@/lib/data/products.data';
 import AdminListing from '../container/AdminListing';
+import PaginationBar from '../shared/paginationBar';
 import { DataTable } from '../table/DataTable';
 import { productColumns } from '../table/listings/definition';
-import PaginationBar from '../shared/paginationBar';
 
 async function Propertylistings({ query }: { query: { page?: number; pageSize?: number } }) {
 
@@ -41,6 +41,7 @@ async function Propertylistings({ query }: { query: { page?: number; pageSize?: 
           </p>
         )}
       </div>
+
 
       <PaginationBar defaultPageSize={query.pageSize ?? 25} totalRows={properties.data?.totalRows ?? 25} />
     </>

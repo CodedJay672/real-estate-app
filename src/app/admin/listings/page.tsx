@@ -7,6 +7,8 @@ import AdminCategories from "@/components/admin/AdminCategories";
 import CustomTabs from "@/components/admin/CustomTabs";
 import Propertylistings from "@/components/admin/Propertylistings";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import AdminSearchBar from "@/components/admin/AdminSearchBar";
+import AdminFilterButton from "@/components/admin/AdminFilterButton";
 
 const Listings = async ({
   searchParams,
@@ -53,9 +55,16 @@ const Listings = async ({
       </div>
 
       <div className="w-full rounded-xl border border-border">
-        <div className="p-2">
-          <h2 className="text-sm lg:text-lg font-semibold">{tab === "products" ? "Listings" : "Categories"}</h2>
-          <p className="text-sm md:text-base text-dark-50">Manage all property {tab === "products" ? 'listings' : "categories"} easily from one place</p>
+        <div className="w-full flex-between gap-4 flex-col md:flex-row p-2 md:p-4">
+          <div className="">
+            <h2 className="text-sm lg:text-lg font-semibold">{tab === "products" ? "Listings" : "Categories"}</h2>
+            <p className="text-sm md:text-base text-dark-50">Manage all property {tab === "products" ? 'listings' : "categories"} easily from one place</p>
+          </div>
+
+          <div className='flex gap-1'>
+            <AdminSearchBar placeholder='Search property name...' />
+            <AdminFilterButton />
+          </div>
         </div>
 
         {tab ? (
