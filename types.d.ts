@@ -22,15 +22,16 @@ type listings = {
   price: number;
   location: string;
   listingStatus: "selling" | "sold out" | "reopened";
-  type: string;
   size: number | null;
   categoryId: string | null;
   createdAt: Date;
   updatedAt?: Date;
   imageUrl?: string;
+  imageId: string | null;
   description?: string;
   bedrooms: number | null;
   bathrooms: number | null;
+  tags: string | null;
 };
 
 type ApiResponse<T> = {
@@ -51,6 +52,13 @@ type TFilterQuery = {
     id: string;
     name: string;
   };
+};
+
+type TLikesResponse = {
+  id: string;
+  createdAt: Date;
+  userId: string;
+  productId: string | null;
 };
 
 type TabsType = { id: string; label: string; value: string };

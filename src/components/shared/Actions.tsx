@@ -5,23 +5,16 @@ import Link from "next/link";
 import { Image } from "@imagekit/next";
 import { Bath, Bed, Edit2, Eye, Loader, MapPin, Trash2, Waypoints } from "lucide-react";
 
-import { useToast } from "@/hooks/use-toast";
-import { deleteProduct } from "@/lib/actions/auth";
-import { Button } from "../ui/button";
+import { useToast } from "@/hooks/use-toast"; import { Button } from "../ui/button";
 import CustomAlertDialog from "./CustomAlertDialog";
 import CustomDialog from "./CustomDialog";
 import config from "@/lib/config";
 import { cn } from "@/lib/utils";
+import { deleteProduct } from "@/lib/actions/products.actions";
 
 interface ProductActionsProps {
   data: (listings & {
-    category?: {
-      id: string;
-      name: string;
-      createdAt: Date;
-      updatedAt: Date;
-      description: string;
-    } | null;
+    category?: categoryResponse | null;
   })
 }
 
@@ -63,7 +56,6 @@ const ProductActions = ({ data }: ProductActionsProps) => {
   };
 
   return (
-
     <div className="w-full flex gap-2 items-center">
       <Link href={{
         pathname: '/admin/listings/add-new',

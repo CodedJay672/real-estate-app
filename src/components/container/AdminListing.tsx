@@ -8,12 +8,12 @@ import { useRouter } from "next/navigation";
 
 import config from "@/lib/config";
 import { useToast } from "@/hooks/use-toast";
-import { deleteProduct } from "@/lib/actions/auth";
 import CustomAlertDialog from "../shared/CustomAlertDialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import CustomDialog from "../shared/CustomDialog";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
+import { deleteProduct } from "@/lib/actions/products.actions";
 
 
 const AdminListing = (data: (listings & {

@@ -3,17 +3,14 @@ import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 
-import { getProductLikes } from "@/lib/actions/auth";
 import config from "@/lib/config";
 import Likes from "@/components/shared/Likes";
 import PropertyCategory from "../shared/PropertyCategory";
 
 
-
-const PropertyCard = (props: listings) => {
-  const allLikes = getProductLikes(props.id);
-
-
+const PropertyCard = (props: (listings & {
+  likes: TLikesResponse[];
+})) => {
   return (
     <article className="w-full shadow-md rounded-lg overflow-hidden bg-subtle-light border border-blue-200">
       <div className="w-full min-h-48 overflow-hidden relative">
@@ -40,18 +37,10 @@ const PropertyCard = (props: listings) => {
         )}
 
         <div className="absolute left-1 bottom-1">
-          <Suspense fallback={<Loader2 size={16} className="animate-spin" />}>
-            <Likes productId={props.id!} getLikes={allLikes} />
-          </Suspense>
-        </div>
-        <div className="absolute right-4 bottom-1 rounded-full flex justify-center items-center cursor-pointer bg-subtle-light p-2">
-          {/* <AddToWishlist
-            userId={session?.user?.id!}
-            productId={props.id!}
-            watchlist={props.watchlist}
-          /> */}
+          <Likes productId={props.id!} likes={props.likes} />
         </div>
       </div>
+
       <Link
         href={`listings/details/${props.id}`}
         className="flex flex-col w-full px-4 py-8 space-y-4"

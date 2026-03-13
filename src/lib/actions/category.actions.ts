@@ -63,7 +63,10 @@ export const createCategory = async (data: {
       data: response[0],
     };
   } catch (error) {
-    throw new Error(`Error: ${error}`);
+    return {
+      success: false,
+      message: generateErrorMessage(error),
+    };
   }
 };
 

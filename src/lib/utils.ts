@@ -25,3 +25,27 @@ export const exportToExcel = <T = unknown>(
   XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
   XLSX.writeFile(workbook, `${fileName}.xlsx`);
 };
+
+const TIMEOUT_MS = 10_000;
+
+export const safeFetch = async (
+  urlEndpoint: string,
+  options: RequestInit = {},
+  timeOut: number = TIMEOUT_MS,
+) => {
+  // abort controller
+  const abortController = new AbortController();
+  const id = setTimeout(() => abortController.abort(), timeOut);
+
+  try {
+    // make request
+    const response = await fetch(urlEndpoint, {
+      ...options,
+      signal: abortController.signal,
+    });
+
+    return response;
+  } finally {
+    clearTimeout(id);
+  }
+};
