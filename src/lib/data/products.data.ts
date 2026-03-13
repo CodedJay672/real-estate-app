@@ -1,6 +1,6 @@
 import "server-only";
 
-import { and, eq, gte, ilike } from "drizzle-orm";
+import { and, asc, count, desc, eq, gte, ilike } from "drizzle-orm";
 import { cache } from "react";
 
 import { db } from "@/db/drizzle";
@@ -8,7 +8,7 @@ import { products } from "@/db/schema";
 import { generateErrorMessage } from "../utils";
 import { requireAuth } from "./users.data";
 
-const pageSize = 24;
+const pageSize = 25;
 
 export const getAllProducts = async (
   query?: TFilterQuery,
@@ -26,6 +26,7 @@ export const getAllProducts = async (
       with: {
         likes: true,
       },
+      orderBy: asc(products.createdAt),
     });
 
     if (!response || response.length === 0)
@@ -49,31 +50,50 @@ export const getAllProducts = async (
 };
 
 export const getAdminProductsWithCategories = cache(
-  async (): Promise<
+  async (
+    page: number = 1,
+    pagesize: number = pageSize,
+  ): Promise<
     ApiResponse<
-      (listings & {
-        category: categoryResponse | null;
-        likes: TLikesResponse[];
-      })[]
+      paginatedData<
+        (listings & {
+          category: categoryResponse | null;
+          likes: TLikesResponse[];
+        })[]
+      >
     >
   > => {
     try {
       //validate user auth and persmissions
       await requireAuth();
 
-      // make request to the database
-      const response = await db.query.products.findMany({
-        with: {
-          category: true,
-          likes: true,
-        },
-        limit: pageSize,
-      });
+      // Run count and data queries concurrently for better performance
+      const [rowsCountResult, response] = await Promise.all([
+        db.select({ count: count() }).from(products),
+        db.query.products.findMany({
+          with: {
+            category: true,
+            likes: true,
+          },
+          orderBy: desc(products.createdAt),
+          limit: pagesize,
+          offset: (page - 1) * pagesize,
+        }),
+      ]);
+
+      const totalRows = rowsCountResult[0].count;
 
       return {
         success: true,
         message: "Admin products fetched successfully",
-        data: response,
+        data: {
+          page,
+          pageSize: pagesize,
+          hasNextPage: totalRows > page * pagesize,
+          hasPreviousPage: page > 1,
+          data: response,
+          totalRows,
+        },
       };
     } catch (error) {
       return {
