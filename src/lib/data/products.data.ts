@@ -49,60 +49,58 @@ export const getAllProducts = async (
   }
 };
 
-export const getAdminProductsWithCategories = cache(
-  async (
-    page: number = 1,
-    pagesize: number = pageSize,
-  ): Promise<
-    ApiResponse<
-      paginatedData<
-        (listings & {
-          category: categoryResponse | null;
-          likes: TLikesResponse[];
-        })[]
-      >
+export const getAdminProductsWithCategories = async (
+  page: number = 1,
+  pagesize: number = pageSize,
+): Promise<
+  ApiResponse<
+    paginatedData<
+      (listings & {
+        category: categoryResponse | null;
+        likes: TLikesResponse[];
+      })[]
     >
-  > => {
-    try {
-      //validate user auth and persmissions
-      await requireAuth();
+  >
+> => {
+  try {
+    //validate user auth and persmissions
+    await requireAuth();
 
-      // Run count and data queries concurrently for better performance
-      const [rowsCountResult, response] = await Promise.all([
-        db.select({ count: count() }).from(products),
-        db.query.products.findMany({
-          with: {
-            category: true,
-            likes: true,
-          },
-          orderBy: desc(products.createdAt),
-          limit: pagesize,
-          offset: (page - 1) * pagesize,
-        }),
-      ]);
-
-      const totalRows = rowsCountResult[0].count;
-
-      return {
-        success: true,
-        message: "Admin products fetched successfully",
-        data: {
-          page,
-          pageSize: pagesize,
-          hasNextPage: totalRows > page * pagesize,
-          hasPreviousPage: page > 1,
-          data: response,
-          totalRows,
+    // Run count and data queries concurrently for better performance
+    const [rowsCountResult, response] = await Promise.all([
+      db.select({ count: count() }).from(products),
+      db.query.products.findMany({
+        with: {
+          category: true,
+          likes: true,
         },
-      };
-    } catch (error) {
-      return {
-        success: false,
-        message: generateErrorMessage(error),
-      };
-    }
-  },
-);
+        orderBy: desc(products.createdAt),
+        limit: pagesize,
+        offset: (page - 1) * pagesize,
+      }),
+    ]);
+
+    const totalRows = rowsCountResult[0].count;
+
+    return {
+      success: true,
+      message: "Admin products fetched successfully",
+      data: {
+        page,
+        pageSize: pagesize,
+        hasNextPage: totalRows > page * pagesize,
+        hasPreviousPage: page > 1,
+        data: response,
+        totalRows,
+      },
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: generateErrorMessage(error),
+    };
+  }
+};
 
 export const getProductById = cache(
   async (id: string): Promise<ApiResponse<listings>> => {
