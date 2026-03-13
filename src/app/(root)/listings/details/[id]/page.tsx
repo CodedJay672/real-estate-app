@@ -7,13 +7,11 @@ import Back from "@/components/shared/Back";
 import Likes from "@/components/shared/Likes";
 import MoreAction from "@/components/shared/MoreAction";
 import ShareButton from "@/components/shared/ShareButton";
-import { getProductLikes } from "@/lib/actions/auth";
 import config from "@/lib/config";
-import { getProductById } from "@/lib/data/products.data";
+import { getProductById, getProductDetailsWithLikes } from "@/lib/data/products.data";
 
 
 import type { Metadata, ResolvingMetadata } from 'next'
-
 type Props = {
   params: Promise<{ id: string }>
 }
@@ -34,7 +32,7 @@ export async function generateMetadata(
 
   return {
     title: product.data.name,
-    description: product.data.description,
+    description: product.data.tags,
     openGraph: {
       images: [product.data.imageUrl ?? "", ...previousImages],
     },
@@ -49,11 +47,8 @@ const PropertyDetails = async ({
   const { id } = await params;
 
   //fetch the property by id
-  const productDetails = await getProductById(id);
-  if (!productDetails.success || !productDetails.data) return notFound();
-
-  // get likes promise
-  const likes = getProductLikes(productDetails.data.id);
+  const productDetails = await getProductDetailsWithLikes(id);
+  if (!productDetails.success) return null;
 
   // format product description
   const para = (productDetails.data?.description ?? "").split(/\r?\n/).filter(Boolean);
@@ -68,21 +63,21 @@ const PropertyDetails = async ({
           </div>
           <Image
             urlEndpoint={config.env.imagekit.urlEndpoint}
-            src={productDetails.data.imageUrl!}
-            alt={productDetails.data.name}
+            src={productDetails.data?.imageUrl!}
+            alt={productDetails.data?.name ?? ""}
             sizes="(max-width: 300px) 30em, 100%"
             fill
             priority
             className="object-cover"
           />
           <p className="text-lg md:text-xl text-light-50 font-bold capitalize absolute bottom-2 left-2 px-3 py-1 bg-dark-200/20 rounded-full">
-            {productDetails.data.type.toUpperCase()}
+            {productDetails.data?.category?.name.toUpperCase()}
           </p>
         </div>
 
         <div className="w-full flex-between">
           <p className="text-3xl lg:text-5xl font-semibold">
-            {productDetails.data.price.toLocaleString("en-NG", {
+            {productDetails.data?.price.toLocaleString("en-NG", {
               style: "currency",
               currency: "NGN",
               compactDisplay: "short",
@@ -90,21 +85,21 @@ const PropertyDetails = async ({
             })}
           </p>
           <div className="flex-center gap-2">
-            <Likes productId={productDetails.data.id} getLikes={likes} />
-            <ShareButton productLink={`${config.env.prodEndpoint}/listings/details/${productDetails.data.id}`} />
+            <Likes productId={productDetails.data?.id ?? ""} likes={productDetails.data?.likes ?? []} />
+            <ShareButton productLink={`${config.env.prodEndpoint}/listings/details/${productDetails.data?.id}`} />
             <MoreAction />
           </div>
         </div>
 
         <div className="space-y-1.5">
           <h1 className="text-base md:text-lg font-bold">
-            {productDetails.data.name}
+            {productDetails.data?.name}
           </h1>
           <p className="text-base md:text-lg text-dark-200 flex items-center gap-1">
             <MapPin className="size-4 md:size-5" />
-            {productDetails.data.location} |{" "}
+            {productDetails.data?.location} |{" "}
             <span className="text-sm md:text-base text-dark-50">
-              {productDetails.data.title}
+              {productDetails.data?.title}
             </span>
           </p>
         </div>
@@ -115,7 +110,7 @@ const PropertyDetails = async ({
               <h3 className="text-sm md:text-xs text-dark-200 font-semibold">Bedrooms</h3>
               <p className="text-nowrap text-base flex items-center gap-1">
                 <BedDouble size={24} className="text-gray-500" />
-                {productDetails.data.bedrooms}
+                {productDetails.data?.bedrooms}
               </p>
             </div>
 
@@ -123,16 +118,16 @@ const PropertyDetails = async ({
               <h3 className="text-sm md:text-xs text-dark-200 font-semibold">Bathrooms</h3>
               <p className="text-nowrap text-base flex items-center gap-1">
                 <Bath size={24} className="text-gray-500" />
-                {productDetails.data.bathrooms}
+                {productDetails.data?.bathrooms}
               </p>
             </div>
 
-            {productDetails.data.size ? (
+            {productDetails.data?.size ? (
               <div className="w-44 border border-border rounded-lg p-3 flex justify-between flex-col gap-5">
                 <h3 className="text-sm md:text-xs text-dark-200 font-semibold">Area SQFT</h3>
                 <p className="text-nowrap text-base flex items-center gap-1">
                   <Waypoints size={24} className="text-gray-500" />
-                  {productDetails.data.size} SQM
+                  {productDetails.data?.size} SQM
                 </p>
               </div>
             ) : null}

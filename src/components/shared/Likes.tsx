@@ -1,26 +1,21 @@
 "use client";
 
-import { useToast } from "@/hooks/use-toast";
-import { likeProduct } from "@/lib/actions/auth";
-import { cn, generateErrorMessage } from "@/lib/utils";
 import { Heart, Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { use, useEffect, useState, useTransition } from "react";
-import { CgSpinner } from "react-icons/cg";
+import { useEffect, useState, useTransition } from "react";
+
+import { useToast } from "@/hooks/use-toast";
+import { likeProduct } from "@/lib/actions/likes.actions";
+import { cn, generateErrorMessage } from "@/lib/utils";
 import { Button } from "../ui/button";
 
 interface TLikesProps {
-  getLikes: Promise<ApiResponse<{
-    id: string;
-    userId: string;
-    productId: string | null;
-    createdAt: Date;
-  }[]>>;
+  likes: TLikesResponse[];
   productId: string;
 }
 
-const Likes = ({ getLikes, productId }: TLikesProps) => {
+const Likes = ({ likes, productId }: TLikesProps) => {
   const { data: session, status } = useSession();
   const [isLiking, startLinking] = useTransition();
   const router = useRouter()
@@ -35,13 +30,7 @@ const Likes = ({ getLikes, productId }: TLikesProps) => {
   // handle session loading
   if (!isMounted || status === "loading") return null;
 
-  const productLikes = use(getLikes);
-  if (!productLikes.success) {
-    console.log(productLikes.message)
-    return;
-  }
-
-  const hasLiked = productLikes.data?.find(like => like.userId === session?.user.id);
+  const hasLiked = likes.find(like => like.userId === session?.user.id);
 
   const handleLikeProperty = (productId: string) => {
     if (!session) return router.push("/sign-in");
@@ -86,11 +75,11 @@ const Likes = ({ getLikes, productId }: TLikesProps) => {
           className={cn("size-6 md:size-8 transition-transform transform-3d group-hover:scale-105 text-rose-600", hasLiked ? "fill-red-500" : "fill-light-50")}
         />
       )}
-      {productLikes.data && productLikes.data.length > 0 && (
+      {likes.length > 0 && (
         <span className="text-center text-xs text-blue-300">
-          {productLikes.data?.length / 1000 > 1
-            ? `${productLikes.data?.length / 1000}k`
-            : productLikes.data?.length}
+          {likes?.length / 1000 > 1
+            ? `${likes.length / 1000}k`
+            : likes.length}
         </span>
       )}
     </Button>

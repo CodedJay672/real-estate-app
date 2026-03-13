@@ -1,9 +1,9 @@
+import { Suspense } from "react";
+
 import Back from "@/components/shared/Back";
 import ProductForm from "@/components/forms/ProductForm";
-import { notFound } from "next/navigation";
 import { getProductById } from "@/lib/data/products.data";
 import { getAllAdminCategories } from "@/lib/data/category.data";
-import { Suspense } from "react";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 const AddProducts = async ({

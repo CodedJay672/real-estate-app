@@ -50,6 +50,20 @@
       "when": 1772877150190,
       "tag": "0006_uneven_scorpion",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1773382114612,
+      "tag": "0009_productive_master_chief",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1773397395280,
+      "tag": "0008_regular_quentin_quire",
+      "breakpoints": true
     }
   ]
 }

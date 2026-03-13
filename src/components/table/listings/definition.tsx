@@ -10,23 +10,13 @@ import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 
 
 const columnHelper = createColumnHelper<(listings & {
-  category: {
-    id: string;
-    name: string;
-    createdAt: Date;
-    updatedAt: Date;
-    description: string;
-  } | null;
+  category: categoryResponse | null;
+  likes: TLikesResponse[]
 })>();
 
 export const productColumns: ColumnDef<(listings & {
-  category: {
-    id: string;
-    name: string;
-    createdAt: Date;
-    updatedAt: Date;
-    description: string;
-  } | null;
+  category: categoryResponse | null;
+  likes: TLikesResponse[]
 })>[] = [
     {
       accessorKey: "id",
@@ -83,13 +73,22 @@ export const productColumns: ColumnDef<(listings & {
     {
       accessorKey: "Size",
       cell: ({ row }) => {
-        const { type, size } = row.original;
+        const { size } = row.original;
         return (
           <span className="whitespace-nowrap">
-            {type === "land" ? `${size} SQM` : "N/A"}
+            {size ? `${size} SQM` : "--"}
           </span>
         )
       },
+    },
+    {
+      accessorKey: "likes",
+      header: "Likes",
+      cell: ({ row }) => {
+        const { likes } = row.original;
+
+        return <>{likes.length}</>
+      }
     },
     {
       accessorKey: "listingStatus",
@@ -180,10 +179,10 @@ export const categoryProductsColumns: ColumnDef<listings>[] = [
   {
     accessorKey: "Size",
     cell: ({ row }) => {
-      const { type, size } = row.original;
+      const { size } = row.original;
       return (
         <span className="whitespace-nowrap">
-          {type === "land" ? `${size} SQM` : "N/A"}
+          {size ? `${size} SQM` : "--"}
         </span>
       )
     },

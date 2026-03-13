@@ -6,7 +6,7 @@ import AdminTopbar from "@/components/admin/AdminTopbar";
 import Sidebar from "@/components/container/Sidebar";
 
 export const metadata: Metadata = {
-  title: "Admin | Clean Beautiful Properties",
+  title: "Admin",
   description:
     "This is an admin app for clean beautiful properties realty.",
 };

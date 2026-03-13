@@ -1,28 +1,31 @@
 "use client";
 
-import { productSchema } from "@/lib/validations/schema";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { use, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+
+import { productSchema } from "@/lib/validations/schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "../ui/form";
 import { Button } from "../ui/button";
-import { RiLoader5Line } from "react-icons/ri";
 import { Textarea } from "../ui/textarea";
 import FileUploader from "../shared/FileUploader";
 import { useToast } from "@/hooks/use-toast";
-import { updateProductById, uploadProducts } from "@/lib/actions/auth";
-import { useRouter } from "next/navigation";
 import CustomInput from "./CustomInput";
 import CustomSelect from "./CustomSelect";
 import { generateErrorMessage } from "@/lib/utils";
-import { use } from "react";
+import { updateProductById, uploadProducts } from "@/lib/actions/products.actions";
+import { Loader2 } from "lucide-react";
+import { useProductProvider } from "../providers/StoreProvider";
 
 interface ProductFormProps {
   type: 'add-new' | 'update',
@@ -41,6 +44,8 @@ const ProductForm = ({
   defaultCategoryId,
   callbackFn
 }: ProductFormProps) => {
+  const { setProductImageId, productImageId } = useProductProvider((state) => state);
+
   const { toast } = useToast();
   const router = useRouter();
 
@@ -56,6 +61,7 @@ const ProductForm = ({
   let productInfo: ApiResponse<listings> | undefined;
   if (productId && product) productInfo = use(product);
 
+  // form structure and default values
   const form = useForm<z.infer<typeof productSchema>>({
     resolver: zodResolver(productSchema),
     defaultValues: {
@@ -67,11 +73,11 @@ const ProductForm = ({
       bedrooms: productInfo?.data?.bedrooms || 0,
       bathrooms: productInfo?.data?.bathrooms || 0,
       size: productInfo?.data?.size || 0,
-      type: productInfo?.data?.type || "",
       categoryId: productInfo?.data?.categoryId || "",
       listingStatus: productInfo?.data?.listingStatus || "selling",
       imageUrl: productInfo?.data?.imageUrl || "",
-      amenities: "",
+      imageId: productInfo?.data?.imageId || "",
+      tags: productInfo?.data?.tags || "",
     },
   });
 
@@ -79,8 +85,8 @@ const ProductForm = ({
     try {
       const response =
         type === "add-new" || !productId
-          ? await uploadProducts(values)
-          : await updateProductById(productId, values);
+          ? await uploadProducts({ ...values, imageId: productImageId })
+          : await updateProductById(productId, { ...values, imageId: productImageId });
 
       if (!response.success) {
         toast({
@@ -115,6 +121,7 @@ const ProductForm = ({
           type="text"
           control={form.control}
           placeholder="Enter property Name"
+          required={true}
         />
         <CustomInput
           name="location"
@@ -122,6 +129,7 @@ const ProductForm = ({
           type="text"
           control={form.control}
           placeholder="Location of property"
+          required={true}
         />
         <div className="flex items-center justify-between gap-2">
           <CustomInput
@@ -130,6 +138,7 @@ const ProductForm = ({
             type="text"
             control={form.control}
             placeholder="Enter property title"
+            required={true}
           />
 
           <FormField
@@ -183,31 +192,28 @@ const ProductForm = ({
             type="number"
             control={form.control}
             placeholder="Enter price..."
+            required={true}
           />
         </div>
         <div className="flex items-center justify-between gap-2">
-          {form.getValues("type") === "house" && (
-            <>
-              <CustomInput
-                name="bedrooms"
-                label="Bedrooms"
-                type="nubmer"
-                control={form.control}
-                placeholder="Bedrooms"
-              />
-              <CustomInput
-                name="bathrooms"
-                label="Bathrooms"
-                type="nubmer"
-                control={form.control}
-                placeholder="Bedrooms"
-              />
-            </>
-          )}
+          <CustomInput
+            name="bedrooms"
+            label="Bedrooms (Optional)"
+            type="nubmer"
+            control={form.control}
+            placeholder="Bedrooms"
+          />
+          <CustomInput
+            name="bathrooms"
+            label="Bathrooms (Optional)"
+            type="nubmer"
+            control={form.control}
+            placeholder="Bedrooms"
+          />
 
           <CustomInput
             name="size"
-            label="Size"
+            label="Size (optional)"
             type="nubmer"
             control={form.control}
             placeholder="Bedrooms"
@@ -223,7 +229,7 @@ const ProductForm = ({
                 Description
               </FormLabel>
               <FormControl>
-                <Textarea rows={7} placeholder="Description" {...field} />
+                <Textarea rows={7} placeholder="Description" required {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -239,20 +245,24 @@ const ProductForm = ({
                 Images
               </FormLabel>
               <FormControl>
-                <FileUploader onFieldChange={field.onChange} {...field} />
+                <FileUploader onFieldChange={field.onChange} imageId={productInfo?.data?.imageId ?? ""} {...field} />
               </FormControl>
               <FormMessage />
+              <FormDescription>
+                (Only JPEG and PNG files are acceptable. Max 2MB)
+              </FormDescription>
             </FormItem>
           )}
         />
 
-        {/* <CustomInput
-          name="amenities"
-          label="Amenities"
+        <CustomInput
+          name="tags"
+          label="Tags (add SEO related tags)"
           type="text"
           control={form.control}
           placeholder="Seperate list with a comma (,)"
-        /> */}
+          required={true}
+        />
 
         <Button
           type="submit"
@@ -260,7 +270,7 @@ const ProductForm = ({
           disabled={form.formState.isSubmitting}
         >
           {form.formState.isSubmitting && (
-            <RiLoader5Line size={24} className="animate-spin mr-2" />
+            <Loader2 size={24} className="animate-spin mr-2" />
           )}
           {type === "add-new" ? "Add Product" : "Update Product"}
         </Button>

@@ -1,3 +1,4 @@
+import { randomBytes } from "crypto";
 import { relations } from "drizzle-orm";
 import {
   index,
@@ -36,14 +37,16 @@ export const products = pgTable(
     title: varchar("title", { length: 255 }).notNull(),
     location: varchar("location", { length: 255 }).notNull(),
     listingStatus: LISTING_STATUS("status").notNull().default("selling"),
-    type: varchar("type", { length: 256 }).notNull(),
     description: text("description").notNull(),
     imageUrl: text("image_url").notNull(),
+    imageId: text("image_id").unique(),
     categoryId: uuid("category_id").references(() => categoriesTable.id),
     bedrooms: integer("bedrooms"),
     bathrooms: integer("bathrooms"),
+    sharedCount: integer("shared_count").default(0),
     size: integer("size"),
     price: integer("price").notNull(),
+    tags: text("tags"),
     createdAt: timestamp("created_at").notNull().defaultNow(),
     updatedAt: timestamp("updated_at").notNull().defaultNow(),
   },

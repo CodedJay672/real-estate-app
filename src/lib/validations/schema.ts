@@ -1,4 +1,4 @@
-import { z, infer } from "zod";
+import { z } from "zod";
 
 export const signInSchema = z.object({
   email: z.string().email(),
@@ -22,14 +22,17 @@ export const productSchema = z.object({
   description: z.string(),
   price: z.coerce.number(),
   location: z.string(),
-  bedrooms: z.coerce.number(),
-  bathrooms: z.coerce.number(),
-  size: z.coerce.number(),
+  bedrooms: z.coerce.number().optional(),
+  bathrooms: z.coerce.number().optional(),
+  size: z.coerce.number().optional(),
   categoryId: z.string(),
-  type: z.string(),
-  listingStatus: z.enum(["selling", "sold out", "reopened"]),
+  listingStatus: z.enum(["selling", "sold out", "reopened"]).default("selling"),
   imageUrl: z.string(),
-  amenities: z.string(),
+  imageId: z.string(),
+  tags: z.string().nonempty({
+    message:
+      "SEO tags cannot be empty. please provide a comma seperated list of tags",
+  }),
 });
 
 export const contactSchema = z.object({
@@ -44,3 +47,5 @@ export const categorySchema = z.object({
   }),
   description: z.string().optional(),
 });
+
+export type productFormSchema = z.infer<typeof productSchema>;

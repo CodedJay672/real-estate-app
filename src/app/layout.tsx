@@ -5,6 +5,7 @@ import localFont from "next/font/local";
 import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
 import { LayoutProvider } from "@/components/providers/LayoutProvider";
+import { ProductStoreProvider } from "@/components/providers/StoreProvider";
 
 
 export const metadata: Metadata = {
@@ -47,7 +48,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en">
       <body className={`${lufga.className} antialiased`}>
         <LayoutProvider>
-          {children}
+          <ProductStoreProvider>
+            {children}
+          </ProductStoreProvider>
           <Toaster />
         </LayoutProvider>
       </body>
