@@ -4,9 +4,12 @@ import { getAdminProductsWithCategories } from '@/lib/data/products.data';
 import AdminListing from '../container/AdminListing';
 import { DataTable } from '../table/DataTable';
 import { productColumns } from '../table/listings/definition';
+import PaginationBar from '../shared/paginationBar';
 
-async function Propertylistings({ query }: { query: string }) {
-  const properties = await getAdminProductsWithCategories();
+async function Propertylistings({ query }: { query: { page?: number; pageSize?: number } }) {
+
+  // get property details
+  const properties = await getAdminProductsWithCategories(query.page, query.pageSize);
   if (!properties.success) {
     return (
       <div className="w-full h-[50vh] flex-center flex-col gap-1">
@@ -21,12 +24,12 @@ async function Propertylistings({ query }: { query: string }) {
   return (
     <>
       <div className='hidden sm:flex'>
-        <DataTable columns={productColumns} data={properties.data ?? []} />
+        <DataTable columns={productColumns} data={properties.data?.data ?? []} />
       </div>
 
       <div className="w-full sm:hidden space-y-8 mt-4 p-1.5">
-        {properties.data && properties.data?.length > 0 ? (
-          properties.data.map((product) => (
+        {properties.data && properties.data.data?.length > 0 ? (
+          properties.data.data.map((product) => (
             <AdminListing
               key={product.id}
               {...product}
@@ -38,6 +41,8 @@ async function Propertylistings({ query }: { query: string }) {
           </p>
         )}
       </div>
+
+      <PaginationBar defaultPageSize={query.pageSize ?? 25} totalRows={properties.data?.totalRows ?? 25} />
     </>
   )
 }

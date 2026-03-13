@@ -11,9 +11,9 @@ import LoadingSpinner from "@/components/shared/LoadingSpinner";
 const Listings = async ({
   searchParams,
 }: {
-  searchParams: Promise<{ query: string, tab: string }>;
+  searchParams: Promise<TFilterQuery & { tab: string }>;
 }) => {
-  const { query, tab } = await searchParams;
+  const { page, pageSize, tab } = await searchParams;
 
   const tabs: TabsType[] = [
     {
@@ -59,9 +59,9 @@ const Listings = async ({
         </div>
 
         {tab ? (
-          <Suspense key={JSON.stringify({ query, tab })} fallback={<LoadingSpinner />}>
+          <Suspense key={JSON.stringify({ page, pageSize, tab })} fallback={<LoadingSpinner />}>
             {tab === "products" ? (
-              <Propertylistings query={query} />
+              <Propertylistings query={{ page, pageSize }} />
             ) : (
               <AdminCategories />
             )}

@@ -41,6 +41,15 @@ type ApiResponse<T> = {
   error?: Record<string, string[]>;
 };
 
+type paginatedData<T> = {
+  totalRows: number;
+  hasPreviousPage: boolean;
+  hasNextPage: boolean;
+  page: number;
+  pageSize: number;
+  data: T;
+};
+
 type TFilterQuery = {
   name?: string;
   category?: string;
@@ -48,10 +57,8 @@ type TFilterQuery = {
   baths?: number | null;
   beds?: number | null;
   postedOn?: Date | null;
-  cursor?: {
-    id: string;
-    name: string;
-  };
+  page?: number;
+  pageSize?: number;
 };
 
 type TLikesResponse = {
