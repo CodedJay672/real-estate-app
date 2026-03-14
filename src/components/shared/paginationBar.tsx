@@ -1,7 +1,6 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
 
 import {
   Pagination,
@@ -11,25 +10,22 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination"
+} from "@/components/ui/pagination";
+import useSearch from "@/hooks/useSearch";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
 function PaginationBar({ totalRows, defaultPageSize }: { totalRows: number; defaultPageSize: number }) {
   const paginationQueries = useSearchParams();
   const page = paginationQueries.get('page') || '1';
   const pageSize = paginationQueries.get('pageSize') || '25';
-  const router = useRouter();
+  const { handleSearch } = useSearch();
 
   const currentPage = parseInt(page);
   const currentPageSize = parseInt(pageSize);
   const totalPages = Math.ceil(totalRows / currentPageSize);
 
   const updateQuery = (newParams: Record<string, string>) => {
-    const params = new URLSearchParams(paginationQueries.toString());
-    Object.entries(newParams).forEach(([key, value]) => {
-      params.set(key, value);
-    });
-    router.push(`?${params.toString()}`);
+    handleSearch(newParams)
   };
 
   const handlePageSizeChange = (newPageSize: string) => {

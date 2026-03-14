@@ -32,7 +32,10 @@ const ProductListings = async ({
     <section className="w-full py-20">
       <div className="container flex gap-4 md:gap-8 mx-auto p-2 md:p-4">
         <div className="hidden md:block h-max w-full md:w-1/4 sticky top-10 left-0 space-y-10">
-          <h1 className="text-lg font-semibold">Filter searches</h1>
+          <div>
+            <h1 className="text-lg font-semibold">Filter searches</h1>
+            <p className='text-sm text-dark-50'>Find properties faster with filters.</p>
+          </div>
           <div className="p-2 bg-light-100/10 rounded-xl border border-border">
             <Suspense fallback={<LoadingSpinner />}>
               <GroupFilter getCategories={categories} />
@@ -43,7 +46,11 @@ const ProductListings = async ({
 
         <div className="flex-1 space-y-4">
           <div className='flex-between gap-2'>
-            <h1 className="text-lg md:text-2xl font-semibold">Explore All Products</h1>
+            <div>
+              <h1 className="text-lg md:text-2xl font-semibold">Explore All Products</h1>
+              <p className='text-sm text-dark-50 md:hidden'>Find properties faster with filters</p>
+            </div>
+
             <div className='flex md:hidden bg-light-100/30 border border-border rounded-lg p-2'>
               <MobileFilter categories={categories} />
             </div>
@@ -61,6 +68,7 @@ const ProductListings = async ({
                 ...query,
                 postedOn: query.postedOn ? new Date(query.postedOn as any) : null,
               }}
+              defaultPageSize={query.pageSize ?? 25}
             />
           </Suspense>
 

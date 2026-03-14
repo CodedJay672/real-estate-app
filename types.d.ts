@@ -29,6 +29,7 @@ type listings = {
   imageUrl?: string;
   imageId: string | null;
   description?: string;
+  sharedCount: number | null;
   bedrooms: number | null;
   bathrooms: number | null;
   tags: string | null;

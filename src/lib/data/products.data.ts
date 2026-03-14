@@ -10,44 +10,66 @@ import { requireAuth } from "./users.data";
 
 const pageSize = 25;
 
-export const getAllProducts = async (
-  query?: TFilterQuery,
-): Promise<ApiResponse<(listings & { likes: TLikesResponse[] })[]>> => {
-  try {
-    const response = await db.query.products.findMany({
-      where: and(
+export const getAllProducts = cache(
+  async (
+    query?: TFilterQuery,
+  ): Promise<
+    ApiResponse<paginatedData<(listings & { likes: TLikesResponse[] })[]>>
+  > => {
+    try {
+      // Build the where clause
+      const whereClause = and(
         query?.name ? ilike(products.name, `%${query.name}%`) : undefined,
         query?.price ? gte(products.price, query.price) : undefined,
         query?.beds ? eq(products.bedrooms, query.beds) : undefined,
         query?.baths ? eq(products.bathrooms, query.baths) : undefined,
         query?.category ? eq(products.categoryId, query.category) : undefined,
         query?.postedOn ? gte(products.createdAt, query.postedOn) : undefined,
-      ),
-      with: {
-        likes: true,
-      },
-      orderBy: asc(products.createdAt),
-    });
+      );
 
-    if (!response || response.length === 0)
+      const [totalCount, allProducts] = await Promise.all([
+        db.select({ count: count() }).from(products).where(whereClause),
+        db.query.products.findMany({
+          where: whereClause,
+          with: {
+            likes: true,
+          },
+          orderBy: desc(products.createdAt),
+          limit: query?.pageSize ?? pageSize,
+          offset:
+            query?.page && query?.pageSize
+              ? (query.page - 1) * query.pageSize
+              : 0,
+        }),
+      ]);
+
+      // get the total rows
+      const totalRows = totalCount[0].count;
+
+      return {
+        success: true,
+        message: "Admin products fetched successfully",
+        data: {
+          page: query?.page ?? 1,
+          pageSize: query?.pageSize ?? pageSize,
+          hasNextPage:
+            query?.page && query?.pageSize
+              ? totalRows > query.page * query.pageSize
+              : totalRows > pageSize,
+          hasPreviousPage: query?.page ? query.page > 1 : false,
+          data: allProducts,
+          totalRows,
+        },
+      };
+    } catch (error) {
+      console.error(error);
       return {
         success: false,
-        message: "Failed to get all products",
+        message: generateErrorMessage(error),
       };
-
-    return {
-      success: true,
-      message: "Success fetching all products.",
-      data: response,
-    };
-  } catch (error) {
-    console.error(error);
-    return {
-      success: false,
-      message: generateErrorMessage(error),
-    };
-  }
-};
+    }
+  },
+);
 
 export const getAdminProductsWithCategories = async (
   page: number = 1,
@@ -170,7 +192,7 @@ export const getProductDetailsWithLikes = cache(
 
       console.log("Product likes fetched.");
       return {
-        success: false,
+        success: true,
         message: "Product details with likes count fetched.",
         data: response,
       };

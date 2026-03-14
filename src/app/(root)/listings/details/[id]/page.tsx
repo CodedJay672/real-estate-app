@@ -5,13 +5,13 @@ import { notFound } from "next/navigation";
 import ContactForm from "@/components/forms/ContactForm";
 import Back from "@/components/shared/Back";
 import Likes from "@/components/shared/Likes";
-import MoreAction from "@/components/shared/MoreAction";
 import ShareButton from "@/components/shared/ShareButton";
 import config from "@/lib/config";
 import { getProductById, getProductDetailsWithLikes } from "@/lib/data/products.data";
 
 
 import type { Metadata, ResolvingMetadata } from 'next'
+import PropertyDetailsActions from "@/components/container/PropertyDetailsActions";
 type Props = {
   params: Promise<{ id: string }>
 }
@@ -57,19 +57,23 @@ const PropertyDetails = async ({
     <section className="container mx-auto py-28 px-4 md:px-10 flex flex-col md:flex-row gap-20 md:gap-10">
       <div className="flex-1 space-y-6">
 
-        <div className="w-full h-96 overflow-hidden rounded-xl relative">
+        <div className="w-full h-96 overflow-hidden bg-light-100 rounded-xl relative">
           <div className="bg-light-50 rounded-full absolute top-2 left-2 flex-center z-1">
             <Back />
           </div>
-          <Image
-            urlEndpoint={config.env.imagekit.urlEndpoint}
-            src={productDetails.data?.imageUrl!}
-            alt={productDetails.data?.name ?? ""}
-            sizes="(max-width: 300px) 30em, 100%"
-            fill
-            priority
-            className="object-cover"
-          />
+
+          {productDetails.data?.imageUrl && (
+            <Image
+              urlEndpoint={config.env.imagekit.urlEndpoint}
+              src={productDetails.data?.imageUrl!}
+              alt={productDetails.data?.name ?? ""}
+              sizes="(max-width: 300px) 30em, 100%"
+              fill
+              priority
+              className="object-cover"
+            />
+          )}
+
           <p className="text-lg md:text-xl text-light-50 font-bold capitalize absolute bottom-2 left-2 px-3 py-1 bg-dark-200/20 rounded-full">
             {productDetails.data?.category?.name.toUpperCase()}
           </p>
@@ -84,11 +88,7 @@ const PropertyDetails = async ({
               maximumFractionDigits: 0
             })}
           </p>
-          <div className="flex-center gap-2">
-            <Likes productId={productDetails.data?.id ?? ""} likes={productDetails.data?.likes ?? []} />
-            <ShareButton productLink={`${config.env.prodEndpoint}/listings/details/${productDetails.data?.id}`} />
-            <MoreAction />
-          </div>
+          <PropertyDetailsActions productId={productDetails.data?.id ?? ''} productLikes={productDetails.data?.likes ?? []} productShareCount={productDetails.data?.sharedCount ?? 0} productShareLink={`${config.env.prodEndpoint}/listings/details/${productDetails.data?.id}`} />
         </div>
 
         <div className="space-y-1.5">
