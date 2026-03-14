@@ -2,12 +2,13 @@
 
 import { Filter } from "lucide-react";
 import { Button } from "../ui/button";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import CustomDialog from "../shared/CustomDialog";
 import GroupFilter from "../container/GroupFilter";
+import LoadingSpinner from "../shared/LoadingSpinner";
 
 
-export default function AdminFilterButton() {
+export default function AdminFilterButton({ getCategories }: { getCategories: Promise<ApiResponse<categoryResponse[]>> }) {
   const [showFilters, setShowFilters] = useState(false)
 
 
@@ -19,7 +20,9 @@ export default function AdminFilterButton() {
       </Button>
 
       <CustomDialog open={showFilters} onOpenChange={setShowFilters} title="Property filters" description="Filter down to specific properties.">
-        <GroupFilter callbackFn={() => setShowFilters(false)} />
+        <Suspense fallback={<LoadingSpinner />}>
+          <GroupFilter getCategories={getCategories} callbackFn={() => setShowFilters(false)} />
+        </Suspense>
       </CustomDialog>
     </>
   )

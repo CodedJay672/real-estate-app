@@ -45,16 +45,16 @@ const PropertyCard = (props: (listings & {
         href={`listings/details/${props.id}`}
         className="flex flex-col w-full px-4 py-8 space-y-4"
       >
-        <small className="text-sm text-gray-500">{props.createdAt?.toLocaleDateString("en-UK", {
+        <small className="text-xs text-light-200">Posted: {props.createdAt?.toLocaleDateString("en-UK", {
           dateStyle: "medium",
           hour12: true
         })}</small>
         <div className="space-y-1 mb-4">
-          <h2 className="text-2xl lg:text-xl font-semibold">{props.name}</h2>
-          <p className="text-sm text-gray-600">{props.location}</p>
+          <h2 className="text-2xl lg:text-xl font-semibold line-clamp-2 text-ellipsis">{props.name}</h2>
+          <p className="text-sm text-dark-50 line-clamp-2 text-ellipsis">{props.location}</p>
         </div>
         <div className="flex-1">
-          <p className="text-base line-clamp-2">{props.description}</p>
+          <p className="text-base line-clamp-2 text-ellipsis">{props.description}</p>
         </div>
         <div className="flex-between items-center mt-4 gap-4">
           <p className="text-xl md:text-lg font-bold">

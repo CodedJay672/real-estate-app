@@ -43,9 +43,7 @@ export const getAllAdminCategories = async (): Promise<
 > => {
   try {
     //veriy auth and admin role
-    const session = await auth();
-    if (!session?.user || session?.user.role !== "admin")
-      throw new Error("Unauthorized access. Please go to the home page.");
+    await requireAuth();
 
     // make database query
     const response = await db.select().from(categoriesTable);

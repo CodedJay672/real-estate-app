@@ -22,8 +22,8 @@ const SpecialOffers = async () => {
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mx-auto gap-8 p-2.5">
-          {response.data && response.data.length > 0 ? (
-            response.data.slice(0, 4).map((property) => (
+          {response.data && response.data.data?.length > 0 ? (
+            response.data.data?.slice(0, 4).map((property) => (
               <PropertyCard
                 key={property.id}
                 {...property}
@@ -54,8 +54,8 @@ const SpecialOffers = async () => {
         </div>
 
         <div className="w-full p-2.5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mx-auto gap-8">
-          {response.data && response.data.length > 0 ? (
-            response.data.slice(6, 14).map((property) => (
+          {response.data && response.data.data?.length > 0 ? (
+            response.data.data?.slice(6, 14).map((property) => (
               <PropertyCard
                 key={property.id}
                 {...property}

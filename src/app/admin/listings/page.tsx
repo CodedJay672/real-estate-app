@@ -9,6 +9,7 @@ import Propertylistings from "@/components/admin/Propertylistings";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import AdminSearchBar from "@/components/admin/AdminSearchBar";
 import AdminFilterButton from "@/components/admin/AdminFilterButton";
+import { getAllAdminCategories } from "@/lib/data/category.data";
 
 const Listings = async ({
   searchParams,
@@ -29,6 +30,8 @@ const Listings = async ({
       value: 'categories'
     }
   ]
+
+  const categories = getAllAdminCategories();
 
   return (
     <section className="wrapper">
@@ -63,7 +66,7 @@ const Listings = async ({
 
           <div className='flex gap-1'>
             <AdminSearchBar placeholder='Search property name...' />
-            <AdminFilterButton />
+            <AdminFilterButton getCategories={categories} />
           </div>
         </div>
 

@@ -76,7 +76,7 @@ const Likes = ({ likes, productId }: TLikesProps) => {
         />
       )}
       {likes.length > 0 && (
-        <span className="text-center text-xs text-blue-300">
+        <span className="text-center text-xs text-red-500">
           {likes?.length / 1000 > 1
             ? `${likes.length / 1000}k`
             : likes.length}
