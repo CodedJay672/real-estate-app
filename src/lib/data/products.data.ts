@@ -1,10 +1,12 @@
 import "server-only";
 
-import { and, asc, count, desc, eq, gte, ilike } from "drizzle-orm";
+import { and, count, desc, eq, gte, ilike } from "drizzle-orm";
+import { after } from "next/server";
 import { cache } from "react";
 
 import { db } from "@/db/drizzle";
 import { products } from "@/db/schema";
+import { updateSearchCount } from "../actions/search.actions";
 import { generateErrorMessage } from "../utils";
 import { requireAuth } from "./users.data";
 
@@ -46,6 +48,16 @@ export const getAllProducts = cache(
       // get the total rows
       const totalRows = totalCount[0].count;
 
+      // run top search update in the background
+      after(async () => {
+        if (query && allProducts.length > 0) {
+          console.log("updating top search table");
+
+          await updateSearchCount(allProducts[0].id);
+        }
+      });
+
+      // return immediately
       return {
         success: true,
         message: "Admin products fetched successfully",

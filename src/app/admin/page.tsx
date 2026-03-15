@@ -1,3 +1,4 @@
+import TopSearches from "@/components/admin/TopSearches";
 import StatsCard from "@/components/shared/StatsCard";
 import { auth } from "@/lib/auth";
 import { getAllProducts } from "@/lib/data/products.data";
@@ -25,7 +26,13 @@ const AdminPage = async () => {
 
       <div className="w-full flex lg:max-w-(--breakpoint-md) justify-between items-center gap-6">
         <StatsCard title="Total Users" value={users?.data?.length!} />
-        <StatsCard title="Total Listings" value={response?.data?.length!} />
+        <StatsCard title="Total Listings" value={response?.data?.data.length!} />
+      </div>
+
+      <div className="w-full flex justify-between flex-col md:flex-row gap-4">
+        <div />
+
+        <TopSearches />
       </div>
     </section>
   );

@@ -69,4 +69,12 @@ type TLikesResponse = {
   productId: string | null;
 };
 
+type TTopSearchResponse = {
+  id: string;
+  productId: string | null;
+  searchCount: number | null;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 type TabsType = { id: string; label: string; value: string };

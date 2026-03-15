@@ -35,7 +35,7 @@ async function SearchResultsPage({ searchParams }: { searchParams: Promise<TFilt
               ))}
             </div>
           }>
-            <ProductList query={{ baths, beds, category, price }} />
+            <ProductList query={{ baths, beds, category, price }} defaultPageSize={24} />
           </Suspense>
         </div>
       ) : (

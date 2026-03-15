@@ -17,7 +17,11 @@ export const createCategory = async (data: {
   // sanitize form inputs
   const parsedData = categorySchema.safeParse(data);
   if (!parsedData.success) {
-    return { success: false, message: parsedData.error.errors[0].message };
+    return {
+      success: false,
+      message: "input validation failed",
+      error: parsedData.error.flatten().fieldErrors,
+    };
   }
 
   try {
@@ -80,7 +84,11 @@ export const updateCategory = async (
   // sanitize form inputs
   const parsedData = categorySchema.safeParse(data);
   if (!parsedData.success) {
-    return { success: false, message: parsedData.error.errors[0].message };
+    return {
+      success: false,
+      message: "input validation failed",
+      error: parsedData.error.flatten().fieldErrors,
+    };
   }
 
   try {

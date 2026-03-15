@@ -72,7 +72,7 @@ const PropertyDetails = async ({
             />
           )}
 
-          <p className="text-lg md:text-xl text-light-50 font-bold capitalize absolute bottom-2 left-2 px-3 py-1 bg-dark-200/20 rounded-full">
+          <p className="text-base md:text-lg text-light-50 font-bold capitalize absolute bottom-2 left-2 px-3 py-1 bg-dark-200/20 rounded-full">
             {productDetails.data?.category?.name.toUpperCase()}
           </p>
         </div>
