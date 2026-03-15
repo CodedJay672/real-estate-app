@@ -64,6 +64,13 @@
       "when": 1773397395280,
       "tag": "0008_regular_quentin_quire",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1773595204484,
+      "tag": "0009_wealthy_lester",
+      "breakpoints": true
     }
   ]
 }

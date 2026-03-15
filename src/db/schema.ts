@@ -1,4 +1,3 @@
-import { randomBytes } from "crypto";
 import { relations } from "drizzle-orm";
 import {
   index,
@@ -83,6 +82,14 @@ export const likes = pgTable("likes", {
     .notNull(),
   productId: uuid("product").references(() => products.id),
   createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const topSearches = pgTable("searches", {
+  id: uuid("id").primaryKey().defaultRandom().notNull(),
+  productId: uuid("product_id").references(() => products.id),
+  searchCount: integer("search_count").default(0),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
 //==================== Relationships ===========================
