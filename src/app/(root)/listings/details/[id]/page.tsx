@@ -4,14 +4,12 @@ import { notFound } from "next/navigation";
 
 import ContactForm from "@/components/forms/ContactForm";
 import Back from "@/components/shared/Back";
-import Likes from "@/components/shared/Likes";
-import ShareButton from "@/components/shared/ShareButton";
 import config from "@/lib/config";
 import { getProductById, getProductDetailsWithLikes } from "@/lib/data/products.data";
 
 
-import type { Metadata, ResolvingMetadata } from 'next'
 import PropertyDetailsActions from "@/components/container/PropertyDetailsActions";
+import type { Metadata, ResolvingMetadata } from 'next';
 type Props = {
   params: Promise<{ id: string }>
 }
@@ -88,7 +86,7 @@ const PropertyDetails = async ({
               maximumFractionDigits: 0
             })}
           </p>
-          <PropertyDetailsActions productId={productDetails.data?.id ?? ''} productLikes={productDetails.data?.likes ?? []} productShareCount={productDetails.data?.sharedCount ?? 0} productShareLink={`${config.env.prodEndpoint}/listings/details/${productDetails.data?.id}`} />
+          <PropertyDetailsActions productId={productDetails.data?.id ?? ''} productLikes={productDetails.data?.likes ?? []} productShareCount={productDetails.data?.sharedCount ?? 0} productShareLink={`${config.env.prodEndpoint}listings/details/${productDetails.data?.id}`} />
         </div>
 
         <div className="space-y-1.5">

@@ -1,13 +1,23 @@
 "use client"
 
+
+import { useRouter } from 'next/navigation';
+import { useSession } from "next-auth/react";
+
 import { Loader2, Share2 } from "lucide-react"
 import { Button } from "../ui/button"
 
 
 const ShareButton = ({ callbackFn, productLink, shareCount, loading }: { productLink: string; shareCount: number, callbackFn?: () => void, loading: boolean }) => {
+  const router = useRouter();
+  const { data: session, status } = useSession();
 
   // update share count on successful sharing
   const handleClick = () => {
+    // only authenticated users
+    if (!session?.user || status !== "authenticated") return router.push('/sign-in');
+
+    // continue to share
     if (navigator.share) {
       navigator.share({
         title: 'Check out this product!',
