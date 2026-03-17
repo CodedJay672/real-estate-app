@@ -33,10 +33,13 @@ export async function updateSearchCount(
     }
 
     // update the product count
-    await db.update(topSearches).set({
-      searchCount: (isRecorded[0].count || 0) + 1,
-      updatedAt: new Date(),
-    });
+    await db
+      .update(topSearches)
+      .set({
+        searchCount: (isRecorded[0].count || 0) + 1,
+        updatedAt: new Date(),
+      })
+      .where(eq(topSearches.productId, productId));
 
     return {
       success: false,

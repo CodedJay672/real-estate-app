@@ -1,10 +1,12 @@
+import { Suspense } from "react";
+
 import FAQ from "@/components/container/FAQ";
 import FeaturedListings from "@/components/container/FeaturedListings";
 import Herosection from "@/components/container/HeroSection";
 import PropertyCardSkeleton from "@/components/container/PropertyCardSkeleton";
 import SpecialOffers from "@/components/container/SpecialOffers";
 import Testimonials from "@/components/container/Testimonials";
-import { Suspense } from "react";
+import TopSearchedProperties from "@/components/container/TopSearchedProperties";
 
 
 
@@ -15,6 +17,10 @@ export default async function Home() {
 
       <Suspense fallback={<Loader />}>
         <SpecialOffers />
+      </Suspense>
+
+      <Suspense>
+        <TopSearchedProperties />
       </Suspense>
 
       <FeaturedListings />

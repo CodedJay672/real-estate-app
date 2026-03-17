@@ -16,7 +16,7 @@ const Listings = async ({
 }: {
   searchParams: Promise<TFilterQuery & { tab: string }>;
 }) => {
-  const { page, pageSize, tab } = await searchParams;
+  const { tab, ...query } = await searchParams;
 
   const tabs: TabsType[] = [
     {
@@ -57,7 +57,7 @@ const Listings = async ({
         </Link>
       </div>
 
-      <div className="w-full rounded-xl border border-border">
+      <div className="w-full rounded-xl border border-border bg-light-50">
         <div className="w-full flex-between gap-4 flex-col md:flex-row p-2 md:p-4">
           <div className="">
             <h2 className="text-sm lg:text-lg font-semibold">{tab === "products" ? "Listings" : "Categories"}</h2>
@@ -65,17 +65,19 @@ const Listings = async ({
           </div>
 
           <div className='flex gap-1'>
-            <AdminSearchBar placeholder='Search property name...' />
-            <AdminFilterButton getCategories={categories} />
+            <AdminSearchBar placeholder={tab === "products" ? 'Search property name...' : "Search categories..."} />
+            {tab === "products" && (
+              <AdminFilterButton getCategories={categories} />
+            )}
           </div>
         </div>
 
         {tab ? (
-          <Suspense key={JSON.stringify({ page, pageSize, tab })} fallback={<LoadingSpinner />}>
+          <Suspense key={JSON.stringify({})} fallback={<LoadingSpinner />}>
             {tab === "products" ? (
-              <Propertylistings query={{ page, pageSize }} />
+              <Propertylistings {...query} />
             ) : (
-              <AdminCategories />
+              <AdminCategories query={query.name ?? ""} />
             )}
           </Suspense>
         ) : (

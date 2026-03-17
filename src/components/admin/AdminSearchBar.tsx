@@ -1,13 +1,14 @@
 "use client";
 
 import useSearch from "@/hooks/useSearch";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { Input } from "../ui/input";
 import { Search } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 
 
 export default function AdminSearchBar({ placeholder }: { placeholder: string }) {
-  const [query, setQuery] = useState('')
+  const query = useSearchParams();
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
   const { handleSearch } = useSearch();
 
@@ -30,7 +31,6 @@ export default function AdminSearchBar({ placeholder }: { placeholder: string })
   }, 500)
 
   const handleChange = (e: string) => {
-    setQuery(e)
     debouncedSearch(e)
   }
 
@@ -38,7 +38,7 @@ export default function AdminSearchBar({ placeholder }: { placeholder: string })
     <div className="w-full max-w-sm relative rounded-lg bg-light-100/20 focus-within:bg-light-50 flex-center">
       <Input
         type="text"
-        value={query}
+        defaultValue={query.get('name')?.toString()}
         onChange={e => handleChange(e.target.value)}
         placeholder={placeholder}
         className="w-full bg-transparent pl-8"

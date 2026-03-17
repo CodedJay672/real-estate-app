@@ -145,7 +145,7 @@ const PropertyDetails = async ({
           </h2>
           <p className="text-sm text-seconday-light-50">For enquiries and questions, please provide your detials and leave your questions. We will get back to you in approximately 2 minutes</p>
         </div>
-        <ContactForm className="bg-light-50" />
+        <ContactForm propertyName={productDetails.data?.name ?? ""} />
       </div>
     </section >
   );

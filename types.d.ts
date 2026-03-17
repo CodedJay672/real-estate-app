@@ -57,7 +57,7 @@ type TFilterQuery = {
   price?: number | null;
   baths?: number | null;
   beds?: number | null;
-  postedOn?: Date | null;
+  postedOn?: string;
   page?: number;
   pageSize?: number;
 };

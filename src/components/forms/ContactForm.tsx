@@ -1,7 +1,10 @@
 "use client";
 
-import React from "react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -14,12 +17,10 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { useRouter } from "next/navigation";
 import { contactSchema } from "@/lib/validations/schema";
-import { z } from "zod";
 import { Textarea } from "../ui/textarea";
 
-const ContactForm = ({ className }: { className: string }) => {
+const ContactForm = ({ propertyName }: { propertyName: string }) => {
   const { toast } = useToast();
   const router = useRouter();
 
@@ -38,7 +39,6 @@ const ContactForm = ({ className }: { className: string }) => {
       title: "Success",
       description: "Message sent successfully",
     });
-    router.push("/");
   };
 
   return (
@@ -57,7 +57,7 @@ const ContactForm = ({ className }: { className: string }) => {
                   {...field}
                   required
                   placeholder="Cynthia Adetunji"
-                  className={`${className} w-full rounded-md`}
+                  className=" w-full bg-light-50 rounded-md"
                 />
               </FormControl>
               <FormMessage />
@@ -77,7 +77,7 @@ const ContactForm = ({ className }: { className: string }) => {
                   {...field}
                   required
                   placeholder="example123@gmail.com"
-                  className={`${className} w-full rounded-md`}
+                  className="bg-light-50 w-full rounded-md"
                 />
               </FormControl>
               <FormMessage />
@@ -97,8 +97,8 @@ const ContactForm = ({ className }: { className: string }) => {
                   {...field}
                   rows={6}
                   required
-                  placeholder="Hello, please give me more information about the location of this property."
-                  className={`${className} w-full p-2 rounded-md resize-none`}
+                  placeholder="Hello, I need more details about this property (Note: include property name)"
+                  className="bg-light-50 w-full p-2 rounded-md resize-none"
                 />
               </FormControl>
               <FormMessage />

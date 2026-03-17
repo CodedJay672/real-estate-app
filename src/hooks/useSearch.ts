@@ -10,8 +10,6 @@ export default function useSearch() {
   const handleSearch = (filter: TFilterQuery, url?: string) => {
     const querySearch = new URLSearchParams(param);
 
-    console.log(filter);
-
     Object.entries(filter).map(([key, val]) => {
       if (val) {
         querySearch.set(key, val.toString());

@@ -3,9 +3,10 @@ import { db } from "@/db/drizzle";
 
 import { generateErrorMessage } from "../utils";
 import { categoriesTable } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, ilike } from "drizzle-orm";
 import { auth } from "../auth";
 import { requireAuth } from "./users.data";
+import { cache } from "react";
 
 export const getAllCategories = async (): Promise<
   ApiResponse<
@@ -16,6 +17,7 @@ export const getAllCategories = async (): Promise<
   >
 > => {
   try {
+    //make database request
     const response = await db
       .select({ id: categoriesTable.id, name: categoriesTable.name })
       .from(categoriesTable);
@@ -38,33 +40,35 @@ export const getAllCategories = async (): Promise<
   }
 };
 
-export const getAllAdminCategories = async (): Promise<
-  ApiResponse<categoryResponse[]>
-> => {
-  try {
-    //veriy auth and admin role
-    await requireAuth();
+export const getAllAdminCategories = cache(
+  async (name?: string): Promise<ApiResponse<categoryResponse[]>> => {
+    try {
+      //veriy auth and admin role
+      await requireAuth();
 
-    // make database query
-    const response = await db.select().from(categoriesTable);
-    if (!response)
+      // make database query
+      const response = await db.query.categoriesTable.findMany({
+        where: name ? ilike(categoriesTable.name, `%${name}%`) : undefined,
+      });
+      if (!response)
+        return {
+          success: false,
+          message: "Failed to get categories",
+        };
+
+      return {
+        success: true,
+        message: "Categories fetched",
+        data: response,
+      };
+    } catch (error) {
       return {
         success: false,
-        message: "Failed to get categories",
+        message: generateErrorMessage(error),
       };
-
-    return {
-      success: true,
-      message: "Categories fetched",
-      data: response,
-    };
-  } catch (error) {
-    return {
-      success: false,
-      message: generateErrorMessage(error),
-    };
-  }
-};
+    }
+  },
+);
 
 export const getCategoryById = async (
   id: string,

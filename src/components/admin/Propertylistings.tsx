@@ -6,10 +6,10 @@ import PaginationBar from '../shared/paginationBar';
 import { DataTable } from '../table/DataTable';
 import { productColumns } from '../table/listings/definition';
 
-async function Propertylistings({ query }: { query: { page?: number; pageSize?: number } }) {
+async function Propertylistings({ name, baths, beds, category, page, pageSize, postedOn, price }: TFilterQuery) {
 
   // get property details
-  const properties = await getAdminProductsWithCategories(query.page, query.pageSize);
+  const properties = await getAdminProductsWithCategories({ name, baths, beds, category, page, pageSize, postedOn, price });
   if (!properties.success) {
     return (
       <div className="w-full h-[50vh] flex-center flex-col gap-1">
@@ -43,7 +43,7 @@ async function Propertylistings({ query }: { query: { page?: number; pageSize?: 
       </div>
 
 
-      <PaginationBar defaultPageSize={query.pageSize ?? 25} totalRows={properties.data?.totalRows ?? 25} />
+      <PaginationBar defaultPageSize={pageSize ?? 25} totalRows={properties.data?.totalRows ?? 25} />
     </>
   )
 }

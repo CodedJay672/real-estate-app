@@ -1,13 +1,17 @@
 import "server-only";
+
+import { desc, eq } from "drizzle-orm";
+
 import { generateErrorMessage } from "../utils";
 import { requireAuth } from "./users.data";
 import { db } from "@/db/drizzle";
-import { topSearches } from "@/db/schema";
-import { desc } from "drizzle-orm";
+import { products, topSearches } from "@/db/schema";
 
-export async function getTopSearches(
+export async function getAdminTopSearches(
   limit: number,
-): Promise<ApiResponse<TTopSearchResponse[]>> {
+): Promise<
+  ApiResponse<{ products: listings | null; searches: TTopSearchResponse }[]>
+> {
   try {
     // verify user auth and persmission
     await requireAuth();
@@ -16,8 +20,9 @@ export async function getTopSearches(
     const topSearchResponse = await db
       .select()
       .from(topSearches)
-      .limit(limit)
-      .orderBy(desc(topSearches.searchCount));
+      .leftJoin(products, eq(topSearches.productId, products.id))
+      .orderBy(desc(topSearches.searchCount), desc(topSearches.searchCount))
+      .limit(limit);
 
     return {
       success: true,

@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { redirect, usePathname } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
-import { LayoutDashboard, List, MenuIcon, User2 } from "lucide-react";
+import { LayoutDashboard, List, Mail, MenuIcon, User2 } from "lucide-react";
 
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -31,10 +31,9 @@ const Sidebar = () => {
           height={72}
           className="object cover invert"
         />
-
       </Link>
 
-      <nav className="w-full md:mt-10 p-1 flex flex-row md:flex-col justify-center md:justify-start items-center md:items-start gap-4 md:gap-1.5 md:w-full md:flex-1">
+      <nav className="w-full mt-5 p-1 flex flex-row md:flex-col justify-center md:justify-start items-center md:items-start gap-4 md:gap-1.5 md:w-full md:flex-1">
         <Link
           href="/admin"
           className={cn(
@@ -63,11 +62,19 @@ const Sidebar = () => {
           <User2 className="size-4 md:size-4.5" />
           <span className="text-[10px] md:text-base">Leads</span>
         </Link>
+        <Link
+          href="/admin/messages"
+          className={cn(
+            "w-max md:w-full md:p-2 flex flex-col md:flex-row justify-center items-center lg:justify-start gap-0 md:gap-1 rounded-md cursor-pointer", pathname === '/admin/messages' ? "text-light-50 font-bold md:bg-light-200" : "text-light-100 hover:bg-seconday-light-50"
+          )}
+        >
+          <Mail className="size-4 md:size-4.5" />
+          <span className="text-[10px] md:text-base">Messages</span>
+        </Link>
       </nav>
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-
           <article className="flex items-center gap-1.5 px-1 rounded-lg select-none cursor-pointer hover:bg-seconday-light-50">
             <MenuIcon className="md:hidden text-light-200" />
             <Avatar className="hidden md:flex size-8 shrink-0">

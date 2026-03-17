@@ -1,17 +1,17 @@
+import bcrypt from "bcryptjs";
+import { eq } from "drizzle-orm";
 import type {
   GetServerSidePropsContext,
   NextApiRequest,
   NextApiResponse,
 } from "next";
-import bcrypt from "bcryptjs";
-
 import type { NextAuthOptions, User } from "next-auth";
 import { getServerSession } from "next-auth";
 import "next-auth/jwt";
 import Credentials from "next-auth/providers/credentials";
+
 import { db } from "@/db/drizzle";
 import { usersTable } from "@/db/schema";
-import { eq } from "drizzle-orm";
 
 declare module "next-auth" {
   interface User {

@@ -1,13 +1,14 @@
 'use client';
 
 import { useCallback, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { Button } from '../ui/button';
 import { cn } from '@/lib/utils';
 
 function CustomTabs({ tabs }: { tabs: TabsType[] }) {
   const params = useSearchParams()
+  const pathname = usePathname()
   const { replace } = useRouter();
 
   const tabLabel = params.get('tab');
@@ -24,10 +25,7 @@ function CustomTabs({ tabs }: { tabs: TabsType[] }) {
     // handle same values
     if (!val || val === tabLabel) return;
 
-    const query = new URLSearchParams(params);
-    query.set('tab', val);
-
-    replace(`?${query.toString()}`);
+    replace(`${pathname}?tab=${val}`);
   }, [params.toString(), tabLabel])
 
   return (

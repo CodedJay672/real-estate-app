@@ -1,7 +1,7 @@
 
 const LoadingSpinner = () => {
   return (
-    <div className='w-full h-screen flex-center gap-2'>
+    <div className='container h-[80vh] flex-center'>
       <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" stroke="#3498db">
         <g fill="none" fillRule="evenodd">
           <g transform="translate(2 2)" strokeWidth="4">

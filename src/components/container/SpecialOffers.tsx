@@ -13,7 +13,6 @@ const SpecialOffers = async () => {
     <section className="container mx-auto  py-16 md:py-20 xl:py-24 space-y-24">
       <div className="w-full space-y-12  p-2.5">
         <div className="mb-8 space-y-6">
-
           <h2 className="w-full text-center text-2xl md:text-4xl font-light text-dark-200">
             Top Picks For Your Dream <span className="text-accent-brown">Home</span>
           </h2>

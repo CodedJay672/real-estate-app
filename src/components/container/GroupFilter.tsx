@@ -59,7 +59,7 @@ const GroupFilter: React.FC<GroupFilterProps> = React.memo(({ url, getCategories
     const postedVal = postedDaysRef.current;
     if (postedVal) {
       const days = parseInt(postedVal, 10);
-      filter.postedOn = new Date(Date.now() - days * 86400000);
+      filter.postedOn = encodeURI(new Date(Date.now() - days * 86400000).toISOString());
     }
 
     handleSearch(filter, url);

@@ -39,9 +39,9 @@ async function SearchResultsPage({ searchParams }: { searchParams: Promise<TFilt
           </Suspense>
         </div>
       ) : (
-        <div className="w-full h-screen flex-center">
-          <Search className="size-52 text-light-100 mx-auto" />
-          <h1 className="text-lg md:text-xl text-center font-bold">Search from over 1000+ properties</h1>
+        <div className="w-full h-[50vh] flex-center flex-col">
+          <Search className="size-32 md:size-36 text-light-100 mx-auto" />
+          <p className="text-lg md:text-xl text-center text-light-200 font-bold">Search from over 1000+ properties</p>
         </div>
       )}
     </section>
