@@ -57,7 +57,7 @@ type TFilterQuery = {
   price?: number | null;
   baths?: number | null;
   beds?: number | null;
-  postedOn?: Date | null;
+  postedOn?: string;
   page?: number;
   pageSize?: number;
 };
@@ -67,6 +67,14 @@ type TLikesResponse = {
   createdAt: Date;
   userId: string;
   productId: string | null;
+};
+
+type TTopSearchResponse = {
+  id: string;
+  productId: string | null;
+  searchCount: number | null;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 type TabsType = { id: string; label: string; value: string };

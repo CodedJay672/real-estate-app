@@ -1,4 +1,3 @@
-import { randomBytes } from "crypto";
 import { relations } from "drizzle-orm";
 import {
   index,
@@ -9,6 +8,7 @@ import {
   timestamp,
   uuid,
   varchar,
+  boolean,
 } from "drizzle-orm/pg-core";
 
 export const ROLE_ENUM = pgEnum("role", ["user", "admin"]);
@@ -64,18 +64,6 @@ export const categoriesTable = pgTable("categories", {
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
-export const watchlistInfo = pgTable("watchlist", {
-  id: uuid("id").primaryKey().defaultRandom().notNull(),
-  propertyId: uuid("property_id")
-    .notNull()
-    .references(() => products.id),
-  userId: uuid("user_id")
-    .notNull()
-    .references(() => usersTable.id),
-  createdAt: timestamp("creted_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
-});
-
 export const likes = pgTable("likes", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
   userId: uuid("user_id")
@@ -85,35 +73,55 @@ export const likes = pgTable("likes", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
+export const topSearches = pgTable("searches", {
+  id: uuid("id").primaryKey().defaultRandom().notNull(),
+  productId: uuid("product_id")
+    .references(() => products.id)
+    .notNull(),
+  searchCount: integer("search_count").default(0),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+export const messages = pgTable("messages", {
+  id: uuid("id").primaryKey().defaultRandom().notNull(),
+  senderName: varchar("sender_name", { length: 100 }).notNull(),
+  senderEmail: varchar("sender_email", { length: 100 }).notNull(),
+  message: text("message").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+// type enum
+export const NOTIFICATION_TYPES = pgEnum("notif_type", ["enquiries"]);
+
+export const notifications = pgTable(
+  "notifications",
+  {
+    id: uuid("id").primaryKey().defaultRandom().notNull(),
+    type: NOTIFICATION_TYPES("type").notNull().default("enquiries"),
+    title: varchar("title", { length: 50 }).notNull(),
+    content: text("content").notNull(),
+    isRead: boolean("is_read").default(false),
+    url: text("url"),
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+  },
+  (t) => [index("id_index").on(t.id)],
+);
+
 //==================== Relationships ===========================
 
-// One user to many watchlists products
+// One user can like many products
 export const userRelations = relations(usersTable, ({ many }) => ({
-  watchList: many(watchlistInfo),
   likes: many(likes),
 }));
 
 // many products to one category
-//many products to one watchlist
 export const productsRelations = relations(products, ({ one, many }) => ({
-  watchlist: many(watchlistInfo),
   category: one(categoriesTable, {
     fields: [products.categoryId],
     references: [categoriesTable.id],
   }),
   likes: many(likes),
-}));
-
-// one watchlist many users
-export const watchlistRelations = relations(watchlistInfo, ({ one }) => ({
-  user: one(usersTable, {
-    fields: [watchlistInfo.userId],
-    references: [usersTable.id],
-  }),
-  products: one(products, {
-    fields: [watchlistInfo.propertyId],
-    references: [products.id],
-  }),
 }));
 
 //many users can like one product
@@ -128,7 +136,12 @@ export const likesRelations = relations(likes, ({ one }) => ({
   }),
 }));
 
-// one categories to one products
+// one categories to many products
 export const categoryRelations = relations(categoriesTable, ({ many }) => ({
   products: many(products),
+}));
+
+// one search entry per product
+export const searchRelations = relations(topSearches, ({ one }) => ({
+  product: one(products),
 }));

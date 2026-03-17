@@ -4,14 +4,12 @@ import { notFound } from "next/navigation";
 
 import ContactForm from "@/components/forms/ContactForm";
 import Back from "@/components/shared/Back";
-import Likes from "@/components/shared/Likes";
-import ShareButton from "@/components/shared/ShareButton";
 import config from "@/lib/config";
 import { getProductById, getProductDetailsWithLikes } from "@/lib/data/products.data";
 
 
-import type { Metadata, ResolvingMetadata } from 'next'
 import PropertyDetailsActions from "@/components/container/PropertyDetailsActions";
+import type { Metadata, ResolvingMetadata } from 'next';
 type Props = {
   params: Promise<{ id: string }>
 }
@@ -74,7 +72,7 @@ const PropertyDetails = async ({
             />
           )}
 
-          <p className="text-lg md:text-xl text-light-50 font-bold capitalize absolute bottom-2 left-2 px-3 py-1 bg-dark-200/20 rounded-full">
+          <p className="text-base md:text-lg text-light-50 font-bold capitalize absolute bottom-2 left-2 px-3 py-1 bg-dark-200/20 rounded-full">
             {productDetails.data?.category?.name.toUpperCase()}
           </p>
         </div>
@@ -88,7 +86,7 @@ const PropertyDetails = async ({
               maximumFractionDigits: 0
             })}
           </p>
-          <PropertyDetailsActions productId={productDetails.data?.id ?? ''} productLikes={productDetails.data?.likes ?? []} productShareCount={productDetails.data?.sharedCount ?? 0} productShareLink={`${config.env.prodEndpoint}/listings/details/${productDetails.data?.id}`} />
+          <PropertyDetailsActions productId={productDetails.data?.id ?? ''} productLikes={productDetails.data?.likes ?? []} productShareCount={productDetails.data?.sharedCount ?? 0} productShareLink={`${config.env.prodEndpoint}listings/details/${productDetails.data?.id}`} />
         </div>
 
         <div className="space-y-1.5">
@@ -147,7 +145,7 @@ const PropertyDetails = async ({
           </h2>
           <p className="text-sm text-seconday-light-50">For enquiries and questions, please provide your detials and leave your questions. We will get back to you in approximately 2 minutes</p>
         </div>
-        <ContactForm className="bg-light-50" />
+        <ContactForm propertyName={productDetails.data?.name ?? ""} />
       </div>
     </section >
   );

@@ -55,10 +55,10 @@ const Searchbar = ({ url, getCategories }: SearchBarProps) => {
 
         <Input type="number" min={0} defaultValue={price?.toString()} onChange={e => setFilter({ ...filter, price: parseInt(e.target.value) || null })} placeholder="Min. Price" className="w-full text-base text-dark-100 border-none focus-visible:ring-0 focus-visible:ring-offset-0" />
 
-        <Input type="number" min={0} defaultValue={beds?.toString()} onChange={e => setFilter({ ...filter, beds: parseInt(e.target.value) || null })} placeholder="No. of beds" className="w-full text-base text-dark-100 border-none focus-visible:ring-0 focus-visible:ring-offset-0" />
+        <Input type="number" min={0} defaultValue={beds?.toString()} onChange={e => setFilter({ ...filter, beds: parseInt(e.target.value) })} placeholder="No. of beds" className="w-full text-base text-dark-100 border-none focus-visible:ring-0 focus-visible:ring-offset-0" />
 
 
-        <Input type="number" min={0} defaultValue={baths?.toString()} onChange={e => setFilter({ ...filter, baths: parseInt(e.target.value) || null })} placeholder="No. of baths" className="w-full not-visited:text-base text-dark-100 border-none focus-visible:ring-0 focus-visible:ring-offset-0" />
+        <Input type="number" min={0} defaultValue={baths?.toString()} onChange={e => setFilter({ ...filter, baths: parseInt(e.target.value) })} placeholder="No. of baths" className="w-full not-visited:text-base text-dark-100 border-none focus-visible:ring-0 focus-visible:ring-offset-0" />
       </div>
 
       <Button type="button" size="sm" onClick={() => handleSearch(filter, url)} className="size-10 bg-accent-bright hover:bg-accent-brown cursor-pointer text-dark-200 rounded-full">

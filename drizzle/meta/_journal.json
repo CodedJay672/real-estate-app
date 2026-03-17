@@ -55,7 +55,7 @@
       "idx": 7,
       "version": "7",
       "when": 1773382114612,
-      "tag": "0009_productive_master_chief",
+      "tag": "0007_productive_master_chief",
       "breakpoints": true
     },
     {
@@ -63,6 +63,27 @@
       "version": "7",
       "when": 1773397395280,
       "tag": "0008_regular_quentin_quire",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1773595204484,
+      "tag": "0009_wealthy_lester",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1773652908514,
+      "tag": "0010_curious_marten_broadcloak",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1773744569011,
+      "tag": "0011_sloppy_maverick",
       "breakpoints": true
     }
   ]

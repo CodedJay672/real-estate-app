@@ -50,14 +50,14 @@ const PropertyCard = (props: (listings & {
           hour12: true
         })}</small>
         <div className="space-y-1 mb-4">
-          <h2 className="text-2xl lg:text-xl font-semibold line-clamp-2 text-ellipsis">{props.name}</h2>
-          <p className="text-sm text-dark-50 line-clamp-2 text-ellipsis">{props.location}</p>
+          <h2 className="text-base md:text-lg font-semibold line-clamp-2 text-ellipsis">{props.name}</h2>
+          <p className="text-sm md:text-base text-dark-50 line-clamp-2 text-ellipsis">{props.location}</p>
         </div>
         <div className="flex-1">
-          <p className="text-base line-clamp-2 text-ellipsis">{props.description}</p>
+          <p className="text-sm md:text-base line-clamp-2 text-ellipsis">{props.description}</p>
         </div>
         <div className="flex-between items-center mt-4 gap-4">
-          <p className="text-xl md:text-lg font-bold">
+          <p className="text-lg md:text-xl font-bold">
             {props.price?.toLocaleString("en-NG", {
               style: "currency",
               currency: "NGN",

@@ -3,8 +3,8 @@ import { File } from "lucide-react";
 import { DataTable } from "../table/DataTable";
 import { categoryColumns } from "../table/listings/definition";
 
-async function AdminCategories() {
-  const categories = await getAllAdminCategories();
+async function AdminCategories({ query }: { query: string }) {
+  const categories = await getAllAdminCategories(query);
   if (!categories || !categories.data?.length) return (
     <div className="w-full h-[50vh] flex-center flex-col p-3">
 

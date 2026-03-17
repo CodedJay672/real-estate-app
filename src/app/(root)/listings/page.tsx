@@ -64,11 +64,8 @@ const ProductListings = async ({
             </div>
           }>
             <ProductList
-              query={{
-                ...query,
-                postedOn: query.postedOn ? new Date(query.postedOn as any) : null,
-              }}
               defaultPageSize={query.pageSize ?? 25}
+              query={query}
             />
           </Suspense>
 

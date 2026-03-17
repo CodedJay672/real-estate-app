@@ -27,6 +27,7 @@ async function ProductList({ query, defaultPageSize }: { query: TFilterQuery, de
         ))
         }
       </div>
+
       <PaginationBar defaultPageSize={defaultPageSize} totalRows={allProducts.data.totalRows} />
     </div>
   )
