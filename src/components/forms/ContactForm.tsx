@@ -1,11 +1,15 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { usePathname, useRouter } from "next/navigation";
 
 
+import { useToast } from "@/hooks/use-toast";
+import { contactSchema } from "@/lib/validations/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "../ui/button";
 import {
   Form,
   FormControl,
@@ -15,14 +19,15 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { useToast } from "@/hooks/use-toast";
-import { contactSchema } from "@/lib/validations/schema";
 import { Textarea } from "../ui/textarea";
+import { sendMessage } from "@/lib/actions/messages.actions";
+import { Loader2 } from "lucide-react";
 
 const ContactForm = ({ propertyName }: { propertyName: string }) => {
   const { toast } = useToast();
   const router = useRouter();
+  const pathname = usePathname();
+  const { data: session } = useSession();
 
   const form = useForm<z.infer<typeof contactSchema>>({
     resolver: zodResolver(contactSchema),
@@ -34,7 +39,30 @@ const ContactForm = ({ propertyName }: { propertyName: string }) => {
   });
 
   const onSubmit = async (values: z.infer<typeof contactSchema>) => {
-    //send the message
+    // verify auth
+    if (!session?.user) {
+      toast({
+        title: "Error: unauthorized",
+        description: "Please login to make enquiries",
+        variant: "destructive"
+      })
+
+      return router.push(`/sign-in?next=${pathname}`);
+    }
+
+    // send enquiry
+    const response = await sendMessage(values);
+    if (!response.success) {
+      toast({
+        title: "Error",
+        description: response.message,
+        variant: 'destructive'
+      })
+      return;
+    }
+
+    //reset the form
+    form.reset();
     toast({
       title: "Success",
       description: "Message sent successfully",
@@ -97,7 +125,7 @@ const ContactForm = ({ propertyName }: { propertyName: string }) => {
                   {...field}
                   rows={6}
                   required
-                  placeholder="Hello, I need more details about this property (Note: include property name)"
+                  placeholder={`Hello, I need more info about this ${propertyName}`}
                   className="bg-light-50 w-full p-2 rounded-md resize-none"
                 />
               </FormControl>
@@ -107,9 +135,11 @@ const ContactForm = ({ propertyName }: { propertyName: string }) => {
         />
         <Button
           type="submit"
+          disabled={form.formState.isSubmitting}
           className="w-full text-dark-200 bg-accent-bright hover:bg-accent-bright  cursor-pointer font-semibold"
         >
-          Send Message
+          {form.formState.isSubmitting ? <Loader2 size={20} className="text-dark-200 animate-spin" /> : "Send Message"}
+
         </Button>
       </form>
     </Form>

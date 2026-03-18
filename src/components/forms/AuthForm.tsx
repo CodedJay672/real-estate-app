@@ -3,7 +3,7 @@
 import { Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Fragment, useState } from "react";
 import {
   DefaultValues,
@@ -29,6 +29,7 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
+import { generateErrorMessage } from "@/lib/utils";
 
 interface AuthFormProps<T extends FieldValues> {
   type: "signin" | "signup";
@@ -43,6 +44,7 @@ const AuthForm = <T extends FieldValues>({
   defaultValues,
   redirectUrl
 }: AuthFormProps<T>) => {
+  const next = useSearchParams().get('next');
   const { toast } = useToast();
   const router = useRouter();
   const [error, setError] = useState<Record<string, string[]> | null>(null);
@@ -107,11 +109,11 @@ const AuthForm = <T extends FieldValues>({
         title: "Success",
         description: "Successfully signed in",
       });
-      router.push(redirectUrl || "/");
-    } catch (error: any) {
+      router.push(next || redirectUrl || "/");
+    } catch (error) {
       toast({
         title: "Error",
-        description: error.message,
+        description: generateErrorMessage(error),
         variant: "destructive",
       });
     }

@@ -48,4 +48,14 @@ export const categorySchema = z.object({
   description: z.string().optional(),
 });
 
+export const notificationSchema = z.object({
+  type: z.enum(["enquiries"]).default("enquiries"),
+  title: z.string().nonempty({ message: "title is required" }),
+  content: z.string().nonempty({ message: "content is required" }),
+  isRead: z.boolean().default(false),
+  url: z.string().optional(),
+});
+
 export type productFormSchema = z.infer<typeof productSchema>;
+export type equiriesFormInputType = z.infer<typeof contactSchema>;
+export type notificationInputType = z.infer<typeof notificationSchema>;

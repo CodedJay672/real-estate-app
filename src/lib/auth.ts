@@ -36,7 +36,7 @@ declare module "next-auth/jwt" {
 export const config = {
   providers: [
     Credentials({
-      name: "Email and password.",
+      name: "email",
       credentials: {
         email: {
           label: "Email address",

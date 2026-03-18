@@ -40,7 +40,7 @@ const GroupFilter: React.FC<GroupFilterProps> = React.memo(({ url, getCategories
 
 
   const applyFilters = useCallback(() => {
-    const filter: TFilterQuery = {};
+    const filter: TFilterQuery = { page: 1 };
 
     const name = nameRef.current?.value;
     if (name) filter.name = name;

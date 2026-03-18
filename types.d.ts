@@ -78,3 +78,29 @@ type TTopSearchResponse = {
 };
 
 type TabsType = { id: string; label: string; value: string };
+
+type TMessageResponse = {
+  message: string;
+  id: string;
+  createdAt: Date;
+  senderName: string;
+  senderEmail: string;
+};
+
+type TNotificationResponse = {
+  id: string;
+  createdAt: Date;
+  title: string;
+  type: "enquiries";
+  content: string;
+  isRead: boolean | null;
+  url: string | null;
+};
+
+type TUserMessages = {
+  id: string;
+  senderName: string;
+  senderEmail: string;
+  message: string;
+  createdAt: Date;
+};
