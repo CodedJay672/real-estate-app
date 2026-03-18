@@ -54,7 +54,7 @@ export const getAllProducts = cache(
 
       // run top search update in the background
       after(async () => {
-        if (query && query.postedOn && allProducts.length > 0) {
+        if (query && Object.values(query).length && allProducts.length > 0) {
           console.log("updating top search table", query);
 
           await updateSearchCount(allProducts[0].id);

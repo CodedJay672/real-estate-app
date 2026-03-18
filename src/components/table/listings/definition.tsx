@@ -2,6 +2,7 @@
 
 import ProductActions from "@/components/shared/Actions";
 import CategoryActions from "@/components/shared/CategoryActions";
+import { MessagesAction } from "@/components/shared/MessagesAction";
 import config from "@/lib/config";
 import { cn } from "@/lib/utils";
 import { Image } from "@imagekit/next";
@@ -264,6 +265,49 @@ export const categoryColumns: ColumnDef<categoryResponse>[] = [
     id: 'actions',
     cell: ({ row }) => {
       return CategoryActions(row.original)
+    }
+  })
+]
+
+const messageHelper = createColumnHelper<TMessageResponse>();
+export const messageColumns: ColumnDef<TMessageResponse>[] = [
+  {
+    accessorKey: "id",
+    cell: (props) => <span>{props.row.index + 1}</span>,
+    header: "S/N",
+  },
+  {
+    accessorKey: "senderName",
+    header: 'Sender Info',
+    cell: ({ row }) => {
+      const { id, senderEmail, senderName } = row.original;
+
+      return <div>
+        <p className="text-sm text-light-100">#{id.split('-')[0]}</p>
+        <p className="text-sm md:text-base font-semibold">{senderName}</p>
+        <p className="text-sm text-light-200">{senderEmail}</p>
+      </div>
+    }
+  },
+  {
+    accessorKey: 'message',
+    header: "Content"
+  },
+  {
+    accessorKey: "createdAt",
+    header: 'Date',
+    cell: ({ row }) => {
+      const { createdAt } = row.original;
+
+      return createdAt.toLocaleDateString("en-UK", {
+        dateStyle: 'medium'
+      })
+    }
+  },
+  messageHelper.display({
+    id: 'actions',
+    cell: ({ row }) => {
+      return MessagesAction(row.original)
     }
   })
 ]
