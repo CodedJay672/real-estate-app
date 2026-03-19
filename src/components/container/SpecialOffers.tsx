@@ -3,7 +3,7 @@ import PropertyCard from "./PropertyCard";
 import { getAllProducts } from "@/lib/data/products.data";
 
 const SpecialOffers = async () => {
-  const response = await getAllProducts();
+  const response = await getAllProducts({});
   if (!response.success) {
     console.log("Errror fetching liked posts");
     return null;
