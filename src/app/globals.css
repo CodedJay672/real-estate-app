@@ -217,15 +217,11 @@ Custom styles
 */
 
 .property-grid {
-  list-style: none;
-  padding: 0 0 0 8px;
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   grid-gap: 16px;
   justify-content: start;
-  margin: 8px 0 0 0;
   isolation: isolate;
   overflow-x: auto;
-  padding-top: 18px;
 }

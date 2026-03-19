@@ -49,6 +49,9 @@ const Topbar = () => {
               <Link href="/" className={cn("text-base hover:text-light-50 px-2.5 py-1 rounded-full transition-colors", isActive("/") ? "font-bold text-light-50 bg-light-200/60" : "font-medium text-light-100 hover:bg-light-200/60")}>Home</Link>
             </li>
             <li>
+              <Link href="/top-searches" className={cn("text-base hover:text-light-50 rounded-full px-2.5 py-1 transition-colors", isActive('/top-searches') ? "text-light-50 font-bold bg-light-200" : "text-light-100 font-medium hover:bg-light-200/60")}>Top searches</Link>
+            </li>
+            <li>
               <Link href="/listings" className={cn("text-base hover:text-light-50 rounded-full px-2.5 py-1 transition-colors", isActive('/listings') ? "text-light-50 font-bold bg-light-200" : "text-light-100 font-medium hover:bg-light-200/60")}>Listings</Link>
             </li>
             <li>
