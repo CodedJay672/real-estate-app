@@ -1,7 +1,7 @@
 "use client";
 
-import { Bell, Dot, Mail, SquareArrowOutUpRight } from "lucide-react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { Bell, Dot, Mail } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { use } from "react";
 
 import { toast } from "@/hooks/use-toast";

@@ -33,7 +33,7 @@ const Sidebar = () => {
         />
       </Link>
 
-      <nav className="w-full mt-5 p-1 flex flex-row md:flex-col justify-center md:justify-start items-center md:items-start gap-4 md:gap-1.5 md:w-full md:flex-1">
+      <nav className="w-full md:mt-5 p-1 flex flex-row md:flex-col justify-center md:justify-start items-center md:items-start gap-4 md:gap-1.5 md:w-full md:flex-1">
         <Link
           href="/admin"
           className={cn(

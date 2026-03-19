@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { Button } from '../ui/button';
@@ -13,20 +13,19 @@ function CustomTabs({ tabs }: { tabs: TabsType[] }) {
 
   const tabLabel = params.get('tab');
 
-
   useEffect(() => {
-    if (tabLabel) return;
+    if (params.has('tab')) return;
 
     // initialize the products tab
     handleClick("products");
   }, [])
 
-  const handleClick = useCallback((val: string) => {
+  const handleClick = (val: string) => {
     // handle same values
     if (!val || val === tabLabel) return;
 
     replace(`${pathname}?tab=${val}`);
-  }, [params.toString(), tabLabel])
+  }
 
   return (
     <div className='w-max p-0.5 bg-light-100/50 rounded-lg flex items-center gap-1 border border-light-200'>

@@ -13,9 +13,11 @@ import { requireAuth } from "./users.data";
 const pageSize = 25;
 
 export const getAllProducts = cache(
-  async (
-    query?: TFilterQuery,
-  ): Promise<
+  async ({
+    page = 1,
+    pageSize: rows = pageSize,
+    ...query
+  }: TFilterQuery): Promise<
     ApiResponse<paginatedData<(listings & { likes: TLikesResponse[] })[]>>
   > => {
     const normalizedDate = query?.postedOn
@@ -41,11 +43,8 @@ export const getAllProducts = cache(
             likes: true,
           },
           orderBy: desc(products.createdAt),
-          limit: query?.pageSize ?? pageSize,
-          offset:
-            query?.page && query?.pageSize
-              ? (query.page - 1) * query.pageSize
-              : 0,
+          limit: +rows,
+          offset: (page - 1) * rows,
         }),
       ]);
 
@@ -66,13 +65,10 @@ export const getAllProducts = cache(
         success: true,
         message: "Admin products fetched successfully",
         data: {
-          page: query?.page ?? 1,
-          pageSize: query?.pageSize ?? pageSize,
-          hasNextPage:
-            query?.page && query?.pageSize
-              ? totalRows > query.page * query.pageSize
-              : totalRows > pageSize,
-          hasPreviousPage: query?.page ? query.page > 1 : false,
+          page,
+          pageSize: rows,
+          hasNextPage: totalRows > page * rows,
+          hasPreviousPage: page > 1,
           data: allProducts,
           totalRows,
         },
@@ -88,9 +84,11 @@ export const getAllProducts = cache(
 );
 
 export const getAdminProductsWithCategories = cache(
-  async (
-    query: TFilterQuery,
-  ): Promise<
+  async ({
+    page = 1,
+    pageSize: rows = pageSize,
+    ...query
+  }: TFilterQuery): Promise<
     ApiResponse<
       paginatedData<
         (listings & {
@@ -110,11 +108,11 @@ export const getAdminProductsWithCategories = cache(
 
       // Build the where clause
       const whereClause = and(
-        query?.name ? ilike(products.name, `%${query.name}%`) : undefined,
-        query?.price ? gte(products.price, query.price) : undefined,
-        query?.beds ? eq(products.bedrooms, query.beds) : undefined,
-        query?.baths ? eq(products.bathrooms, query.baths) : undefined,
-        query?.category ? eq(products.categoryId, query.category) : undefined,
+        query.name ? ilike(products.name, `%${query.name}%`) : undefined,
+        query.price ? gte(products.price, query.price) : undefined,
+        query.beds ? eq(products.bedrooms, query.beds) : undefined,
+        query.baths ? eq(products.bathrooms, query.baths) : undefined,
+        query.category ? eq(products.categoryId, query.category) : undefined,
         normalizedDate ? gte(products.createdAt, normalizedDate) : undefined,
       );
 
@@ -128,32 +126,26 @@ export const getAdminProductsWithCategories = cache(
             likes: true,
           },
           orderBy: desc(products.createdAt),
-          limit: query?.pageSize ?? pageSize,
-          offset:
-            query?.page && query?.pageSize
-              ? (query.page - 1) * query.pageSize
-              : 0,
+          limit: +rows,
+          offset: (page - 1) * rows,
         }),
       ]);
 
       const totalRows = rowsCountResult[0].count;
-
       return {
         success: true,
         message: "Admin products fetched successfully",
         data: {
-          page: query?.page ?? 1,
-          pageSize: query?.pageSize ?? pageSize,
-          hasNextPage:
-            query?.page && query?.pageSize
-              ? totalRows > query.page * query.pageSize
-              : totalRows > pageSize,
-          hasPreviousPage: query?.page ? query.page > 1 : false,
+          page,
+          pageSize: rows,
+          hasNextPage: totalRows > page * rows,
+          hasPreviousPage: page > 1,
           data: allProducts,
           totalRows,
         },
       };
     } catch (error) {
+      console.error(error);
       return {
         success: false,
         message: generateErrorMessage(error),
@@ -224,7 +216,7 @@ export const getProductDetailsWithLikes = cache(
         console.log("Something went wrong.");
         return {
           success: false,
-          message: "Failed to get products with likes count",
+          message: "Product not found.",
         };
       }
 
