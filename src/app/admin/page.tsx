@@ -1,19 +1,15 @@
-import { Landmark, Megaphone, User } from "lucide-react";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
 import Campaigns from "@/components/admin/Campaigns";
+import DashboardMetrics from "@/components/admin/DashboardMetrics";
 import TopSearches from "@/components/admin/TopSearches";
-import StatsCard from "@/components/shared/StatsCard";
+import MetricsLoaders from "@/components/shared/MetricsLoaders";
 import { auth } from "@/lib/auth";
-import { getAllProducts } from "@/lib/data/products.data";
-import { getAllUsers } from "@/lib/data/users.data";
 
 const AdminPage = async () => {
   const session = await auth();
   if (!session?.user) redirect("/admin-login");
-
-  const users = await getAllUsers();
-  const allProducts = await getAllProducts();
 
 
   return (
@@ -27,22 +23,11 @@ const AdminPage = async () => {
         </p>
       </div>
 
-      <div className="w-full flex-between gap-3 md:gap-6">
-        <StatsCard title="Users" value={users?.data?.length!} icon={<div className="w-max p-1.5 bg-blue-50 rounded-full" >
-          <User className="size-4 text-blue-500 fill-blue-500" />
-        </div>
-        } />
-        <StatsCard title="Listings" value={allProducts?.data?.data.length!} icon={<div className="size-max p-1.5 bg-orange-50 rounded-full">
-          <Landmark className="size-4 text-orange-400" />
-        </div>
-        } />
-        <StatsCard title="Campaigns" value={0} icon={<div className="size-max p-1.5 bg-red-50 rounded-full">
-          <Megaphone className="size-4 text-red-500" />
-        </div>
-        } />
-      </div>
+      <Suspense fallback={<MetricsLoaders />}>
+        <DashboardMetrics />
+      </Suspense>
 
-      <div className="w-full flex justify-between flex-col md:flex-row gap-4 md:gap-6">
+      <div className="w-full flex justify-between flex-col md:flex-row gap-4 md:gap-6 mb-24 md:mb-0">
         <Campaigns />
         <TopSearches />
       </div>

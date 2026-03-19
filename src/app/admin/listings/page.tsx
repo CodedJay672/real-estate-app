@@ -73,7 +73,7 @@ const Listings = async ({
         </div>
 
         {tab ? (
-          <Suspense key={JSON.stringify({})} fallback={<LoadingSpinner />}>
+          <Suspense key={JSON.stringify({ tab, query })} fallback={<LoadingSpinner />}>
             {tab === "products" ? (
               <Propertylistings {...query} />
             ) : (

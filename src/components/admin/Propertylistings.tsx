@@ -43,7 +43,7 @@ async function Propertylistings({ name, baths, beds, category, page, pageSize, p
       </div>
 
 
-      <PaginationBar defaultPageSize={pageSize ?? 25} totalRows={properties.data?.totalRows ?? 25} />
+      <PaginationBar defaultPageSize={properties.data?.pageSize || 1} totalRows={properties.data?.totalRows || 1} />
     </>
   )
 }

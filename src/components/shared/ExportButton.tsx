@@ -1,11 +1,12 @@
 "use client";
 
-import { FileIcon } from "lucide-react";
+import { ArrowUpFromDot, Download, FileIcon } from "lucide-react";
 import { createPortal } from "react-dom";
 import { useEffect, useState } from "react";
 
 import { exportToExcel } from "@/lib/utils";
 import { Button } from "../ui/button";
+import { CgExport } from "react-icons/cg";
 
 interface Props<T> {
   data: T[];
@@ -33,9 +34,9 @@ const ExportButton = <T,>({ data, label }: Props<T>) => {
           variant="outline"
           size="sm"
           onClick={() => exportToExcel(data, label, "sheet1")}
-          className="text-sm md:text-base h-9 text-light-50 bg-primary hover:bg-dark-200 hover:text-light-100 cursor-pointer"
+          className="text-sm md:text-base h-9 text-light-50 bg-primary hover:bg-dark-200 hover:text-light-50 cursor-pointer"
         >
-          <FileIcon className="size-4" />
+          <Download className="size-4" />
           <span className="hidden sm:inline-block">Export</span>
         </Button>,
         exportBtnElement

@@ -104,3 +104,21 @@ type TUserMessages = {
   message: string;
   createdAt: Date;
 };
+
+type TUserResponse = {
+  role: "user" | "admin";
+  id: string;
+  fullName: string;
+  email: string;
+  password: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+type TAverageUsersResponse = {
+  averageWeeklyUsers: number;
+  thisWeekCount: number;
+  previousWeekCount: number;
+  percentageChange: number;
+  totalListings: number;
+};
