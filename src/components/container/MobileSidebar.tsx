@@ -92,6 +92,20 @@ const MobileSidebar = ({
         </Link>
 
         <Link
+          href="/top-searches"
+          onClick={() => handleShowMenu(false)}
+          className={cn(
+            "text-sm flex items-center gap-1.5 w-full px-2 justify-end", isActive("/top-searches") ? "font-semibold bg-primary/10 text-primary rounded-full py-2.5" : "text-dark-50 py-1.5",
+
+          )}
+        >
+          <span>Top searches</span>
+          <ListFilter
+            size={16}
+          />
+        </Link>
+
+        <Link
           href="/listings"
           onClick={() => handleShowMenu(false)}
           className={cn(

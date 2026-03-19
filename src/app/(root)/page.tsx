@@ -16,11 +16,11 @@ export default async function Home() {
       <Herosection />
 
       <Suspense fallback={<Loader />}>
-        <SpecialOffers />
+        <TopSearchedProperties />
       </Suspense>
 
-      <Suspense>
-        <TopSearchedProperties />
+      <Suspense fallback={<Loader />}>
+        <SpecialOffers />
       </Suspense>
 
       <FeaturedListings />
@@ -35,7 +35,7 @@ function Loader() {
   return (
     <div className="flex gap-3 mt-6">
       {new Array(4).map((_, idx) => (
-        <PropertyCardSkeleton />
+        <PropertyCardSkeleton key={idx} />
       ))}
     </div>
   )

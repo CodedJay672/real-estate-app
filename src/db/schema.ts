@@ -143,5 +143,8 @@ export const categoryRelations = relations(categoriesTable, ({ many }) => ({
 
 // one search entry per product
 export const searchRelations = relations(topSearches, ({ one }) => ({
-  product: one(products),
+  product: one(products, {
+    fields: [topSearches.productId],
+    references: [products.id],
+  }),
 }));
