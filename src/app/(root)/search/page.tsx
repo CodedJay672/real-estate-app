@@ -9,7 +9,7 @@ import { getAllCategories } from "@/lib/data/category.data";
 
 
 async function SearchResultsPage({ searchParams }: { searchParams: Promise<TFilterQuery> }) {
-  const { baths, beds, category, price } = await searchParams;
+  const query = await searchParams;
   const categories = getAllCategories();
 
   return (
@@ -17,16 +17,16 @@ async function SearchResultsPage({ searchParams }: { searchParams: Promise<TFilt
       <Suspense>
         <Searchbar getCategories={categories} />
       </Suspense>
-      {baths || beds || category || price ? (
+      {Object.entries(query).length > 0 ? (
         <div className="container mx-auto">
-          <Suspense key={JSON.stringify({ baths, beds, category, price })} fallback={
+          <Suspense key={JSON.stringify(query)} fallback={
             <div className='property-grid'>
               {new Array(12).fill(0).map((_, i) => (
                 <PropertyCardSkeleton key={i} />
               ))}
             </div>
           }>
-            <ProductList query={{ baths, beds, category, price }} defaultPageSize={24} />
+            <ProductList query={query} defaultPageSize={24} />
           </Suspense>
         </div>
       ) : (
