@@ -8,6 +8,7 @@ import { shareProperty } from '@/lib/actions/share.actions';
 import { generateErrorMessage } from '@/lib/utils';
 import Likes from '../shared/Likes';
 import ShareButton from '../shared/ShareButton';
+import config from '@/lib/config';
 
 interface PropertyDetailsActionsProps {
   productId: string;
@@ -45,8 +46,8 @@ export default function PropertyDetailsActions({ productId, productLikes, produc
 
   return (
     <div className="grid grid-cols-2 gap-1">
-      <Likes productId={productId} likes={productLikes} callbackUrl={productShareLink} />
-      <ShareButton shareCount={productShareCount} productLink={productShareLink} callbackFn={shareCallbackFn} loading={isSharing} />
+      <Likes productId={productId} likes={productLikes} callbackUrl={`/listings/details/${productShareLink}`} />
+      <ShareButton shareCount={productShareCount} productLink={`${config.env.prodEndpoint}listings/details/${productShareLink}`} callbackFn={shareCallbackFn} loading={isSharing} />
     </div>
   )
 }
