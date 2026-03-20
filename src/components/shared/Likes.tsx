@@ -13,9 +13,10 @@ import { Button } from "../ui/button";
 interface TLikesProps {
   likes: TLikesResponse[];
   productId: string;
+  callbackUrl?: string;
 }
 
-const Likes = ({ likes, productId }: TLikesProps) => {
+const Likes = ({ likes, productId, callbackUrl }: TLikesProps) => {
   const { data: session, status } = useSession();
   const [isLiking, startLinking] = useTransition();
   const router = useRouter()
@@ -33,7 +34,10 @@ const Likes = ({ likes, productId }: TLikesProps) => {
   const hasLiked = likes.find(like => like.userId === session?.user.id);
 
   const handleLikeProperty = (productId: string) => {
-    if (!session) return router.push("/sign-in");
+    if (!session) {
+      const url = callbackUrl ? `/sign-in?next=${callbackUrl}` : '/sign-in';
+      return router.push(url);
+    }
 
     startLinking(async () => {
       try {

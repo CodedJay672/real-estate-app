@@ -45,7 +45,7 @@ export default function PropertyDetailsActions({ productId, productLikes, produc
 
   return (
     <div className="grid grid-cols-2 gap-1">
-      <Likes productId={productId} likes={productLikes} />
+      <Likes productId={productId} likes={productLikes} callbackUrl={productShareLink} />
       <ShareButton shareCount={productShareCount} productLink={productShareLink} callbackFn={shareCallbackFn} loading={isSharing} />
     </div>
   )

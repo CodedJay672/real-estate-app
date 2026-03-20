@@ -15,7 +15,7 @@ const ShareButton = ({ callbackFn, productLink, shareCount, loading }: { product
   // update share count on successful sharing
   const handleClick = () => {
     // only authenticated users
-    if (!session?.user || status !== "authenticated") return router.push('/sign-in');
+    if (!session?.user || status !== "authenticated") return router.push(`/sign-in?next=${productLink}`);
 
     // continue to share
     if (navigator.share) {
