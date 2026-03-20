@@ -14,10 +14,10 @@ interface PropertyDetailsActionsProps {
   productId: string;
   productLikes: TLikesResponse[];
   productShareCount: number;
-  productShareLink: string;
+  productLink: string;
 }
 
-export default function PropertyDetailsActions({ productId, productLikes, productShareCount, productShareLink }: PropertyDetailsActionsProps) {
+export default function PropertyDetailsActions({ productId, productLikes, productShareCount, productLink }: PropertyDetailsActionsProps) {
   const [isSharing, startSharing] = useTransition();
 
   const shareCallbackFn = () => {
@@ -46,8 +46,8 @@ export default function PropertyDetailsActions({ productId, productLikes, produc
 
   return (
     <div className="grid grid-cols-2 gap-1">
-      <Likes productId={productId} likes={productLikes} callbackUrl={`/listings/details/${productShareLink}`} />
-      <ShareButton shareCount={productShareCount} productLink={`${config.env.prodEndpoint}listings/details/${productShareLink}`} callbackFn={shareCallbackFn} loading={isSharing} />
+      <Likes productId={productId} likes={productLikes} callbackUrl={productLink} />
+      <ShareButton shareCount={productShareCount} productLink={productLink} callbackFn={shareCallbackFn} loading={isSharing} />
     </div>
   )
 }

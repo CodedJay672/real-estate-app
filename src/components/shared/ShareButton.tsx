@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 
 import { Loader2, Share2 } from "lucide-react"
 import { Button } from "../ui/button"
+import config from '@/lib/config';
 
 
 const ShareButton = ({ callbackFn, productLink, shareCount, loading }: { productLink: string; shareCount: number, callbackFn?: () => void, loading: boolean }) => {
@@ -22,7 +23,7 @@ const ShareButton = ({ callbackFn, productLink, shareCount, loading }: { product
       navigator.share({
         title: 'Check out this product!',
         text: 'I found this amazing product and thought you might like it.',
-        url: productLink,
+        url: `${config.env.prodEndpoint}${productLink}`,
       })
         .then(() => {
           console.log('Product shared successfully')

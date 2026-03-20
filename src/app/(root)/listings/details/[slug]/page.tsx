@@ -87,7 +87,7 @@ const PropertyDetails = async ({
               maximumFractionDigits: 0
             })}
           </p>
-          <PropertyDetailsActions productId={productDetails.data?.id ?? ''} productLikes={productDetails.data?.likes ?? []} productShareCount={productDetails.data?.sharedCount ?? 0} productShareLink={productDetails.data?.slug || ""} />
+          <PropertyDetailsActions productId={productDetails.data?.id ?? ''} productLikes={productDetails.data?.likes ?? []} productShareCount={productDetails.data?.sharedCount ?? 0} productLink={`/listings/details/${productDetails.data?.slug}`} />
         </div>
 
         <div className="space-y-1.5">
