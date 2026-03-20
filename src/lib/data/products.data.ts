@@ -154,6 +154,38 @@ export const getAdminProductsWithCategories = cache(
   },
 );
 
+export const getAdminProductById = async (id: string) => {
+  try {
+    // verify auth
+    await requireAuth();
+
+    //make db request
+    const product = await db
+      .select()
+      .from(products)
+      .where(eq(products.id, id))
+      .limit(1);
+
+    if (!product || product.length === 0) {
+      return {
+        success: false,
+        message: `Product was not found.`,
+      };
+    }
+
+    return {
+      success: true,
+      message: "product details fetched successfully",
+      data: product[0],
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: generateErrorMessage(error),
+    };
+  }
+};
+
 export const getProductBySlug = cache(
   async (slug: string): Promise<ApiResponse<listings>> => {
     if (!slug) {

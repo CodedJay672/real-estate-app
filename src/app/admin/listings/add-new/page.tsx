@@ -2,9 +2,9 @@ import { Suspense } from "react";
 
 import Back from "@/components/shared/Back";
 import ProductForm from "@/components/forms/ProductForm";
-import { getProductById } from "@/lib/data/products.data";
 import { getAllAdminCategories } from "@/lib/data/category.data";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
+import { getAdminProductById } from "@/lib/data/products.data";
 
 const AddProducts = async ({
   searchParams,
@@ -15,7 +15,7 @@ const AddProducts = async ({
 
 
   // get the product and category in parallel
-  const productRequest = getProductById(productId);
+  const productRequest = getAdminProductById(productId);
   const categoriesRequest = getAllAdminCategories();
 
 
