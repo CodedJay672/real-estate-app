@@ -109,7 +109,7 @@ const AuthForm = <T extends FieldValues>({
         title: "Success",
         description: "Successfully signed in",
       });
-      router.push(next || redirectUrl || "/");
+      router.replace(next || redirectUrl || "/");
     } catch (error) {
       toast({
         title: "Error",

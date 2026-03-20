@@ -30,7 +30,8 @@ export async function generateMetadata(
 
   return {
     title: product.data.name,
-    description: product.data.tags,
+    description: product.data.description,
+    keywords: product.data.tags?.split(","),
     openGraph: {
       images: [product.data.imageUrl ?? "", ...previousImages],
     },
@@ -86,7 +87,7 @@ const PropertyDetails = async ({
               maximumFractionDigits: 0
             })}
           </p>
-          <PropertyDetailsActions productId={productDetails.data?.id ?? ''} productLikes={productDetails.data?.likes ?? []} productShareCount={productDetails.data?.sharedCount ?? 0} productShareLink={`${config.env.prodEndpoint}listings/details/${productDetails.data?.id}`} />
+          <PropertyDetailsActions productId={productDetails.data?.id ?? ''} productLikes={productDetails.data?.likes ?? []} productShareCount={productDetails.data?.sharedCount ?? 0} productShareLink={`${config.env.prodEndpoint}listings/details/${productDetails.data?.slug}`} />
         </div>
 
         <div className="space-y-1.5">

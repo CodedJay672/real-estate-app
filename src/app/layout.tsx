@@ -42,6 +42,7 @@ const lufga = localFont({
   ],
 });
 
+
 export default function RootLayout({ children }: { children: ReactNode }) {
 
   return (

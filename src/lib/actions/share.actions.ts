@@ -31,7 +31,7 @@ export async function shareProperty(
         message: "Failed to increase share",
       };
 
-    revalidatePath("/listings/details/[id]");
+    revalidatePath("/listings/details/[slug]");
     return {
       success: true,
       message: "Property link shared successfully.",
