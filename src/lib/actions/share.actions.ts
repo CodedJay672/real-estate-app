@@ -4,7 +4,6 @@ import { db } from "@/db/drizzle";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
-import { auth } from "../auth";
 import { generateErrorMessage } from "../utils";
 import { products } from "@/db/schema";
 
@@ -26,9 +25,15 @@ export async function shareProperty(
       .where(eq(products.id, productId))
       .returning({ count: products.sharedCount });
 
+    if (!shareCount || shareCount.length === 0)
+      return {
+        success: false,
+        message: "Failed to increase share",
+      };
+
     revalidatePath("/listings/details/[id]");
     return {
-      success: false,
+      success: true,
       message: "Property link shared successfully.",
       data: shareCount[0].count || 0,
     };

@@ -1,17 +1,17 @@
 import { Image } from "@imagekit/next";
 import { Bath, BedDouble, MapPin, Waypoints } from "lucide-react";
+import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from "next/navigation";
 
 import ContactForm from "@/components/forms/ContactForm";
 import Back from "@/components/shared/Back";
 import config from "@/lib/config";
-import { getProductById, getProductDetailsWithLikes } from "@/lib/data/products.data";
-
-
+import { getProductBySlug, getProductDetailsWithLikes } from "@/lib/data/products.data";
 import PropertyDetailsActions from "@/components/container/PropertyDetailsActions";
-import type { Metadata, ResolvingMetadata } from 'next';
+
+
 type Props = {
-  params: Promise<{ id: string }>
+  params: Promise<{ slug: string }>
 }
 
 export async function generateMetadata(
@@ -19,10 +19,10 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   // read route params
-  const { id } = await params
+  const { slug } = await params
 
   // fetch data
-  const product = await getProductById(id);
+  const product = await getProductBySlug(slug);
   if (!product.success || !product.data) return notFound();
 
   // optionally access and extend (rather than replace) parent metadata
@@ -40,12 +40,12 @@ export async function generateMetadata(
 const PropertyDetails = async ({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 }) => {
-  const { id } = await params;
+  const { slug } = await params;
 
   //fetch the property by id
-  const productDetails = await getProductDetailsWithLikes(id);
+  const productDetails = await getProductDetailsWithLikes(slug);
   if (!productDetails.success) return null;
 
   // format product description

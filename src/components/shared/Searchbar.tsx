@@ -38,7 +38,7 @@ const Searchbar = ({ url, getCategories }: SearchBarProps) => {
   return (
     <section className="w-full max-w-4xl flex justify-between gap-2 p-1.5 md:p-2 bg-light-50 rounded-xl md:rounded-full border border-border mx-auto">
       <div className="grid grid-cols-2 md:grid-cols-4 gap- my-auto divide-dark-50">
-        <Select value={filter.category} onValueChange={e => setFilter({ ...filter, category: e })} defaultValue={category?.toString()}>
+        <Select onValueChange={e => setFilter({ ...filter, category: e })} defaultValue={category?.toString()}>
           <SelectTrigger className="w-full border-none  focus-visible:ring-0 focus-visible:ring-offset-0">
             <SelectValue placeholder="Property type" className="truncate" />
           </SelectTrigger>

@@ -154,9 +154,41 @@ export const getAdminProductsWithCategories = cache(
   },
 );
 
-export const getProductById = cache(
-  async (id: string): Promise<ApiResponse<listings>> => {
-    if (!id) {
+export const getAdminProductById = async (id: string) => {
+  try {
+    // verify auth
+    await requireAuth();
+
+    //make db request
+    const product = await db
+      .select()
+      .from(products)
+      .where(eq(products.id, id))
+      .limit(1);
+
+    if (!product || product.length === 0) {
+      return {
+        success: false,
+        message: `Product was not found.`,
+      };
+    }
+
+    return {
+      success: true,
+      message: "product details fetched successfully",
+      data: product[0],
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: generateErrorMessage(error),
+    };
+  }
+};
+
+export const getProductBySlug = cache(
+  async (slug: string): Promise<ApiResponse<listings>> => {
+    if (!slug) {
       return { success: false, message: "Product id is required" };
     }
 
@@ -164,13 +196,13 @@ export const getProductById = cache(
       const product = await db
         .select()
         .from(products)
-        .where(eq(products.id, id))
+        .where(eq(products.slug, slug))
         .limit(1);
 
       if (!product || product.length === 0) {
         return {
           success: false,
-          message: `Product with id ${id} was not found.`,
+          message: `${slug} was not found.`,
         };
       }
 
@@ -190,22 +222,22 @@ export const getProductById = cache(
 
 export const getProductDetailsWithLikes = cache(
   async (
-    id: string,
+    slug: string,
   ): Promise<
     ApiResponse<
       listings & { likes: TLikesResponse[]; category: categoryResponse | null }
     >
   > => {
-    if (!id)
+    if (!slug)
       return {
         success: false,
-        message: "A valid product Id is required.",
+        message: "A valid product slug is required.",
       };
 
     try {
       // make database request to fetch product details with likes
       const response = await db.query.products.findFirst({
-        where: (products, { eq }) => eq(products.id, id),
+        where: (products, { eq }) => eq(products.slug, slug),
         with: {
           likes: true,
           category: true,

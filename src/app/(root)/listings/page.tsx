@@ -11,12 +11,9 @@ import MobileFilter from '@/components/shared/MobileFilter';
 
 
 
-export async function generateMetadata(
-): Promise<Metadata> {
-  return {
-    title: 'Listing',
-    description: 'Explore our extensive collection of properties, from cozy apartments to luxurious villas. Find your perfect home or investment opportunity with us today.',
-  }
+export const metadata: Metadata = {
+  title: 'Listing',
+  description: 'Explore our extensive collection of properties, from cozy apartments to luxurious villas. Find your perfect home or investment opportunity with us today.',
 }
 
 

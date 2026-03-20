@@ -51,12 +51,14 @@ export default function NotificationBtn({ getNotifs }: NotificationBtnProps) {
     }
   };
 
+  const hasUnreadNotifs = notifs.data?.some(d => !d.isRead);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <div className="size-5 p-0.5 rounded-full cursor-pointer flex-center relative">
           <Bell size={24} />
-          {notifs.data && notifs.data?.length > 0 && (
+          {hasUnreadNotifs && (
             <div className="size-2 bg-red-500 rounded-full absolute -top-0.5 right-0" />
           )}
         </div>

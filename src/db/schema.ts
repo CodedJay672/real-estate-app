@@ -47,6 +47,7 @@ export const products = pgTable(
     size: integer("size"),
     price: integer("price").notNull(),
     tags: text("tags"),
+    slug: text("slug"),
     createdAt: timestamp("created_at").notNull().defaultNow(),
     updatedAt: timestamp("updated_at").notNull().defaultNow(),
   },

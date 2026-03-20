@@ -33,6 +33,7 @@ type listings = {
   bedrooms: number | null;
   bathrooms: number | null;
   tags: string | null;
+  slug: string | null;
 };
 
 type ApiResponse<T> = {
