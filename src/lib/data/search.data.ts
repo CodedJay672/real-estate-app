@@ -7,7 +7,6 @@ import { generateErrorMessage } from "../utils";
 import { requireAuth } from "./users.data";
 import { db } from "@/db/drizzle";
 import { products, topSearches } from "@/db/schema";
-import { getProductDetailsWithLikes } from "./products.data";
 
 export async function getAdminTopSearches(
   limit: number,
