@@ -25,7 +25,7 @@ const SpecialOffers = async () => {
           </Link>
         </div>
 
-        <div className="w-full p-2.5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mx-auto gap-8">
+        <div className="property-grid py-2">
           {response.data && response.data.data?.length > 0 ? (
             response.data.data?.slice(6, 14).map((property) => (
               <PropertyCard

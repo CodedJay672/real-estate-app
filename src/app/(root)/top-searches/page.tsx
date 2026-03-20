@@ -1,6 +1,15 @@
+import type { Metadata } from 'next';
+
 import PropertyCard from "@/components/container/PropertyCard";
 import PaginationBar from "@/components/shared/paginationBar";
 import { getTopSearchedProperties } from "@/lib/data/search.data";
+
+
+export const metadata: Metadata = {
+  title: 'Top searches',
+  description: "Discover properties tailored to your preferences with advanced filtering options"
+};
+
 
 export default async function TopSearchesPage() {
   const topSearched = await getTopSearchedProperties();

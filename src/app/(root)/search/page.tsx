@@ -19,15 +19,6 @@ async function SearchResultsPage({ searchParams }: { searchParams: Promise<TFilt
       </Suspense>
       {baths || beds || category || price ? (
         <div className="container mx-auto">
-          <h1 className="text-xl md:text-2xl mb-4">Filter by: {
-            Object.entries({ baths, beds, category, price }).map(([key, val]) => (
-              val && (
-                <span key={key} className="text-sm md:text-base text-green-500 px-1.5 rounded-full font-semibold bg-green-50">{key}: {val}, </span>
-              ))
-            )
-          }</h1>
-          <hr className="border-border" />
-
           <Suspense key={JSON.stringify({ baths, beds, category, price })} fallback={
             <div className='property-grid'>
               {new Array(12).fill(0).map((_, i) => (

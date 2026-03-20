@@ -42,7 +42,7 @@ const PropertyCard = (props: (listings & {
       </div>
 
       <Link
-        href={`listings/details/${props.id}`}
+        href={`listings/details/${props.slug}`}
         className="flex flex-col w-full px-4 py-8 space-y-4"
       >
         <small className="text-xs text-light-200">Posted: {props.createdAt?.toLocaleDateString("en-UK", {
