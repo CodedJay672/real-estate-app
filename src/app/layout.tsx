@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
 import { LayoutProvider } from "@/components/providers/LayoutProvider";
 import { ProductStoreProvider } from "@/components/providers/StoreProvider";
+import MaintenanceProvider from "@/components/providers/MaintenanceProvider";
 
 
 export const metadata: Metadata = {
@@ -50,10 +51,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className={`${lufga.className} antialiased`}>
         <LayoutProvider>
           <ProductStoreProvider>
-            {children}
+            <MaintenanceProvider>
+              {children}
+            </MaintenanceProvider>
           </ProductStoreProvider>
-          <Toaster />
         </LayoutProvider>
+        <Toaster />
       </body>
     </html>
   );
