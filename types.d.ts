@@ -53,6 +53,7 @@ type paginatedData<T> = {
 };
 
 type TFilterQuery = {
+  tab?: string;
   name?: string;
   category?: string;
   price?: number | null;

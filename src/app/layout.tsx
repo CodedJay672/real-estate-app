@@ -51,9 +51,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className={`${lufga.className} antialiased`}>
         <LayoutProvider>
           <ProductStoreProvider>
-            <MaintenanceProvider>
-              {children}
-            </MaintenanceProvider>
+            {/* <MaintenanceProvider> */}
+            {children}
+            {/* </MaintenanceProvider> */}
           </ProductStoreProvider>
         </LayoutProvider>
         <Toaster />
