@@ -16,7 +16,7 @@ export default function MaintenanceProvider({ children }: { children: React.Reac
             This application is temporarily unavailable due to a billing issues. We're working to resolve this as quickly as possible and appreciate your patience.
           </p>
 
-          <small className='text-xs text-green-500 font-medium'>If you are the owner of this website, please contact the developers</small>
+          <small className='text-xs text-green-500 text-center font-medium'>If you are the owner of this website, please contact the developers</small>
         </div>
       </div>
     )

@@ -22,7 +22,7 @@ const Listings = async ({
     {
       id: crypto.randomUUID(),
       label: "products",
-      value: 'products'
+      value: ''
     },
     {
       id: crypto.randomUUID(),
@@ -35,24 +35,24 @@ const Listings = async ({
 
   return (
     <section className="wrapper">
-      <div className="flex-between gap-2">
+      <div className="flex justify-between gap-2">
         <div className="space-y-2">
           <div>
 
-            <h1 className="text-xl lg:text-2xl text-primary font-bold">{tab === "products" ? "Property Listings" : "Property Categories"}</h1>
+            <h1 className="text-xl lg:text-2xl text-primary font-bold">{!tab ? "Property Listings" : "Property Categories"}</h1>
             <p className="text-sm lg:text-base font-normal text-dark-50">
-              {tab === "products" ? "Manage your property listings all in one place" : "View and manage all categories easily."}
+              {!tab ? "Manage your property listings all in one place" : "View and manage all categories easily."}
             </p>
           </div>
           <CustomTabs tabs={tabs} />
         </div>
         <Link
-          href={tab === "products" ? "/admin/listings/add-new" : "/admin/categories/create-new"}
-          className="text-sm md:text-base text-light-50 bg-primary p-2 rounded-md flex justify-center items-center gap-1  ml-auto"
+          href={!tab ? "/admin/listings/add-new" : "/admin/categories/create-new"}
+          className="text-sm md:text-base text-light-50 bg-primary p-2 rounded-md flex justify-center items-center gap-1  ml-auto size-max"
         >
           <Plus size={20} className="text-subtle-light" />
           <span className="text-subtle-light font-light text-sm hidden md:inline-block">
-            {tab === "products" ? "Product" : "Category"}
+            {!tab ? "Product" : "Category"}
           </span>
         </Link>
       </div>
@@ -60,29 +60,26 @@ const Listings = async ({
       <div className="w-full rounded-xl border border-border bg-light-50">
         <div className="w-full flex-between gap-4 flex-col md:flex-row p-2 md:p-4">
           <div className="">
-            <h2 className="text-sm lg:text-lg font-semibold">{tab === "products" ? "Listings" : "Categories"}</h2>
-            <p className="text-sm md:text-base text-dark-50">Manage all property {tab === "products" ? 'listings' : "categories"} easily from one place</p>
+            <h2 className="text-sm lg:text-lg font-semibold">{!tab ? "Listings" : "Categories"}</h2>
+            <p className="text-sm md:text-base text-dark-50">Manage all property {!tab ? 'listings' : "categories"} easily from one place</p>
           </div>
 
           <div className='flex gap-1'>
-            <AdminSearchBar placeholder={tab === "products" ? 'Search property name...' : "Search categories..."} />
-            {tab === "products" && (
+            <AdminSearchBar placeholder={!tab ? 'Search property name...' : "Search categories..."} />
+            {!tab && (
               <AdminFilterButton getCategories={categories} />
             )}
           </div>
         </div>
 
-        {tab ? (
-          <Suspense key={JSON.stringify({ tab, query })} fallback={<LoadingSpinner />}>
-            {tab === "products" ? (
-              <Propertylistings {...query} />
-            ) : (
-              <AdminCategories query={query.name ?? ""} />
-            )}
-          </Suspense>
-        ) : (
-          <LoadingSpinner />
-        )}
+
+        <Suspense key={JSON.stringify({ tab, query })} fallback={<LoadingSpinner />}>
+          {!tab ? (
+            <Propertylistings {...query} />
+          ) : (
+            <AdminCategories query={query.name ?? ""} />
+          )}
+        </Suspense>
       </div>
 
       <p className="text-sm font-light text-gray-300 mb-14 mt-2 text-center">
