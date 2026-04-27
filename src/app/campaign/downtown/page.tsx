@@ -17,7 +17,9 @@ export default function DowntownLagosLanding() {
           <div className="w-10 h-10 bg-linear-to-tr from-yellow-600 to-yellow-300 rounded-sm flex items-center justify-center font-bold text-black">D</div>
           <span className="font-bold tracking-tighter text-xl italic text-yellow-500">DOWNTOWN <span className="text-white font-light">LAGOS</span></span>
         </div>
-        <EnquiryModal />
+        <div className='w-44 h-14'>
+          <EnquiryModal />
+        </div>
       </nav>
 
       <section className="relative pt-32 pb-20 px-6 max-w-7xl mx-auto flex flex-col items-center text-center">
@@ -62,7 +64,7 @@ export default function DowntownLagosLanding() {
         />
       </section>
 
-      <div className="w-max mx-auto">
+      <div className="w-full max-w-2xs h-14 mx-auto my-10">
         <EnquiryModal />
       </div>
 
