@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import Image from 'next/image';
 import EnquiryModal from './enquiry-modal';
 import PriceCard from '@/components/shared/price-card';
 import ProductCard from './product-card';
+import { getAllProducts } from '@/lib/data/products.data';
+import Portfolio, { PortfolioSkeleton } from '@/components/container/portfolio';
 
 export default function DowntownLagosLanding() {
+  const products = getAllProducts({ page: 1, pageSize: 4 });
+
+
   return (
     <div className="min-h-screen bg-[#050505] text-white selection:bg-yellow-500 selection:text-black font-sans">
 
@@ -18,12 +23,12 @@ export default function DowntownLagosLanding() {
 
       <section className="relative pt-32 pb-20 px-6 max-w-7xl mx-auto flex flex-col items-center text-center">
         <div className="flex gap-4 mb-8">
-          <span className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] border border-red-600 px-3 py-1 rounded text-red-500">
-            <span className="w-2 h-2 bg-red-600 rounded-full animate-pulse" /> Govt. Allocation / C of O
-          </span>
-          <span className="text-xs uppercase tracking-[0.2em] border border-white/20 px-3 py-1 rounded text-gray-400">
+          <p className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] border border-red-600 px-3 py-1 rounded text-red-500">
+            Govt. Allocation / C of O
+          </p>
+          <p className="text-xs uppercase tracking-[0.2em] border border-border px-3 py-1 rounded text-muted-foreground">
             Labour City, Ibeju Lekki
-          </span>
+          </p>
         </div>
 
         <h1 className="text-5xl md:text-8xl font-black italic tracking-tighter mb-4 text-transparent bg-clip-text bg-lineaer-to-b from-white to-gray-500">
@@ -58,8 +63,12 @@ export default function DowntownLagosLanding() {
         />
       </section>
 
+      <div className="w-max mx-auto">
+        <EnquiryModal />
+      </div>
+
       <section className="py-24 px-6 max-w-7xl mx-auto border-t border-white/5">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+        <div className="flex flex-col md:flex-row justify-between md:items-end mb-12 gap-6">
           <div>
             <p className="text-yellow-500 text-xs uppercase tracking-[0.4em] font-bold mb-3">Explore More</p>
             <h2 className="text-4xl md:text-5xl font-black italic tracking-tighter">THE PRISTEN <span className="text-gray-500">COLLECTION</span></h2>
@@ -74,26 +83,11 @@ export default function DowntownLagosLanding() {
           </a>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <ProductCard
-            title="The Grand Ivory"
-            location="Lekki Phase 1"
-            price="450M"
-            type="Luxury Mansion"
-          />
-          <ProductCard
-            title="Azure Bay"
-            location="Epe, Lagos"
-            price="15M"
-            type="Residential Land"
-          />
-          <ProductCard
-            title="Silicon Valley Lagos"
-            location="Ibeju Lekki"
-            price="85M"
-            type="Commercial Hub"
-          />
-        </div>
+        <Suspense fallback={
+          <PortfolioSkeleton />
+        }>
+          <Portfolio productPromise={products} />
+        </Suspense>
       </section>
 
       <section className="bg-white/5 backdrop-blur-xl py-12 px-6 border-y border-white/10">
