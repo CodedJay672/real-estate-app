@@ -1,11 +1,32 @@
 "use client";
 
-import CustomDialog from '@/components/shared/CustomDialog';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import { useState } from 'react';
+
+
+import CustomDialog from '@/components/shared/CustomDialog';
 
 export default function EnquiryModal() {
   const [isOpen, setIsOpen] = useState(false);
+  const [formInputs, setFormInputs] = useState({
+    fullName: "",
+    phone: "",
+    plot: ""
+  })
+
+  const handleSubmit = (e: React.SubmitEvent) => {
+    e.preventDefault();
+    const message = `Hello, i am ${formInputs.fullName}, and i want to reserve ${formInputs.plot} plots of Downtown Lagos`;
+    const encodedMessage = encodeURIComponent(message);
+    const url = `https://wa.link/a0m76f?text=${encodedMessage}`;
+    window.location.href = url;
+    setIsOpen(false);
+    setFormInputs({
+      fullName: "",
+      phone: "",
+      plot: ""
+    })
+  }
 
   return (
     <>
@@ -22,7 +43,7 @@ export default function EnquiryModal() {
           className="absolute inset-0 bg-black/90 backdrop-blur-md"
         />
 
-        <div className="relative w-full max-w-md bg-[#0a0a0a] border border-white/10 p-8 rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.5)]">
+        <div className="relative w-full max-w-md bg-[#0a0a0a] border border-white/10 p-3 md:p-8 rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.5)]">
           <button
             onClick={() => setIsOpen(false)}
             className="absolute top-6 right-6 text-gray-500 hover:text-white transition-colors"
@@ -35,26 +56,21 @@ export default function EnquiryModal() {
             <p className="text-gray-400 text-sm mt-2">Downtown Commercial City - Phase 2</p>
           </div>
 
-          <form className="space-y-5" action={async (formData) => {
-            // You can add a Server Action here for Next.js 16
-            console.log("Form Submitted", Object.fromEntries(formData));
-            setIsOpen(false);
-            alert("Reservation Request Sent!");
-          }}>
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label className="block text-[10px] uppercase tracking-[0.2em] text-gray-500 mb-2 ml-1">Full Name</label>
-              <input name="fullname" required type="text" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 focus:outline-none focus:border-yellow-500/50 transition-all text-white" placeholder="Enter your full name" />
+              <input name="fullname" required type="text" value={formInputs.fullName} onChange={(e) => setFormInputs({ ...formInputs, fullName: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 focus:outline-none focus:border-yellow-500/50 transition-all text-white" placeholder="Enter your full name" />
             </div>
 
             <div>
               <label className="block text-[10px] uppercase tracking-[0.2em] text-gray-500 mb-2 ml-1">Phone (WhatsApp)</label>
-              <input name="phone" required type="tel" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 focus:outline-none focus:border-yellow-500/50 transition-all text-white" placeholder="+234..." />
+              <input name="phone" required type="tel" value={formInputs.phone} onChange={(e) => setFormInputs({ ...formInputs, phone: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 focus:outline-none focus:border-yellow-500/50 transition-all text-white" placeholder="+234..." />
             </div>
 
             <div>
               <label className="block text-[10px] uppercase tracking-[0.2em] text-gray-500 mb-2 ml-1">Plot of Interest</label>
               <div className="relative">
-                <select name="plot" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 focus:outline-none focus:border-yellow-500/50 transition-all text-white appearance-none cursor-pointer">
+                <select name="plot" value={formInputs.plot} onChange={(e) => setFormInputs({ ...formInputs, plot: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 focus:outline-none focus:border-yellow-500/50 transition-all text-white appearance-none cursor-pointer">
                   <option className="bg-black" value="500sqm">500 SQM - N60 Million</option>
                   <option className="bg-black" value="1000sqm">1000 SQM - N100 Million</option>
                 </select>
