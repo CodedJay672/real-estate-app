@@ -120,10 +120,10 @@ const MobileSidebar = ({
         </Link>
 
         <Link
-          href="/campaigns"
+          href="/campaign"
           onClick={() => handleShowMenu(false)}
           className={cn(
-            "text-sm flex items-center gap-1.5 w-full px-2 justify-end", isActive("/campaigns") ? "font-semibold bg-primary/10 text-primary rounded-full py-2.5" : "text-dark-50 py-1.5",
+            "text-sm flex items-center gap-1.5 w-full px-2 justify-end", isActive("/campaign") ? "font-semibold bg-primary/10 text-primary rounded-full py-2.5" : "text-dark-50 py-1.5",
 
           )}
         >
