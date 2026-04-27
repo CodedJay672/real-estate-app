@@ -3,7 +3,7 @@ import CampaignCard from './campaign-card'
 
 export default function CampaignsPage() {
   return (
-    <section className='container mx-auto p-4 pt-26 space-y-16'>
+    <section className='container mx-auto p-4 py-10 space-y-16'>
       <div className='w-full space-y-4 max-w-2xl mx-auto text-center'>
         <h2 className='text-2xl md:text-4xl text-primary text-pretty font-bold'>
           Check out amazing offers that are currently trending.

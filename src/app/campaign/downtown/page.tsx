@@ -1,15 +1,19 @@
-import React, { Suspense } from 'react';
-import Image from 'next/image';
-import EnquiryModal from './enquiry-modal';
-import PriceCard from '@/components/shared/price-card';
-import ProductCard from './product-card';
-import { getAllProducts } from '@/lib/data/products.data';
 import Portfolio, { PortfolioSkeleton } from '@/components/container/portfolio';
 import Logo from '@/components/shared/Logo';
+import PriceCard from '@/components/shared/price-card';
+import { getAllProducts } from '@/lib/data/products.data';
+import { Metadata } from 'next';
+import { Suspense } from 'react';
+import EnquiryModal from './enquiry-modal';
+
+
+export const metadata: Metadata = {
+  title: 'Downtown Lagos Commercial City',
+  description: 'Discover the Downtown Lagos Commercial City, a premier development by Aceroyal Estates Homes Ltd. Explore office spaces, healthcare facilities, shopping malls, and more in this exclusive commercial hub. Marketed exclusively by Pristen.',
+};
 
 export default function DowntownLagosLanding() {
   const products = getAllProducts({ page: 1, pageSize: 4 });
-
 
   return (
     <div className="min-h-screen bg-[#050505] text-white selection:bg-yellow-500 selection:text-black font-sans">
