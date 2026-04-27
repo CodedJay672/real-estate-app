@@ -12,7 +12,6 @@ export default function DowntownLagosLanding() {
 
   return (
     <div className="min-h-screen bg-[#050505] text-white selection:bg-yellow-500 selection:text-black font-sans">
-
       <nav className="fixed top-0 w-full z-50 bg-black/40 backdrop-blur-md border-b border-white/10 px-6 py-4 flex justify-between items-center">
         <div className="flex items-center gap-2">
           <div className="w-10 h-10 bg-linear-to-tr from-yellow-600 to-yellow-300 rounded-sm flex items-center justify-center font-bold text-black">D</div>
