@@ -36,7 +36,7 @@ const Topbar = () => {
   return (
     <header className={cn("w-full z-50 fixed top-0 left-0 bg-dark-200/10 transition-transform transform-gpu ease-in-out duration-300", isVisible ? 'translate-y-0' : '-translate-y-60')}>
       <nav className="container flex justify-between items-center mx-auto py-4 px-2">
-        <div className="bg-light-50 p-1 rounded-lg">
+        <div className="size-10 rounded-md relative overflow-hidden">
           <Logo />
         </div>
 
