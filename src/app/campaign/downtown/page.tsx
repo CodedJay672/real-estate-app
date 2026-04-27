@@ -42,7 +42,7 @@ export default function DowntownLagosLanding() {
 
         <div className="mt-12 group relative">
           <p className="text-gray-400 uppercase tracking-[0.4em] text-sm mb-2">New Prices Effective</p>
-          <h2 className="text-4xl md:text-6xl font-bold border-y border-white/10 py-4 px-10">MAY 1ST, 2026</h2>
+          <h2 className="text-4xl md:text-6xl font-bold border-y border-white/10 py-4 px-10">APRIL 30TH, 2026</h2>
         </div>
       </section>
 

@@ -9,7 +9,7 @@ export default function PriceCard({ size, oldPrice, newPrice, doc, deposit, feat
 
         {size} SQM
         <p className="w-max mx-auto bg-red-600 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-tighter animate-pulse md:absolute max-sm:mt-3 md:top-2 md:right-2">
-          Price Hike May 1st
+          Price Hike April 30th
         </p>
       </div>
 
