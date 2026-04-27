@@ -18,7 +18,7 @@ export default function EnquiryModal() {
     e.preventDefault();
     const message = `Hello, i am ${formInputs.fullName}, and i want to reserve ${formInputs.plot} plots of Downtown Lagos`;
     const encodedMessage = encodeURIComponent(message);
-    const url = `https://wa.link/a0m76f?text=${encodedMessage}`;
+    const url = `https://api.whatsapp.com/send?phone=+2349046439376&text=${encodedMessage}`;
     window.location.href = url;
     setIsOpen(false);
     setFormInputs({
