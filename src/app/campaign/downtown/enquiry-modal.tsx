@@ -32,7 +32,7 @@ export default function EnquiryModal() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="bg-yellow-500 hover:bg-yellow-400 text-black px-6 py-2 rounded-full font-bold transition-all text-xs uppercase tracking-widest active:scale-95"
+        className="w-full h-full bg-yellow-500 hover:bg-yellow-400 text-black px-6 py-2 rounded-full font-bold transition-all text-xs uppercase tracking-widest active:scale-95"
       >
         Enquire Now
       </button>
