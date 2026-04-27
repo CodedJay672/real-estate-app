@@ -12,6 +12,8 @@ interface PortfolioProps {
 export default function Portfolio({ productPromise }: PortfolioProps) {
   const products = use(productPromise);
 
+  if (!products.success || !products.data?.data.length) return null;
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       {products.data?.data.map((product) => (
