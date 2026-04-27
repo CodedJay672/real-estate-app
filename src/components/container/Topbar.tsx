@@ -37,7 +37,6 @@ const Topbar = () => {
     <header className={cn("w-full z-50 fixed top-0 left-0 bg-dark-200/10 transition-transform transform-gpu ease-in-out duration-300", isVisible ? 'translate-y-0' : '-translate-y-60')}>
       <nav className="container flex justify-between items-center mx-auto py-4 px-2">
         <div className="bg-light-50 p-1 rounded-lg">
-
           <Logo />
         </div>
 
@@ -53,6 +52,9 @@ const Topbar = () => {
             </li>
             <li>
               <Link href="/listings" className={cn("text-base hover:text-light-50 rounded-full px-2.5 py-1 transition-colors", isActive('/listings') ? "text-light-50 font-bold bg-light-200" : "text-light-100 font-medium hover:bg-light-200/60")}>Listings</Link>
+            </li>
+            <li>
+              <Link href="/campaign" className={cn("text-base hover:text-light-50 rounded-full px-2.5 py-1 transition-colors", isActive('/campaign') ? "text-light-50 font-bold bg-light-200" : "text-light-100 font-medium hover:bg-light-200/60")}>Campaigns</Link>
             </li>
             <li>
               <Link href="/about-us" className={cn("text-base  hover:text-light-50 px-2.5 py-1 rounded-full transition-colors", isActive("/about-us") ? "text-light-50 font-bold bg-light-200/50" : "text-light-100 font-medium hover:bg-light-200/60")}>About Us</Link>
