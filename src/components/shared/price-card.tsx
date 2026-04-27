@@ -4,15 +4,15 @@ export default function PriceCard({ size, oldPrice, newPrice, doc, deposit, feat
       ? 'border-yellow-500/40 bg-linear-to-b from-yellow-500/[0.07] to-transparent shadow-[0_20px_50px_rgba(234,179,8,0.1)]'
       : 'border-white/10 bg-white/2'
       }`}>
-      <div className="absolute top-6 right-6">
-        <span className="bg-red-600 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-tighter animate-pulse">
-          Price Hike May 1st
-        </span>
-      </div>
 
       <div className={`py-4 text-center font-black text-xl tracking-[0.2em] ${featured ? 'bg-yellow-500 text-black' : 'bg-white/10 text-white'}`}>
+
         {size} SQM
+        <p className="w-max mx-auto bg-red-600 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-tighter animate-pulse md:absolute max-sm:mt-3 md:top-2 md:right-2">
+          Price Hike May 1st
+        </p>
       </div>
+
 
       <div className="p-10 text-center">
         <div className="mb-8 flex flex-col items-center gap-1">
