@@ -43,14 +43,7 @@ export default function EnquiryModal() {
           className="absolute inset-0 bg-black/90 backdrop-blur-md"
         />
 
-        <div className="relative w-full max-w-md bg-[#0a0a0a] border border-white/10 p-3 md:p-8 rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.5)]">
-          <button
-            onClick={() => setIsOpen(false)}
-            className="absolute top-6 right-6 text-gray-500 hover:text-white transition-colors"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
-          </button>
-
+        <div className="relative w-full bg-[#0a0a0a] border border-white/10 p-2 rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.5)]">
           <div className="mb-8">
             <h2 className="text-3xl font-black italic text-yellow-500 tracking-tighter">SECURE YOUR PLOT</h2>
             <p className="text-gray-400 text-sm mt-2">Downtown Commercial City - Phase 2</p>
