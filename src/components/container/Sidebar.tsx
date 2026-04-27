@@ -10,6 +10,7 @@ import { LayoutDashboard, List, Mail, MenuIcon, User2 } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import Logo from "../shared/Logo";
 
 const Sidebar = () => {
   const { data: session, status } = useSession()
@@ -20,18 +21,15 @@ const Sidebar = () => {
 
   return (
     <aside className="w-full md:w-16 md:h-screen lg:w-64 bg-primary border-r flex flex-row md:flex-col justify-between items-center p-2 md:pt-4 md:pb-2 fixed md:sticky bottom-0 md:top-0 z-10">
-      <Link
-        href="/"
-        className="p-2 hidden md:flex justify-center lg:w-full lg:justify-start items-center"
-      >
-        <Image
-          src="/assets/logo.png"
-          alt="clean beautiful properties"
-          width={72}
-          height={72}
-          className="object cover invert"
-        />
-      </Link>
+      <div className="w-full flex gap-1">
+        <div className="size-10 overflow-hidden relative rounded-md">
+          <Logo />
+        </div>
+        <div className="flex-1">
+          <p className="text-base text-accent-bright leading-7">Pristine</p>
+          <p className="text-green-500 dark:text-green-900 flex items-center gap-1 leading-1"><span className="block h-max rounded-full bg-green-500 dark:bg-green-900 p-1" />admin</p>
+        </div>
+      </div>
 
       <nav className="w-full md:mt-5 p-1 flex flex-row md:flex-col justify-center md:justify-start items-center md:items-start gap-4 md:gap-1.5 md:w-full md:flex-1">
         <Link

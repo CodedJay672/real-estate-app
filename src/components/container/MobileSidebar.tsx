@@ -1,6 +1,6 @@
 "use client";
 
-import { Building2, Home, ListFilter } from "lucide-react";
+import { Building2, Home, ListFilter, Megaphone } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -115,6 +115,20 @@ const MobileSidebar = ({
         >
           <span>Listings</span>
           <ListFilter
+            size={16}
+          />
+        </Link>
+
+        <Link
+          href="/campaigns"
+          onClick={() => handleShowMenu(false)}
+          className={cn(
+            "text-sm flex items-center gap-1.5 w-full px-2 justify-end", isActive("/campaigns") ? "font-semibold bg-primary/10 text-primary rounded-full py-2.5" : "text-dark-50 py-1.5",
+
+          )}
+        >
+          <span>Campaigns</span>
+          <Megaphone
             size={16}
           />
         </Link>
