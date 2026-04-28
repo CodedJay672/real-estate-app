@@ -196,10 +196,11 @@ export const getProductBySlug = cache(
       const product = await db
         .select()
         .from(products)
-        .where(eq(products.slug, slug))
+        .where(eq(products.slug, decodeURIComponent(slug)))
         .limit(1);
 
       if (!product || product.length === 0) {
+        console.log("Product not found with slug:", slug);
         return {
           success: false,
           message: `${slug} was not found.`,
@@ -237,7 +238,8 @@ export const getProductDetailsWithLikes = cache(
     try {
       // make database request to fetch product details with likes
       const response = await db.query.products.findFirst({
-        where: (products, { eq }) => eq(products.slug, slug),
+        where: (products, { eq }) =>
+          eq(products.slug, decodeURIComponent(slug)),
         with: {
           likes: true,
           category: true,
@@ -245,7 +247,7 @@ export const getProductDetailsWithLikes = cache(
       });
 
       if (!response) {
-        console.log("Something went wrong.");
+        console.log("Failed to get product with likes and category.", { slug });
         return {
           success: false,
           message: "Product not found.",
