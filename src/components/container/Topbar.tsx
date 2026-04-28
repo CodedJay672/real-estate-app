@@ -42,26 +42,24 @@ const Topbar = () => {
 
 
         <div className="flex-center gap-2">
-
-          <ul className="text-base hidden md:flex items-center justify-between gap-6">
+          <ul className="text-sm hidden md:flex items-center justify-between gap-6">
             <li>
-              <Link href="/" className={cn("text-base hover:text-light-50 px-2.5 py-1 rounded-full transition-colors", isActive("/") ? "font-bold text-light-50 bg-light-200/60" : "font-medium text-light-100 hover:bg-light-200/60")}>Home</Link>
+              <Link href="/" className={cn("text-sm hover:text-light-50 px-2.5 py-1 rounded-full transition-colors", isActive("/") ? "text-light-50 bg-light-200/60" : "font-medium text-light-100 hover:bg-light-200/60")}>Home</Link>
             </li>
             <li>
-              <Link href="/top-searches" className={cn("text-base hover:text-light-50 rounded-full px-2.5 py-1 transition-colors", isActive('/top-searches') ? "text-light-50 font-bold bg-light-200" : "text-light-100 font-medium hover:bg-light-200/60")}>Top searches</Link>
+              <Link href="/top-searches" className={cn("text-sm hover:text-light-50 rounded-full px-2.5 py-1 transition-colors", isActive('/top-searches') ? "text-light-50 bg-light-200" : "text-light-100 font-medium hover:bg-light-200/60")}>Top searches</Link>
             </li>
             <li>
-              <Link href="/listings" className={cn("text-base hover:text-light-50 rounded-full px-2.5 py-1 transition-colors", isActive('/listings') ? "text-light-50 font-bold bg-light-200" : "text-light-100 font-medium hover:bg-light-200/60")}>Listings</Link>
+              <Link href="/listings" className={cn("text-sm hover:text-light-50 rounded-full px-2.5 py-1 transition-colors", isActive('/listings') ? "text-light-50 bg-light-200" : "text-light-100 font-medium hover:bg-light-200/60")}>Listings</Link>
             </li>
             <li>
-              <Link href="/campaign" className={cn("text-base hover:text-light-50 rounded-full px-2.5 py-1 transition-colors", isActive('/campaign') ? "text-light-50 font-bold bg-light-200" : "text-light-100 font-medium hover:bg-light-200/60")}>Campaigns</Link>
+              <Link href="/campaign" className={cn("text-sm hover:text-light-50 rounded-full px-2.5 py-1 transition-colors", isActive('/campaign') ? "text-light-50 bg-light-200" : "text-light-100 font-medium hover:bg-light-200/60")}>Campaigns</Link>
             </li>
             <li>
-              <Link href="/about-us" className={cn("text-base  hover:text-light-50 px-2.5 py-1 rounded-full transition-colors", isActive("/about-us") ? "text-light-50 font-bold bg-light-200/50" : "text-light-100 font-medium hover:bg-light-200/60")}>About Us</Link>
-            </li>
-            <li>
+              <Link href="/about-us" className={cn("text-sm  hover:text-light-50 px-2.5 py-1 rounded-full transition-colors", isActive("/about-us") ? "text-light-50 bg-light-200/50" : "text-light-100 font-medium hover:bg-light-200/60")}>About Us</Link>
             </li>
           </ul>
+
           <Header />
         </div>
       </nav>
