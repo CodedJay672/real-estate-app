@@ -8,7 +8,7 @@ const Herosection = () => {
 
 
   return (
-    <section className="w-full h-screen flex justify-center items-center bg-dark-200/50 bg-[url(/assets/hero-banner.jpg)] bg-blend-overlay bg-center bg-cover bg-no-repeat">
+    <section className="w-full h-screen flex justify-center items-center bg-dark-200/50 bg-[url(/assets/hero-banner.jpg)] bg-blend-overlay bg-center bg-cover bg-no-repeat relative">
       <div className="container mx-auto py-12 px-2 flex justify-center items-center flex-col relative z-10">
         <div className="p-2">
           <h1 className="text-accent-brown font-semibold text-3xl md:text-3xl lg:text-5xl text-center w-full max-w-xl">
@@ -29,6 +29,7 @@ const Herosection = () => {
           <Searchbar getCategories={categories} url="/search" />
         </Suspense>
       </div>
+      <div className="w-full h-32 bg-linear-to-b from-transparent via-gray-500 via-50% to-gray-50 absolute left-0 bottom-0" />
     </section>
   );
 };
