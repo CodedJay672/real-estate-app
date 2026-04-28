@@ -17,7 +17,8 @@ export default async function TopSearchedProperties() {
               Top Searched <span className="text-accent-brown">Properties</span>
             </h2>
             <Link href="/top-searches"
-              className="text-sm md:text-base h-max font-medium border border-accent-bright rounded-full transition-colors py-2  px-6 hover:bg-accent-bright hover:text-primary flex items-center gap-3">
+              className="text-sm md:text-base h-max font-medium border border-accent-bright rounded-full transition-colors py-2 px-6 hover:bg-accent-bright hover:text-primary flex items-center gap-3"
+              aria-label="Explore top searches">
               <SquareArrowOutUpRightIcon size={18} />
               <span className="hidden md:inline">
                 Explore

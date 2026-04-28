@@ -59,6 +59,17 @@ export const generateSlug = (name: string) => {
     throw new Error("Invalid product name for slug generation");
   }
 
-  const normalized = name.trim().replace(/\s+/g, "-").toLowerCase();
+  const normalized = name
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+
+  if (!normalized) {
+    throw new Error("Invalid product name for slug generation");
+  }
+
   return `${normalized}-${random8DigitNumber()}`;
 };

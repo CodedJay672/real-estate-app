@@ -55,7 +55,6 @@ const PropertyDetails = async ({
   return (
     <section className="container mx-auto py-28 px-4 md:px-10 flex flex-col md:flex-row gap-20 md:gap-10">
       <div className="flex-1 space-y-6">
-
         <div className="w-full h-96 overflow-hidden bg-light-100 rounded-xl relative">
           <div className="bg-light-50 rounded-full absolute top-2 left-2 flex-center z-1">
             <Back />

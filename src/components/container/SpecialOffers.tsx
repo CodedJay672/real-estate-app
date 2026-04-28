@@ -13,12 +13,13 @@ const SpecialOffers = async () => {
   return (
     <section className="container mx-auto  py-16 md:py-20 xl:py-24 space-y-24">
       <div className="w-full space-y-12 p-2.5">
-        <div className="w-full s space-y-6">
+        <div className="w-full space-y-6">
           <div className="w-full flex gap-2">
             <h2 className="w-full text-2xl md:text-4xl font-light text-dark-200">Top <span className="text-accent-brown">Properties</span> In The Market</h2>
             <Link
               href="/listings"
-              className="text-sm md:text-base h-max font-medium border border-accent-bright rounded-full transition-colors py-2  px-6 mx-auto hover:bg-accent-bright hover:text-primary flex-center gap-1"
+              aria-label="Explore listings"
+              className="text-sm md:text-base h-max font-medium border border-accent-bright rounded-full transition-colors py-2 px-6 mx-auto hover:bg-accent-bright hover:text-primary flex-center gap-1"
             >
               <SquareArrowOutUpRightIcon size={18} />
               <span className="hidden md:inline">
@@ -27,7 +28,7 @@ const SpecialOffers = async () => {
             </Link>
           </div>
 
-          <p className="text-sm md:text-base text-dark-50 max-w-xl text-center md:text-left font-medium">Explore a selectiton of the finest properties available. Handpicked for their exceptional value and growth opportunity. You dream property is just a click away.</p>
+          <p className="text-sm md:text-base text-dark-50 max-w-xl text-center md:text-left font-medium">Explore a selection of the finest properties available. Handpicked for their exceptional value and growth opportunity. Your dream property is just a click away.</p>
         </div>
 
         <div className="property-grid py-2">
