@@ -102,7 +102,7 @@ const ProductForm = ({
       });
 
       if (callbackFn) callbackFn()
-      else router.push("/admin/listings?tab=products");
+      else router.push("/admin/listings");
     } catch (error) {
       toast({
         title: "An error occurred",

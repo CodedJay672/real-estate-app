@@ -49,3 +49,16 @@ export const safeFetch = async (
     clearTimeout(id);
   }
 };
+
+const random8DigitNumber = () => {
+  return Math.floor(10000000 + Math.random() * 90000000).toString();
+};
+
+export const generateSlug = (name: string) => {
+  if (!name || typeof name !== "string") {
+    throw new Error("Invalid product name for slug generation");
+  }
+
+  const normalized = name.trim().replace(/\s+/g, "-").toLowerCase();
+  return `${normalized}-${random8DigitNumber()}`;
+};
