@@ -1,4 +1,13 @@
-export default function PriceCard({ size, oldPrice, newPrice, doc, deposit, featured = false }: any) {
+interface PriceCardProps {
+  size: number;
+  oldPrice: number;
+  newPrice: number;
+  doc: number;
+  deposit: number;
+  featured?: boolean;
+}
+
+export default function PriceCard({ size, oldPrice, newPrice, doc, deposit, featured = false }: PriceCardProps) {
   return (
     <div className={`relative rounded-3xl overflow-hidden border transition-all duration-500 hover:scale-[1.02] ${featured
       ? 'border-yellow-500/40 bg-linear-to-b from-yellow-500/[0.07] to-transparent shadow-[0_20px_50px_rgba(234,179,8,0.1)]'

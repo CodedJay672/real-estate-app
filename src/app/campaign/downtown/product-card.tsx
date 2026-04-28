@@ -41,7 +41,7 @@ export default function ProductCard({ title, location, price, type, description,
         <div className="flex justify-between items-end border-t border-white/10 pt-4">
           <div>
             <p className="text-[9px] uppercase text-gray-500 tracking-tighter">Starting From</p>
-            <p className="text-xl font-black italic">{price.toLocaleString("en-UK", {
+            <p className="text-xl font-black italic">{price.toLocaleString("en-GB", {
               style: "currency",
               currency: "NGN",
               currencyDisplay: "narrowSymbol",
@@ -50,11 +50,11 @@ export default function ProductCard({ title, location, price, type, description,
           </div>
           <Link
             href={link}
+            aria-label={`View ${title}`}
             className="bg-white text-black p-2 rounded-full md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 md:translate-y-4 md:group-hover:translate-y-0"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 7h10v10" /><path d="M7 17 17 7" /></svg>
-          </Link>
-        </div>
+          </Link>        </div>
       </div>
     </div>
   );
