@@ -6,9 +6,10 @@ import { eq } from "drizzle-orm";
 import { products } from "@/db/schema";
 import { requireAuth } from "../data/users.data";
 import { productFormSchema, productSchema } from "../validations/schema";
-import { generateErrorMessage } from "../utils";
+import { generateErrorMessage, generateSlug } from "../utils";
 import { db } from "@/db/drizzle";
 import { deleteProductImage } from "./images.actions";
+import z from "zod";
 
 export const uploadProducts = async (
   data: productFormSchema,
@@ -30,8 +31,13 @@ export const uploadProducts = async (
     // console log for debugging
     console.log("New product data.", parsedData.data);
 
+    const slug = generateSlug(parsedData.data.name);
+
     // make database insert request
-    const res = await db.insert(products).values(data).returning();
+    const res = await db
+      .insert(products)
+      .values({ ...parsedData.data, slug })
+      .returning();
     if (!res || res.length === 0) {
       return { success: false, message: "Error uploading product" };
     }
@@ -98,7 +104,7 @@ export const updateProductById = async (
     return {
       success: false,
       message: "failed to validate inputs",
-      error: parsedData.error.flatten().fieldErrors,
+      error: z.treeifyError(parsedData.error).properties,
     };
   }
 
