@@ -28,27 +28,29 @@ export const productColumns: ColumnDef<(listings & {
       accessorKey: "name",
       header: "Name",
       cell: ({ row }) => {
-        const { name, imageUrl, updatedAt, id, title, category } = row.original;
+        const { name, imageUrl, updatedAt, id, title, category, size, likes } = row.original;
 
-        return <div className="flex gap-1">
+        return <div className="flex max-w-sm gap-1 ">
           {imageUrl ? (
-
             <Image src={imageUrl} urlEndpoint={config.env.imagekit.urlEndpoint}
-              alt={name} width={32} height={32} />
+              alt={name} width={32} height={32} className="w-full h-max object-cover" />
           ) : (
             <div className="size-8 rounded-lg bg-light-100" />
           )}
           <div className="space-y-1">
-
             <small>#{id.split("-")[0]}</small>
             <div>
-              <h3 className="text-dark-200 font-semibold truncate">{name}</h3>
+              <h3 className="w-52 text-dark-200 font-semibold line-clamp-2 text-wrap text-ellipsis">{name}</h3>
               <p className="text-dark-50">{title}</p>
               <p className="text-xs text-dark-50">{category?.name}</p>
               <p className="text-[10px] text-light-200">Last modified: {updatedAt?.toLocaleDateString("en-UK", {
                 dateStyle: 'medium'
               })}
               </p>
+              <div className="flex items-center gap-2">
+                <p className="text-[10px] text-light-200">Size: {size ? `${size} SQM` : "--"}</p>
+                <p className="text-[10px] text-light-200">Likes: {likes.length}</p>
+              </div>
             </div>
           </div>
         </div>
@@ -70,26 +72,6 @@ export const productColumns: ColumnDef<(listings & {
     {
       accessorKey: "location",
       header: "Location",
-    },
-    {
-      accessorKey: "Size",
-      cell: ({ row }) => {
-        const { size } = row.original;
-        return (
-          <span className="whitespace-nowrap">
-            {size ? `${size} SQM` : "--"}
-          </span>
-        )
-      },
-    },
-    {
-      accessorKey: "likes",
-      header: "Likes",
-      cell: ({ row }) => {
-        const { likes } = row.original;
-
-        return <>{likes.length}</>
-      }
     },
     {
       accessorKey: "listingStatus",
@@ -284,7 +266,7 @@ export const messageColumns: ColumnDef<TMessageResponse>[] = [
 
       return <div>
         <p className="text-sm text-light-100">#{id.split('-')[0]}</p>
-        <p className="text-sm md:text-base font-semibold">{senderName}</p>
+        <p className="text-sm md:text-base font-semibold truncate">{senderName}</p>
         <p className="text-sm text-light-200">{senderEmail}</p>
       </div>
     }
