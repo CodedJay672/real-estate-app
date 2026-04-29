@@ -57,6 +57,23 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           </ProductStoreProvider>
         </LayoutProvider>
         <Toaster />
+        {/* Google Analytics - Downtown Landing Page Tracking */}
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=AW-18123877302"
+        strategy="afterInteractive"
+      />
+      <Script
+        id="downtown-analytics"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-18123877302');
+          `,
+        }}
+      />
       </body>
     </html>
   );
