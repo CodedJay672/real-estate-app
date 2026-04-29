@@ -7,7 +7,7 @@ import { useState } from 'react';
 import CustomDialog from '@/components/shared/CustomDialog';
 
 export default function EnquiryModal() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [formInputs, setFormInputs] = useState({
     fullName: "",
     phone: "",
