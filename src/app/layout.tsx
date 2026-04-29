@@ -1,3 +1,4 @@
+import Script from 'next/script'
 import { ReactNode } from "react";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
@@ -57,6 +58,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           </ProductStoreProvider>
         </LayoutProvider>
         <Toaster />
+      </body>
+      
         {/* Google Analytics - Downtown Landing Page Tracking */}
       <Script
         src="https://www.googletagmanager.com/gtag/js?id=AW-18123877302"
@@ -74,7 +77,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           `,
         }}
       />
-      </body>
     </html>
   );
 }
