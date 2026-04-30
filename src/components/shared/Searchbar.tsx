@@ -82,7 +82,7 @@ const Searchbar = ({ url, getCategories }: SearchBarProps) => {
           className="size-full border border-slate-200 bg-slate-50 text-slate-900 focus-visible:ring-2 focus-visible:ring-amber-300 max-sm:col-span-2"
         />
 
-        <Button type="submit" variant="secondary" size="sm" className="h-full flex-1 rounded-full  flex items-center justify-center p-0 max-sm:col-span-6 md:bg-accent-bright/80 md:hover:bg-accent-bright">
+        <Button type="submit" variant="secondary" size="sm" className="h-12 md:h-full flex-1 rounded-full  flex items-center justify-center p-0 max-sm:col-span-6 md:bg-accent-bright/80 md:hover:bg-accent-bright">
           <Search size={18} /> Search
         </Button>
       </div>

@@ -18,7 +18,7 @@ async function SearchResultsPage({ searchParams }: { searchParams: Promise<TFilt
         <Searchbar getCategories={categories} />
       </Suspense>
       {Object.entries(query).length > 0 ? (
-        <div className="container mx-auto">
+        <div className="container mx-auto p-2">
           <Suspense key={JSON.stringify(query)} fallback={
             <div className='property-grid'>
               {new Array(12).fill(0).map((_, i) => (
