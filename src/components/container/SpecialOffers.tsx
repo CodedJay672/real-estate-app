@@ -5,48 +5,41 @@ import { SquareArrowOutUpRightIcon } from "lucide-react";
 
 const SpecialOffers = async () => {
   const response = await getAllProducts({});
-  if (!response.success) {
-    console.log("Errror fetching liked posts");
-    return null;
-  }
+  if (!response.success) return null;
+
+  const listings = response.data?.data?.slice(0, 8) ?? [];
 
   return (
-    <section className="container mx-auto  py-16 md:py-20 xl:py-24 space-y-24">
-      <div className="w-full space-y-12 p-2.5">
-        <div className="w-full space-y-6">
-          <div className="w-full flex gap-2">
-            <h2 className="w-full text-2xl md:text-4xl font-light text-dark-200">Top <span className="text-accent-brown">Properties</span> In The Market</h2>
-            <Link
-              href="/listings"
-              aria-label="Explore listings"
-              className="text-sm md:text-base h-max font-medium border border-accent-bright rounded-full transition-colors py-2 px-6 mx-auto hover:bg-accent-bright hover:text-primary flex-center gap-1"
-            >
-              <SquareArrowOutUpRightIcon size={18} />
-              <span className="hidden md:inline">
-                Explore
-              </span>
-            </Link>
+    <section className="container mx-auto py-16 md:py-20 xl:py-24 px-4">
+      <div className="mx-auto max-w-6xl space-y-12">
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div className="space-y-4">
+            <h2 className="text-3xl font-semibold text-slate-950 md:text-4xl">
+              Top <span className="text-amber-400">properties</span> in the market
+            </h2>
+            <p className="max-w-2xl text-sm leading-7 text-slate-600">
+              Premium homes and investment-ready units selected for value, location and long-term growth.
+            </p>
           </div>
-
-          <p className="text-sm md:text-base text-dark-50 max-w-xl text-center md:text-left font-medium">Explore a selection of the finest properties available. Handpicked for their exceptional value and growth opportunity. Your dream property is just a click away.</p>
+          <Link
+            href="/listings"
+            aria-label="Explore all listings"
+            className="inline-flex items-center gap-2 rounded-full border border-amber-300 bg-amber-50 px-5 py-2.5 text-sm font-medium text-slate-950 transition hover:bg-amber-100"
+          >
+            <SquareArrowOutUpRightIcon size={18} />
+            Explore listings
+          </Link>
         </div>
 
-        <div className="property-grid py-2">
-          {response.data && response.data.data?.length > 0 ? (
-            response.data.data?.slice(6, 14).map((property) => (
-              <PropertyCard
-                key={property.id}
-                {...property}
-              />
-            ))
-          ) : (
-            <div className="col-span-full">
-              <p className="text-blue-100 text-center font-semibold">
-                No products available
-              </p>
-            </div>
-          )}
-        </div>
+        {listings.length > 0 ? (
+          <div className="property-grid py-2">
+            {listings.map((property) => (
+              <PropertyCard key={property.id} {...property} />
+            ))}
+          </div>
+        ) : (
+          <p className="text-center text-slate-500">No featured properties are available right now.</p>
+        )}
       </div>
     </section>
   );

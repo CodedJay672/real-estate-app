@@ -53,6 +53,8 @@ const ProductListings = async ({
             </div>
           </div>
 
+          <hr className='w-full border-border mb-10' />
+
           <Suspense key={JSON.stringify(query)} fallback={
             <div className='property-grid'>
               {new Array(12).fill(0).map((_, i) => (
