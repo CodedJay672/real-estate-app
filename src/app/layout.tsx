@@ -1,13 +1,12 @@
 import { ReactNode } from "react";
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+import { Inter } from "next/font/google";
 
 import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
 import { LayoutProvider } from "@/components/providers/LayoutProvider";
 import { ProductStoreProvider } from "@/components/providers/StoreProvider";
 import MaintenanceProvider from "@/components/providers/MaintenanceProvider";
-
 
 export const metadata: Metadata = {
   title: {
@@ -18,37 +17,17 @@ export const metadata: Metadata = {
     "Clean beautiful properties is a real estate listing platform where you can find your next home or investment property.",
 };
 
-const lufga = localFont({
-  src: [
-    {
-      path: "/fonts/Lufga-Regular.ttf",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "/fonts/Lufga-Medium.ttf",
-      weight: "500",
-      style: "normal",
-    },
-    {
-      path: "/fonts/Lufga-SemiBold.ttf",
-      weight: "600",
-      style: "normal",
-    },
-    {
-      path: "/fonts/Lufga-Bold.ttf",
-      weight: "700",
-      style: "normal",
-    },
-  ],
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
 });
 
 
 export default function RootLayout({ children }: { children: ReactNode }) {
-
   return (
-    <html lang="en">
-      <body className={`${lufga.className} antialiased`}>
+    <html lang="en" className={inter.variable}>
+      <body className="font-sans antialiased">
         <LayoutProvider>
           <ProductStoreProvider>
             {/* <MaintenanceProvider> */}
