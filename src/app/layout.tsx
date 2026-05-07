@@ -38,8 +38,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </LayoutProvider>
         <Toaster />
       </body>
-      
-        {/* Google Analytics - Downtown Landing Page Tracking */}
+
+      {/* Google Analytics - Downtown Landing Page Tracking */}
       <Script
         src="https://www.googletagmanager.com/gtag/js?id=AW-18123877302"
         strategy="afterInteractive"
@@ -53,6 +53,23 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', 'AW-18123877302');
+          `,
+        }}
+      />
+
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-J0GW3P8MNY"
+        strategy="afterInteractive"
+      />
+      <Script
+        id="downtown-analytics"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-J0GW3P8MNY');
           `,
         }}
       />
