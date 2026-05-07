@@ -34,7 +34,7 @@ export default async function Home() {
 function Loader() {
   return (
     <div className="flex gap-3 mt-6">
-      {new Array(4).map((_, idx) => (
+      {Array.from({ length: 4 }).map((_, idx) => (
         <PropertyCardSkeleton key={idx} />
       ))}
     </div>

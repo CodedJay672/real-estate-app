@@ -3,6 +3,7 @@ import { SquareArrowOutUpRightIcon } from "lucide-react";
 
 import { getTopSearchedProperties } from "@/lib/data/search.data";
 import PropertyCard from "./PropertyCard";
+import ProductCard from "@/app/campaign/downtown/product-card";
 
 export default async function TopSearchedProperties() {
   const topSearched = await getTopSearchedProperties(1, 4);
@@ -22,7 +23,7 @@ export default async function TopSearchedProperties() {
           </div>
           <Link
             href="/top-searches"
-            className="inline-flex items-center gap-2 rounded-full border border-amber-300 px-5 py-2.5 text-sm font-medium text-slate-950 transition hover:bg-amber-100"
+            className="w-max inline-flex items-center gap-2 rounded-full border border-amber-300 px-5 py-2.5 text-sm font-medium text-slate-950 transition hover:bg-amber-100"
             aria-label="Explore top searches"
           >
             <SquareArrowOutUpRightIcon size={18} />
@@ -31,8 +32,8 @@ export default async function TopSearchedProperties() {
         </div>
 
         <div className="property-grid py-2">
-          {topSearched.data.data.map((property) => (
-            <PropertyCard key={property.id} {...property} />
+          {topSearched.data?.data.map((property) => (
+            <ProductCard key={property.id} title={property.name} link={`/listing/details/${property.slug}`} description={property.description ?? ""} location={property.location} price={property.price} src={property.imageUrl ?? ""} type={property.category?.name ?? ""} />
           ))}
         </div>
       </div>
