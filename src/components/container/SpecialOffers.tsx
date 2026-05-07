@@ -24,7 +24,7 @@ const SpecialOffers = async () => {
           <Link
             href="/listings"
             aria-label="Explore all listings"
-            className="inline-flex items-center gap-2 rounded-full border border-amber-300 bg-amber-50 px-5 py-2.5 text-sm font-medium text-slate-950 transition hover:bg-amber-100"
+            className="w-max inline-flex items-center gap-2 rounded-full border border-amber-300 bg-amber-50 px-5 py-2.5 text-sm font-medium text-slate-950 transition hover:bg-amber-100"
           >
             <SquareArrowOutUpRightIcon size={18} />
             Explore listings
