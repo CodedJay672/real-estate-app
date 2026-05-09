@@ -1,6 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { QuoteIcon } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function AboutUs() {
@@ -9,7 +8,6 @@ export default function AboutUs() {
       <section className="bg-linear-to-r from-primary to-primary-light text-white py-20">
         <div className="wrapper">
           <div className="flex gap-10">
-
             <Avatar className="w-100 h-100 shrink-0">
               <AvatarImage src="/assets/team/lauretta.png" alt="Lauretta Asemota" className="rounded-md" />
               <AvatarFallback>LA</AvatarFallback>
