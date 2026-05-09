@@ -56,8 +56,8 @@ export default function NotificationBtn({ getNotifs }: NotificationBtnProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <div className="size-5 p-0.5 rounded-full cursor-pointer flex-center relative">
-          <Bell size={24} />
+        <div className="p-0.5 rounded-full cursor-pointer flex-center relative">
+          <Bell className="size-8 md:size-7" />
           {hasUnreadNotifs && (
             <div className="size-2 bg-red-500 rounded-full absolute -top-0.5 right-0" />
           )}

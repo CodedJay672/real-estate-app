@@ -7,9 +7,9 @@ export default function AboutUs() {
     <div className="w-full">
       <section className="bg-linear-to-r from-primary to-primary-light text-white py-20">
         <div className="wrapper">
-          <div className="flex gap-10">
+          <div className="flex flex-col maxsm:items-center gap-10">
             <Avatar className="w-100 h-100 shrink-0">
-              <AvatarImage src="/assets/team/lauretta.png" alt="Lauretta Asemota" className="rounded-md" />
+              <AvatarImage src="/assets/team/ceo.jpeg" alt="Lauretta Asemota" className="rounded-md" />
               <AvatarFallback>LA</AvatarFallback>
             </Avatar>
             <div className="flex-1">

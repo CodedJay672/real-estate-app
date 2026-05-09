@@ -80,6 +80,50 @@ export const getAllUsers = cache(
   },
 );
 
+export const getAllAdmins = cache(
+  async (
+    page: number = 1,
+    pageSize: number = 25,
+  ): Promise<ApiResponse<paginatedData<TUserResponse[]>>> => {
+    try {
+      await requireAuth();
+
+      const whereClause = eq(usersTable.role, "admin");
+
+      const [adminsCount, allAdmins] = await Promise.all([
+        db.select({ count: count() }).from(usersTable).where(whereClause),
+        db
+          .select()
+          .from(usersTable)
+          .where(whereClause)
+          .orderBy(desc(usersTable.createdAt), desc(usersTable.fullName))
+          .limit(+pageSize)
+          .offset((page - 1) * pageSize),
+      ]);
+
+      const totalAdmins = adminsCount[0].count;
+
+      return {
+        success: true,
+        message: "Admin users fetched.",
+        data: {
+          page,
+          pageSize,
+          hasNextPage: totalAdmins > page * pageSize,
+          hasPreviousPage: page > 1,
+          data: allAdmins,
+          totalRows: totalAdmins,
+        },
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        message: generateErrorMessage(error),
+      };
+    }
+  },
+);
+
 export const requireAuth = async () => {
   const session = await auth();
   if (!session?.user || session.user.role !== "admin")

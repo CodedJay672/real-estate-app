@@ -3,6 +3,7 @@
 import bcryptjs from "bcryptjs";
 import { eq } from "drizzle-orm";
 
+import { auth } from "../auth";
 import { db } from "@/db/drizzle";
 import { usersTable } from "@/db/schema";
 import { generateErrorMessage } from "../utils";
@@ -55,13 +56,22 @@ export const signUp = async ({
       };
     }
 
-    //encrypt password
+    // only admins can create admin accounts
+    const session = await auth();
+    if (role === "admin" && (!session?.user || session.user.role !== "admin")) {
+      return {
+        success: false,
+        message: "Only admins can create admin accounts.",
+      };
+    }
+
+    // encrypt password
     const hashedPwd = bcryptjs.hashSync(password, 10);
 
-    //insert user into db
+    // insert user into db
     const data = await db
       .insert(usersTable)
-      .values({ fullName, email, password: hashedPwd })
+      .values({ fullName, email, password: hashedPwd, role })
       .returning();
 
     return {
