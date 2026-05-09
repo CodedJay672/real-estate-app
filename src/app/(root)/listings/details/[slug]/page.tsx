@@ -143,7 +143,15 @@ const PropertyDetails = async ({ params }: { params: Promise<{ slug: string }> }
 
       <div className="w-full p-4 bg-primary md:p-6 rounded-2xl border border-border">
         <h1 className="text-xl text-center text-accent-bright font-medium">Meet the Agent</h1>
-        <CeoSpeech imgUrl="/assets/team/ceo.png" name="Lauretta Asemota" speech="No speech available." />
+        <CeoSpeech
+          imgUrl="/assets/team/ceo.png"
+          name="Lauretta Asemota"
+          speech="CLEAN AND BEAUTIFUL PROPERTIES LIMITED is a real estate consulting firm with a mission to create the paradise you truly deserve, with a perfect blend of Nature, technology, Luxury and sophistication.
+          
+          We will guide you on the journey to high profitable returns on your investments, amidst rising inflation. Property investments are a fund multiplier system, growing your money by leaps and bounds. WE ARE CREDIBLE AND TRUSTWORTHY and that would be your testimonial by God's special grace.
+          
+          We are a real estate consulting firm with a mission to create the paradise you truly deserve, with a perfect blend of Nature, technology, Luxury and sophistication."
+        />
       </div>
     </section>
   );
