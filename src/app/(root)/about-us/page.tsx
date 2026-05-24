@@ -18,7 +18,7 @@ export default function AboutUs() {
               <div className="absolute -inset-1 bg-linear-to-r from-[#f5c344] to-[#b88f3a] rounded-2xl blur-sm opacity-50 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
               <div className="relative rounded-2xl overflow-hidden border-2 border-[#b88f3a]/40 shadow-2xl">
                 <Avatar className="w-64 h-64 md:w-80 md:h-80 rounded-none shrink-0">
-                  <AvatarImage src="/assets/team/ceo.jpeg" alt="Lauretta Asemota" className="object-cover" />
+                  <AvatarImage src="/assets/team/ceo.jpeg" alt="Lauretta Asemota" className="object-cover object-top" />
                   <AvatarFallback className="text-4xl text-[#0f172a] bg-[#f5c344]">LA</AvatarFallback>
                 </Avatar>
               </div>
