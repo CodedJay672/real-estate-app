@@ -1,6 +1,6 @@
 "use client";
 
-import { Building2, Home, ListFilter, Megaphone } from "lucide-react";
+import { Building2, Home, ListFilter, Megaphone, BookOpen } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -77,58 +77,16 @@ const MobileSidebar = ({
         </div>
       </div>
 
-      <div className="w-full flex-1 justify-start items-end flex flex-col gap-6 p-1">
+      <div className="w-full flex-1 justify-start items-end flex flex-col gap-4 p-1 mt-8">
         <Link
-          href="/"
+          href="/blog"
           onClick={() => handleShowMenu(false)}
           className={cn(
-            "text-sm flex items-center gap-1.5 w-full px-2 justify-end", isActive("/") ? "font-semibold bg-primary/10 text-primary rounded-full py-2.5" : "text-dark-50 py-1.5",
+            "text-sm flex items-center gap-1.5 w-full px-2 justify-end", isActive("/blog") ? "font-bold bg-linear-to-r from-[#f5c344]/20 to-[#b88f3a]/20 text-[#b88f3a] rounded-full py-2.5" : "text-dark-50 py-1.5 hover:text-[#b88f3a] transition-colors",
           )}
         >
-          <span>Home</span>
-          <Home
-            size={16}
-          />
-        </Link>
-
-        <Link
-          href="/top-searches"
-          onClick={() => handleShowMenu(false)}
-          className={cn(
-            "text-sm flex items-center gap-1.5 w-full px-2 justify-end", isActive("/top-searches") ? "font-semibold bg-primary/10 text-primary rounded-full py-2.5" : "text-dark-50 py-1.5",
-
-          )}
-        >
-          <span>Top searches</span>
-          <ListFilter
-            size={16}
-          />
-        </Link>
-
-        <Link
-          href="/listings"
-          onClick={() => handleShowMenu(false)}
-          className={cn(
-            "text-sm flex items-center gap-1.5 w-full px-2 justify-end", isActive("/listings") ? "font-semibold bg-primary/10 text-primary rounded-full py-2.5" : "text-dark-50 py-1.5",
-
-          )}
-        >
-          <span>Listings</span>
-          <ListFilter
-            size={16}
-          />
-        </Link>
-
-        <Link
-          href="/about-us"
-          onClick={() => handleShowMenu(false)}
-          className={cn(
-            "text-sm flex items-center gap-1.5 w-full px-2 justify-end", isActive("/about-us") ? "font-semibold bg-primary/10 text-primary rounded-full py-2.5" : "text-dark-50 py-1.5",
-
-          )}
-        >
-          <span>About Us</span>
-          <Building2
+          <span>Blog</span>
+          <BookOpen
             size={16}
           />
         </Link>
