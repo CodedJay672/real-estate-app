@@ -1,36 +1,40 @@
 import React from "react";
-import Link from "next/link";
-
-
-import ChooseItem from "../shared/ChooseItem";
-import { Button } from "../ui/button";
 
 const FeaturedListings = () => {
   return (
-    <section className="container mx-auto flex flex-col items-center justify-center gap-12 px-4 py-16 md:py-24">
-      <div className="space-y-6 text-center">
-        <h2 className="text-3xl font-semibold tracking-tight text-slate-950 md:text-4xl">
-          Committed to <span className="text-transparent bg-clip-text bg-linear-to-r from-[#f5c344] to-[#b88f3a]">real estate excellence</span>
-        </h2>
-        <p className="mx-auto max-w-3xl text-sm leading-7 text-slate-600 md:text-base">
-          We deliver boutique service, smart investment guidance, and premium property sourcing so you can move confidently into your next home.
-        </p>
+    <section className="container mx-auto px-4 py-24 md:py-32">
+      <div className="max-w-5xl mx-auto space-y-20">
+        <div className="text-center space-y-6">
+          <h2 className="text-4xl font-bold tracking-tight text-slate-950 md:text-5xl lg:text-6xl">
+            Committed to <span className="text-transparent bg-clip-text bg-linear-to-r from-[#f5c344] to-[#b88f3a]">Real Estate Excellence</span>
+          </h2>
+          <div className="w-24 h-1.5 bg-linear-to-r from-[#f5c344] to-[#b88f3a] mx-auto rounded-full" />
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
+          {/* Vision */}
+          <div className="bg-slate-50 rounded-[2.5rem] p-10 lg:p-14 border border-slate-100 shadow-xl shadow-slate-200/50 relative overflow-hidden group hover:-translate-y-2 transition-transform duration-500">
+            <div className="absolute top-0 right-0 w-48 h-48 bg-[#f5c344]/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none" />
+            <h3 className="text-3xl font-bold text-[#0f172a] mb-6 flex items-center gap-4">
+              <span className="text-[#b88f3a] text-xl">01.</span> Our Vision
+            </h3>
+            <p className="text-slate-600 text-lg font-light leading-relaxed">
+              To be the premier global real estate firm, recognized for bridging the gap between Nigerians in the diaspora and high-yield, secure, and luxurious property investments back home. We envision a market where transparency and absolute trust are the universal standard.
+            </p>
+          </div>
+
+          {/* Mission */}
+          <div className="bg-[#0f172a] rounded-[2.5rem] p-10 lg:p-14 border border-[#0f172a] shadow-2xl relative overflow-hidden group hover:-translate-y-2 transition-transform duration-500">
+            <div className="absolute bottom-0 right-0 w-48 h-48 bg-[#b88f3a]/20 rounded-full blur-3xl -mr-16 -mb-16 pointer-events-none" />
+            <h3 className="text-3xl font-bold text-white mb-6 flex items-center gap-4">
+              <span className="text-[#f5c344] text-xl">02.</span> Our Mission
+            </h3>
+            <p className="text-slate-300 text-lg font-light leading-relaxed">
+              To provide exclusive access to meticulously vetted properties, offering a concierge-level buying process that completely eliminates the stress and risks of real estate acquisition. We deliver boutique service and smart investment guidance so you can move confidently into your next home.
+            </p>
+          </div>
+        </div>
       </div>
-
-      <div className="grid w-full max-w-4xl gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <ChooseItem title="1" text="Local market insight with a luxury-first mindset." bgColor="#fde9bd" />
-        <ChooseItem title="2" text="Curated options matched to your lifestyle and goals." bgColor="#b98b42" />
-        <ChooseItem title="3" text="Unlock the best properties before they hit the wider market." bgColor="#d6c3a9" />
-        <ChooseItem title="4" text="A premium experience from first look to closing." bgColor="#2c3f61" />
-      </div>
-
-      <p className="mx-auto max-w-xl text-center text-sm leading-6 text-slate-500">
-        Ready to experience the difference? Start with our exclusive property selection and a concierge-level buying process.
-      </p>
-
-      <Button asChild size="lg" className="rounded-full bg-linear-to-r from-[#f5c344] to-[#b88f3a] px-8 py-3 text-slate-950 font-bold shadow-xl shadow-[#b88f3a]/20 hover:scale-[1.02] transition-transform border-none">
-        <Link href="/listings">Explore premium listings</Link>
-      </Button>
     </section>
   );
 };

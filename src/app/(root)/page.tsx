@@ -4,39 +4,42 @@ import FAQ from "@/components/container/FAQ";
 import FeaturedListings from "@/components/container/FeaturedListings";
 import Herosection from "@/components/container/HeroSection";
 import PropertyCardSkeleton from "@/components/container/PropertyCardSkeleton";
-import SpecialOffers from "@/components/container/SpecialOffers";
 import Testimonials from "@/components/container/Testimonials";
-import TopSearchedProperties from "@/components/container/TopSearchedProperties";
-
-
+import BlogSlider from "@/components/container/BlogSlider";
+import ListingsSlider from "@/components/container/ListingsSlider";
 
 export default async function Home() {
   return (
     <section className="w-full">
+      {/* 1. Hero Section */}
       <Herosection />
 
-      <Suspense fallback={<Loader />}>
-        <TopSearchedProperties />
-      </Suspense>
-
-      <Suspense fallback={<Loader />}>
-        <SpecialOffers />
-      </Suspense>
-
+      {/* 2. Vision, Mission & Excellence */}
       <FeaturedListings />
+
+      {/* 3. Diaspora Reviews & Testimonials */}
       <Testimonials />
+
+      {/* 4. Insights & Blog Slideshow */}
+      <BlogSlider />
+
+      {/* 5. Premium Listings Slideshow */}
+      <Suspense fallback={<Loader />}>
+        <ListingsSlider />
+      </Suspense>
+
+      {/* 6. FAQ */}
       <FAQ />
     </section>
   );
 }
 
-
 function Loader() {
   return (
-    <div className="flex gap-3 mt-6">
+    <div className="flex gap-6 mt-10 container mx-auto px-4 overflow-x-hidden">
       {Array.from({ length: 4 }).map((_, idx) => (
         <PropertyCardSkeleton key={idx} />
       ))}
     </div>
-  )
+  );
 }
