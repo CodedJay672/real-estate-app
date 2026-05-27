@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { redirect, usePathname } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
-import { LayoutDashboard, List, Mail, MenuIcon, User2, Settings } from "lucide-react";
+import { LayoutDashboard, List, Mail, MenuIcon, User2, Settings, Kanban } from "lucide-react";
 
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -54,13 +54,22 @@ const Sidebar = () => {
           <span className="text-[10px] md:text-base">Listings</span>
         </Link>
         <Link
+          href="/admin/crm"
+          className={cn(
+            "w-max md:w-full md:p-2 flex flex-col md:flex-row justify-center items-center lg:justify-start gap-0 md:gap-1 rounded-md cursor-pointer transition-colors", pathname === "/admin/crm" ? 'text-light-50 md:bg-light-200 font-bold' : "text-light-100 hover:bg-seconday-light-50"
+          )}
+        >
+          <Kanban className="size-4 md:size-4.5" />
+          <span className="text-[10px] md:text-base">CRM Pipeline</span>
+        </Link>
+        <Link
           href="/admin/leads"
           className={cn(
             "w-max md:w-full md:p-2 flex flex-col md:flex-row justify-center items-center lg:justify-start gap-0 md:gap-1 rounded-md cursor-pointer", pathname === '/admin/leads' ? "text-light-50 font-bold md:bg-light-200" : "text-light-100 hover:bg-seconday-light-50"
           )}
         >
           <User2 className="size-4 md:size-4.5" />
-          <span className="text-[10px] md:text-base">Leads</span>
+          <span className="text-[10px] md:text-base font-normal">Leads</span>
         </Link>
         <Link
           href="/admin/messages"

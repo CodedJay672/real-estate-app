@@ -38,6 +38,9 @@ export const productSchema = z.object({
 export const contactSchema = z.object({
   name: z.string().nonempty(),
   email: z.string().email(),
+  phone: z.string().optional(),
+  leadType: z.enum(["buyer", "renter", "seller"]).default("buyer"),
+  propertyName: z.string().optional(),
   message: z.string().nonempty(),
 });
 

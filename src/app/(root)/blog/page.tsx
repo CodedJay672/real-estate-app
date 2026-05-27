@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowRight, Calendar, User } from "lucide-react";
+import { ArrowRight, Calendar, User, Clock, MapPin } from "lucide-react";
+import { blogPosts } from "@/lib/data/blog.data";
 
 export default function BlogPage() {
   return (
@@ -23,8 +24,12 @@ export default function BlogPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {blogPosts.map((post, idx) => (
             <article key={idx} className="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:border-[#b88f3a]/30 transition-all duration-300 group flex flex-col">
-              <div className="h-48 bg-slate-200 relative overflow-hidden">
-                <div className="absolute inset-0 bg-linear-to-r from-[#0f172a]/80 to-[#0f172a]/40 group-hover:scale-105 transition-transform duration-700" />
+              <div className="h-48 bg-slate-800 relative overflow-hidden flex items-center justify-center p-6 text-center">
+                <div className="absolute inset-0 bg-linear-to-tr from-[#0f172a]/95 to-[#1e293b]/70 group-hover:scale-105 transition-transform duration-700" />
+                <div className="relative z-10">
+                  <span className="text-amber-400 text-xs font-bold uppercase tracking-widest block mb-2">{post.category}</span>
+                  <h4 className="text-slate-100 font-bold text-base leading-snug line-clamp-2">{post.title}</h4>
+                </div>
                 <div className="absolute bottom-4 left-4">
                   <span className="bg-linear-to-r from-[#f5c344] to-[#b88f3a] text-[#0f172a] px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full shadow-lg">
                     {post.category}
@@ -33,20 +38,25 @@ export default function BlogPage() {
               </div>
               
               <div className="p-6 flex-1 flex flex-col">
-                <div className="flex items-center gap-4 text-xs font-medium text-slate-500 mb-4 uppercase tracking-wider">
-                  <span className="flex items-center gap-1.5"><Calendar size={14} className="text-[#b88f3a]" /> {post.date}</span>
-                  <span className="flex items-center gap-1.5"><User size={14} className="text-[#b88f3a]" /> {post.author}</span>
+                <div className="flex flex-wrap items-center gap-3 text-xs font-medium text-slate-500 mb-4 uppercase tracking-wider">
+                  <span className="flex items-center gap-1"><Calendar size={12} className="text-[#b88f3a]" /> {post.date}</span>
+                  <span className="flex items-center gap-1"><Clock size={12} className="text-[#b88f3a]" /> {post.readTime}</span>
                 </div>
                 
-                <h3 className="text-xl font-bold text-[#0f172a] mb-3 group-hover:text-[#b88f3a] transition-colors">
+                <h3 className="text-lg font-bold text-[#0f172a] mb-3 group-hover:text-[#b88f3a] transition-colors line-clamp-2">
                   {post.title}
                 </h3>
                 
-                <p className="text-slate-500 text-sm leading-relaxed mb-6 flex-1">
+                <p className="text-slate-500 text-xs leading-relaxed mb-6 flex-1 line-clamp-3">
                   {post.excerpt}
                 </p>
+
+                <div className="flex items-center gap-1 text-[11px] font-bold text-slate-400 mb-4">
+                  <MapPin size={11} className="text-amber-500" />
+                  <span>{post.geoTarget.split(",")[0]} Targeted</span>
+                </div>
                 
-                <Link href={`#`} className="inline-flex items-center gap-2 text-sm font-bold text-[#0f172a] hover:text-[#b88f3a] transition-colors mt-auto">
+                <Link href={`/blog/${post.slug}`} className="inline-flex items-center gap-2 text-sm font-bold text-[#0f172a] hover:text-[#b88f3a] transition-colors mt-auto cursor-pointer">
                   Read Full Article <ArrowRight size={16} />
                 </Link>
               </div>
@@ -57,48 +67,3 @@ export default function BlogPage() {
     </div>
   );
 }
-
-const blogPosts = [
-  {
-    title: "How to Secure Your Certificate of Occupancy (C of O) in Lagos Without Stress",
-    excerpt: "Navigating the bureaucratic hurdles of land documentation in Nigeria can be daunting. Learn the exact steps to secure your C of O quickly and legally.",
-    category: "Legal & Docs",
-    date: "Oct 12, 2025",
-    author: "Emmanuel Synergy",
-  },
-  {
-    title: "Top 5 High-ROI Areas in Lagos for Real Estate Investment in 2026",
-    excerpt: "While Ikoyi and Victoria Island remain staples, new developments along the Epe corridor are showing unprecedented returns on investment.",
-    category: "Investment",
-    date: "Oct 05, 2025",
-    author: "Emmanuel Synergy",
-  },
-  {
-    title: "The Ultimate Guide to Buying Off-Plan Properties Safely",
-    excerpt: "Off-plan properties offer significant discounts, but they come with risks. Discover how to vet developers and protect your capital before signing.",
-    category: "Buying Guide",
-    date: "Sep 28, 2025",
-    author: "Emmanuel Synergy",
-  },
-  {
-    title: "Why Diaspora Investors Are Flocking to Nigerian Real Estate",
-    excerpt: "Favorable exchange rates and massive infrastructural developments are making Nigeria a goldmine for Nigerians living abroad.",
-    category: "Market Trends",
-    date: "Sep 15, 2025",
-    author: "Emmanuel Synergy",
-  },
-  {
-    title: "Red Flags to Watch Out For When Inspecting a Luxury Home",
-    excerpt: "Don't let fresh paint fool you. Our lead engineers reveal the top 5 structural and environmental red flags to look for during a physical inspection.",
-    category: "Property Care",
-    date: "Sep 02, 2025",
-    author: "Emmanuel Synergy",
-  },
-  {
-    title: "How Inflation Affects Property Values (And Why Real Estate is Your Best Hedge)",
-    excerpt: "Cash loses value, but prime real estate appreciates. Understand the economics of wealth preservation through strategic property acquisition.",
-    category: "Wealth Building",
-    date: "Aug 20, 2025",
-    author: "CBPL Experts",
-  }
-];

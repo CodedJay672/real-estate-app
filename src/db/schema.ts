@@ -88,6 +88,10 @@ export const messages = pgTable("messages", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
   senderName: varchar("sender_name", { length: 100 }).notNull(),
   senderEmail: varchar("sender_email", { length: 100 }).notNull(),
+  phone: varchar("phone", { length: 50 }),
+  leadType: varchar("lead_type", { length: 50 }).default("buyer"),
+  status: varchar("status", { length: 50 }).default("inquiry"), // browsing -> inquiry -> viewing -> closing -> closed
+  propertyName: varchar("property_name", { length: 255 }),
   message: text("message").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
