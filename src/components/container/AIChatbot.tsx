@@ -66,7 +66,7 @@ export default function AIChatbot() {
   };
 
   return (
-    <div className="fixed bottom-20 right-6 z-50 flex flex-col items-end">
+    <div className="fixed bottom-32 sm:bottom-36 right-6 z-50 flex flex-col items-end">
       {/* Chat Window Panel */}
       {isOpen && (
         <div className="w-[90vw] sm:w-[380px] h-[500px] bg-slate-950/95 border border-amber-500/30 rounded-2xl shadow-2xl flex flex-col overflow-hidden mb-4 animate-in fade-in slide-in-from-bottom-5 duration-300 backdrop-blur-xl">
