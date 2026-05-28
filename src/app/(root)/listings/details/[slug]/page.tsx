@@ -40,18 +40,22 @@ const PropertyDetails = async ({ params }: { params: Promise<{ slug: string }> }
   if (!productDetails.success || !productDetails.data) return null;
 
   const paragraphs = (productDetails.data.description ?? "").split(/\r?\n/).filter(Boolean);
+  const isFlyer = !productDetails.data.bedrooms && !productDetails.data.bathrooms && (!productDetails.data.price || productDetails.data.price === 0);
 
   return (
     <section className="container mx-auto py-24 px-4 md:px-10 space-y-10">
       <div className="grid gap-10 lg:grid-cols-[1.5fr_0.7fr]">
         <article className="space-y-8 rounded-[2rem] border border-slate-200/70 bg-white dark:border-slate-800 dark:bg-slate-950/95">
-          <div className="relative overflow-hidden rounded-[1.5rem] bg-slate-100 shadow-sm">
+          <div className="relative overflow-hidden rounded-[1.5rem] bg-slate-100 shadow-sm flex items-center justify-center p-4">
             <div className="absolute left-4 top-4 z-10 rounded-full bg-white/90 shadow-sm">
               <Back />
             </div>
 
             {productDetails.data.imageUrl ? (
-              <div className="w-full h-110 relative overflow-hidden">
+              <div 
+                className="relative overflow-hidden flex items-center justify-center mx-auto"
+                style={isFlyer ? { width: '6in', height: '7in', maxWidth: '100%' } : { width: '100%', height: '27.5rem' }}
+              >
                 <Image
                   urlEndpoint={config.env.imagekit.urlEndpoint}
                   src={productDetails.data.imageUrl}
@@ -74,12 +78,16 @@ const PropertyDetails = async ({ params }: { params: Promise<{ slug: string }> }
           <div className="w-full p-4 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-3xl font-semibold text-slate-950 sm:text-4xl">
-                {productDetails.data.price.toLocaleString("en-NG", {
-                  style: "currency",
-                  currency: "NGN",
-                  compactDisplay: "short",
-                  maximumFractionDigits: 0,
-                })}
+                {productDetails.data.price > 0 ? (
+                  productDetails.data.price.toLocaleString("en-NG", {
+                    style: "currency",
+                    currency: "NGN",
+                    compactDisplay: "short",
+                    maximumFractionDigits: 0,
+                  })
+                ) : (
+                  "Exclusive Flyer / Post"
+                )}
               </p>
               <p className="mt-2 text-sm text-slate-500">
                 {productDetails.data.location} • {productDetails.data.title}

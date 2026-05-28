@@ -31,12 +31,30 @@ export const uploadProducts = async (
     // console log for debugging
     console.log("New product data.", parsedData.data);
 
-    const slug = generateSlug(parsedData.data.name);
+    const name = parsedData.data.name || parsedData.data.title || "Untitled Flyer/Post";
+    const slug = generateSlug(name);
+
+    const valuesToInsert = {
+      name: name,
+      title: parsedData.data.title || "Untitled",
+      description: parsedData.data.description || "Luxury real estate insights & premium flyer content.",
+      price: parsedData.data.price || 0,
+      location: parsedData.data.location || "Online / Lekki",
+      bedrooms: parsedData.data.bedrooms || 0,
+      bathrooms: parsedData.data.bathrooms || 0,
+      size: parsedData.data.size || 0,
+      categoryId: parsedData.data.categoryId || null,
+      listingStatus: parsedData.data.listingStatus || "selling",
+      imageUrl: parsedData.data.imageUrl || "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1200&q=80",
+      imageId: parsedData.data.imageId || null,
+      tags: parsedData.data.tags || "Real Estate, Flyer, Luxury",
+      slug,
+    };
 
     // make database insert request
     const res = await db
       .insert(products)
-      .values({ ...parsedData.data, slug })
+      .values(valuesToInsert)
       .returning();
     if (!res || res.length === 0) {
       return { success: false, message: "Error uploading product" };
@@ -112,10 +130,31 @@ export const updateProductById = async (
     // validate auth
     await requireAuth();
 
+    const name = data.name || data.title || "Untitled Flyer/Post";
+    const slug = generateSlug(name);
+
+    const valuesToUpdate = {
+      name: name,
+      title: data.title || "Untitled",
+      description: data.description || "Luxury real estate insights & premium flyer content.",
+      price: data.price || 0,
+      location: data.location || "Online / Lekki",
+      bedrooms: data.bedrooms || 0,
+      bathrooms: data.bathrooms || 0,
+      size: data.size || 0,
+      categoryId: data.categoryId || null,
+      listingStatus: data.listingStatus || "selling",
+      imageUrl: data.imageUrl || "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1200&q=80",
+      imageId: data.imageId || null,
+      tags: data.tags || "Real Estate, Flyer, Luxury",
+      slug,
+      updatedAt: new Date(),
+    };
+
     // make database request
     const response = await db
       .update(products)
-      .set({ ...data, updatedAt: new Date() })
+      .set(valuesToUpdate)
       .where(eq(products.id, id))
       .returning();
 

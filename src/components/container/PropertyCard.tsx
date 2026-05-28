@@ -10,9 +10,18 @@ import PropertyCategory from "../shared/PropertyCategory";
 const PropertyCard = (props: listings & {
   likes: TLikesResponse[];
 }) => {
+  const isFlyer = !props.bedrooms && !props.bathrooms && (!props.price || props.price === 0);
+
   return (
     <article className="group overflow-hidden rounded-[1.5rem] border border-slate-200/80 bg-white shadow-[0_20px_80px_-50px_rgba(15,23,42,0.18)] transition duration-300 ease-out hover:-translate-y-1 hover:shadow-2xl dark:border-slate-800 dark:bg-slate-950/95">
-      <div className="relative h-64 sm:h-72 overflow-hidden bg-slate-100 group">
+      <div 
+        className={
+          isFlyer 
+            ? "relative mx-auto overflow-hidden bg-slate-100 group flex items-center justify-center rounded-2xl shadow-sm border border-slate-200/50 my-3" 
+            : "relative h-64 sm:h-72 overflow-hidden bg-slate-100 group"
+        }
+        style={isFlyer ? { width: '6in', height: '7in', maxWidth: '100%' } : undefined}
+      >
         <Link href={`listings/details/${props.slug}`} className="absolute inset-0 z-0">
           <div className="absolute left-4 top-4 z-10 flex flex-wrap gap-2 pointer-events-none">
             <span className="rounded-full bg-linear-to-r from-[#f5c344] to-[#b88f3a] px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-[#0f172a] shadow-sm">
@@ -31,7 +40,7 @@ const PropertyCard = (props: listings & {
               loading="lazy"
               sizes="(max-width: 780px) 100%, (max-width: 1200px) 50%, 25%"
               fill
-              className="object-cover transition-transform duration-700 group-hover:scale-105"
+              className={isFlyer ? "object-contain transition-transform duration-700 group-hover:scale-105" : "object-cover transition-transform duration-700 group-hover:scale-105"}
             />
           ) : (
             <div className="h-full w-full bg-slate-200" />

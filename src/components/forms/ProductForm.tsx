@@ -117,28 +117,25 @@ const ProductForm = ({
       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
         <CustomInput
           name="name"
-          label="Name"
+          label="Name (Optional)"
           type="text"
           control={form.control}
-          placeholder="Enter property Name"
-          required={true}
+          placeholder="Enter name or title"
         />
         <CustomInput
           name="location"
-          label="Location"
+          label="Location (Optional)"
           type="text"
           control={form.control}
-          placeholder="Location of property"
-          required={true}
+          placeholder="e.g. Lekki Phase 1"
         />
         <div className="flex items-center justify-between gap-2">
           <CustomInput
             name="title"
-            label="Title"
+            label="Title (Optional)"
             type="text"
             control={form.control}
-            placeholder="Enter property title"
-            required={true}
+            placeholder="Enter post title"
           />
 
           <FormField
@@ -146,8 +143,8 @@ const ProductForm = ({
             name="categoryId"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel className="capitalize font-light text-sm after:content-['*'] after:text-red-500 after:inline-block after:ml-1">
-                  Category
+                <FormLabel className="capitalize font-light text-sm">
+                  Category (Optional)
                 </FormLabel>
                 <FormControl>
                   <CustomSelect
@@ -168,8 +165,8 @@ const ProductForm = ({
             name="listingStatus"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel className="capitalize font-light text-sm after:content-['*'] after:text-red-500 after:inline-block after:ml-1">
-                  Property Status
+                <FormLabel className="capitalize font-light text-sm">
+                  Property Status (Optional)
                 </FormLabel>
                 <FormControl>
                   <CustomSelect
@@ -188,35 +185,34 @@ const ProductForm = ({
           />
           <CustomInput
             name="price"
-            label="Price"
+            label="Price (Optional)"
             type="number"
             control={form.control}
             placeholder="Enter price..."
-            required={true}
           />
         </div>
         <div className="flex items-center justify-between gap-2">
           <CustomInput
             name="bedrooms"
             label="Bedrooms (Optional)"
-            type="nubmer"
+            type="number"
             control={form.control}
             placeholder="Bedrooms"
           />
           <CustomInput
             name="bathrooms"
             label="Bathrooms (Optional)"
-            type="nubmer"
+            type="number"
             control={form.control}
-            placeholder="Bedrooms"
+            placeholder="Bathrooms"
           />
 
           <CustomInput
             name="size"
-            label="Size (optional)"
-            type="nubmer"
+            label="Size (Optional)"
+            type="number"
             control={form.control}
-            placeholder="Bedrooms"
+            placeholder="Size in sqm"
           />
         </div>
 
@@ -225,11 +221,11 @@ const ProductForm = ({
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="capitalize font-light text-sm after:content-['*'] after:text-red-500 after:inline-block after:ml-1">
-                Description
+              <FormLabel className="capitalize font-light text-sm">
+                Description (Optional)
               </FormLabel>
               <FormControl>
-                <Textarea rows={7} placeholder="Description" required {...field} />
+                <Textarea rows={5} placeholder="Description details..." {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -241,8 +237,8 @@ const ProductForm = ({
           name="imageUrl"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="capitalize font-light text-sm after:content-['*'] after:text-red-500 after:inline-block after:ml-1">
-                Images
+              <FormLabel className="capitalize font-light text-sm">
+                Images (Optional)
               </FormLabel>
               <FormControl>
                 <FileUploader onFieldChange={field.onChange} imageId={productInfo?.data?.imageId ?? ""} {...field} />
@@ -257,11 +253,10 @@ const ProductForm = ({
 
         <CustomInput
           name="tags"
-          label="Tags (add SEO related tags)"
+          label="Tags (Optional)"
           type="text"
           control={form.control}
-          placeholder="Seperate list with a comma (,)"
-          required={true}
+          placeholder="e.g. Luxury, Lekki, Flyer"
         />
 
         <Button
@@ -272,10 +267,11 @@ const ProductForm = ({
           {form.formState.isSubmitting && (
             <Loader2 size={24} className="animate-spin mr-2" />
           )}
-          {type === "add-new" ? "Add Product" : "Update Product"}
+          {type === "add-new" ? "Add Post / Flyer / Property" : "Update"}
         </Button>
       </form>
     </Form>
+  );
   );
 };
 

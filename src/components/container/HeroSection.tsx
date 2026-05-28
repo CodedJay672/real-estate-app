@@ -18,11 +18,11 @@ const Herosection = () => {
             LUXURY PROPERTIES • TRUSTED EXPERTS
           </p>
           <h1 className="text-5xl font-bold tracking-tight leading-tight sm:text-6xl md:text-7xl">
-            Find your dream
-            <span className="block text-transparent bg-clip-text bg-linear-to-r from-[#f5c344] via-amber-200 to-[#b88f3a]">home today.</span>
+            Secure your premium
+            <span className="block text-transparent bg-clip-text bg-linear-to-r from-[#f5c344] via-amber-200 to-[#b88f3a]">wealth today.</span>
           </h1>
-          <p className="text-sm sm:text-base text-slate-300 font-light max-w-xl mx-auto pt-1">
-            Premium properties curated for modern lifestyles and smart investments.
+          <p className="text-sm sm:text-base text-slate-300 font-light max-w-2xl mx-auto pt-1 leading-relaxed">
+            📈 <strong>Result:</strong> Multiply funds with high-yield real estate investments. 🏡 <strong>Solution:</strong> CBPL verified luxury properties and land titles. ⭐ <strong>Testimonial:</strong> Trusted by 100+ happy clients. ⚡ <strong>Urgency:</strong> Limited pre-launch listings selling out this week!
           </p>
         </div>
 

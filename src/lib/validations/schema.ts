@@ -17,22 +17,19 @@ export const signUpSchema = z.object({
 });
 
 export const productSchema = z.object({
-  name: z.string(),
-  title: z.string(),
-  description: z.string(),
-  price: z.coerce.number(),
-  location: z.string(),
+  name: z.string().optional(),
+  title: z.string().optional(),
+  description: z.string().optional(),
+  price: z.coerce.number().optional(),
+  location: z.string().optional(),
   bedrooms: z.coerce.number().optional(),
   bathrooms: z.coerce.number().optional(),
   size: z.coerce.number().optional(),
-  categoryId: z.string(),
-  listingStatus: z.enum(["selling", "sold out", "reopened"]).default("selling"),
-  imageUrl: z.string(),
-  imageId: z.string(),
-  tags: z.string().nonempty({
-    message:
-      "SEO tags cannot be empty. please provide a comma seperated list of tags",
-  }),
+  categoryId: z.string().optional(),
+  listingStatus: z.enum(["selling", "sold out", "reopened"]).default("selling").optional(),
+  imageUrl: z.string().optional(),
+  imageId: z.string().optional(),
+  tags: z.string().optional(),
 });
 
 export const contactSchema = z.object({
