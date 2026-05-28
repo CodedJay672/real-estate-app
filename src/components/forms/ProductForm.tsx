@@ -272,7 +272,6 @@ const ProductForm = ({
       </form>
     </Form>
   );
-  );
 };
 
 export default ProductForm;
