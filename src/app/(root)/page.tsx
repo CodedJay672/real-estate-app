@@ -11,24 +11,24 @@ import ListingsSlider from "@/components/container/ListingsSlider";
 export default async function Home() {
   return (
     <section className="w-full">
-      {/* 1. Hero Section */}
+      {/* 1. Hero Section (Result) */}
       <Herosection />
 
-      {/* 2. Vision, Mission & Excellence */}
-      <FeaturedListings />
-
-      {/* 3. Diaspora Reviews & Testimonials */}
-      <Testimonials />
-
-      {/* 4. Insights & Blog Slideshow */}
-      <BlogSlider />
-
-      {/* 5. Premium Listings Slideshow */}
+      {/* 2. Premium Listings Slideshow (Solution) */}
       <Suspense fallback={<Loader />}>
         <ListingsSlider />
       </Suspense>
 
-      {/* 6. FAQ */}
+      {/* 3. Vision, Mission & Excellence (Solution Details) */}
+      <FeaturedListings />
+
+      {/* 4. Diaspora Reviews & Testimonials (Testimonial) */}
+      <Testimonials />
+
+      {/* 5. Insights & Blog Slideshow (Urgency/Educational) */}
+      <BlogSlider />
+
+      {/* 6. FAQ (Urgency Closing) */}
       <FAQ />
     </section>
   );
