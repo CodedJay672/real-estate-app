@@ -17,7 +17,7 @@ const Herosection = () => {
             <span className="block text-transparent bg-clip-text bg-linear-to-r from-[#f5c344] via-amber-200 to-[#b88f3a]">returns today.</span>
           </h1>
           <p className="text-sm sm:text-base text-slate-300 font-light max-w-2xl mx-auto pt-1 leading-relaxed">
-            Multiply your funds with high-yield real estate investments. Access CBPL verified luxury properties and land titles backed by trusted local and diaspora reviews. Exquisite pre-launch listings are selling out fast this week!
+            Multiply your funds with high-yield real estate investments. Access Clean and Beautiful Properties Limited verified luxury properties and land titles backed by trusted local and diaspora reviews.
           </p>
         </div>
 

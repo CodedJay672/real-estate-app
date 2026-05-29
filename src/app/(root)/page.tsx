@@ -16,23 +16,23 @@ export default async function Home() {
       {/* 1. Hero Section (Result) */}
       <Herosection />
 
-      {/* 2. Premium Listings Slideshow (Solution) */}
+      {/* 2. Diaspora Reviews & Testimonials (Testimonial) */}
+      <Testimonials />
+
+      {/* 3. Premium Listings Slideshow (Solution) */}
       <Suspense fallback={<Loader />}>
         <ListingsSlider />
       </Suspense>
 
-      {/* 2.5. Property Search Bar (Centered under Exclusive Listings) */}
+      {/* 3.5. Property Search Bar (Centered under Exclusive Listings) */}
       <div className="container mx-auto px-4 max-w-4xl mb-16 -mt-8 flex justify-center w-full">
         <Suspense>
           <Searchbar getCategories={getAllCategories()} url="/search" />
         </Suspense>
       </div>
 
-      {/* 3. Vision, Mission & Excellence (Solution Details) */}
+      {/* 4. Vision, Mission & Excellence (Solution Details) */}
       <FeaturedListings />
-
-      {/* 4. Diaspora Reviews & Testimonials (Testimonial) */}
-      <Testimonials />
 
       {/* 5. Insights & Blog Slideshow (Urgency/Educational) */}
       <BlogSlider />
