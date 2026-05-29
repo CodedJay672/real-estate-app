@@ -1,11 +1,6 @@
-import { Suspense } from "react";
 import Link from "next/link";
 
-import Searchbar from "../shared/Searchbar";
-import { getAllCategories } from "@/lib/data/category.data";
-
 const Herosection = () => {
-  const categories = getAllCategories();
 
   return (
     <section className="relative w-full min-h-[100dvh] overflow-hidden flex-center bg-slate-950 text-white pt-32 pb-24">
@@ -18,18 +13,12 @@ const Herosection = () => {
             LUXURY PROPERTIES • TRUSTED EXPERTS
           </p>
           <h1 className="text-5xl font-bold tracking-tight leading-tight sm:text-6xl md:text-7xl">
-            Secure your premium
-            <span className="block text-transparent bg-clip-text bg-linear-to-r from-[#f5c344] via-amber-200 to-[#b88f3a]">wealth today.</span>
+            Multiply your
+            <span className="block text-transparent bg-clip-text bg-linear-to-r from-[#f5c344] via-amber-200 to-[#b88f3a]">returns today.</span>
           </h1>
           <p className="text-sm sm:text-base text-slate-300 font-light max-w-2xl mx-auto pt-1 leading-relaxed">
-            📈 <strong>Result:</strong> Multiply funds with high-yield real estate investments. 🏡 <strong>Solution:</strong> CBPL verified luxury properties and land titles. ⭐ <strong>Testimonial:</strong> Trusted by 100+ happy clients. ⚡ <strong>Urgency:</strong> Limited pre-launch listings selling out this week!
+            Multiply your funds with high-yield real estate investments. Access CBPL verified luxury properties and land titles backed by trusted local and diaspora reviews. Exquisite pre-launch listings are selling out fast this week!
           </p>
-        </div>
-
-        <div className="w-full max-w-4xl mb-10">
-          <Suspense>
-            <Searchbar getCategories={categories} url="/search" />
-          </Suspense>
         </div>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">

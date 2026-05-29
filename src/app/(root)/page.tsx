@@ -7,6 +7,8 @@ import PropertyCardSkeleton from "@/components/container/PropertyCardSkeleton";
 import Testimonials from "@/components/container/Testimonials";
 import BlogSlider from "@/components/container/BlogSlider";
 import ListingsSlider from "@/components/container/ListingsSlider";
+import Searchbar from "@/components/shared/Searchbar";
+import { getAllCategories } from "@/lib/data/category.data";
 
 export default async function Home() {
   return (
@@ -18,6 +20,13 @@ export default async function Home() {
       <Suspense fallback={<Loader />}>
         <ListingsSlider />
       </Suspense>
+
+      {/* 2.5. Property Search Bar (Centered under Exclusive Listings) */}
+      <div className="container mx-auto px-4 max-w-4xl mb-16 -mt-8 flex justify-center w-full">
+        <Suspense>
+          <Searchbar getCategories={getAllCategories()} url="/search" />
+        </Suspense>
+      </div>
 
       {/* 3. Vision, Mission & Excellence (Solution Details) */}
       <FeaturedListings />
