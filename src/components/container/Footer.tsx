@@ -93,7 +93,7 @@ const Footer = () => {
             <br />
             Call us:
             <br />
-            +23490 1689 0757
+            +234 9046439376
             <br />
             <br />
             email us:
