@@ -2,7 +2,7 @@
 
 import { generateErrorMessage } from "../utils";
 
-const SYSTEM_PROMPT = `You are 'Pristine AI', the elegant, credible, and trustworthy AI concierge for Clean Beautiful Properties Limited, a premier luxury real estate consulting firm led by CEO Lauretta Asemota.
+const SYSTEM_PROMPT = `You are 'Clean & Beautiful AI', the elegant, credible, and trustworthy AI concierge for Clean Beautiful Properties Limited, a premier luxury real estate consulting firm led by CEO Lauretta Asemota.
 
 Your purpose is to assist prospective buyers, renters, and sellers looking for premium luxury properties. 
 
@@ -25,7 +25,7 @@ export async function askPristineAI(messageHistory: { role: "user" | "model"; te
   if (!apiKey || apiKey === "dummy") {
     // Elegant fallback simulation if no key is supplied yet
     const lastUserMsg = messageHistory[messageHistory.length - 1]?.text?.toLowerCase() || "";
-    let reply = "Hello! I am Pristine AI. We are thrilled to guide you on securing premium, high-yield luxury property investments. How may I assist you today?";
+    let reply = "Hello! I am Clean & Beautiful AI. We are thrilled to guide you on securing premium, high-yield luxury property investments. How may I assist you today?";
     
     if (lastUserMsg.includes("price") || lastUserMsg.includes("cost") || lastUserMsg.includes("buy")) {
       reply = "Our premium properties blend nature, luxury, and technology. To get pricing reviews or schedule a private tour, please fill in the Inquiry Form on the listing details page or connect with Lauretta Asemota instantly on WhatsApp at https://wa.me/2348000000000.";

@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { MessageSquare, X, Send, Bot, Sparkles, PhoneCall, Loader2 } from "lucide-react";
+import Image from "next/image";
+import { X, Send, Bot, PhoneCall, Loader2 } from "lucide-react";
 import { askPristineAI } from "@/lib/actions/chat.actions";
 import { cn } from "@/lib/utils";
 
@@ -19,12 +20,25 @@ const QUICK_PROMPTS = [
 
 export default function AIChatbot() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    {
-      role: "model",
-      text: "Welcome to Clean Beautiful Properties! I am Pristine AI, your luxury real estate assistant. How can I help you find your dream home or profitable investment today?",
-    },
-  ]);
+  const [showNotification, setShowNotification] = useState(false);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+
+  // Initialize welcome message dynamically to prevent hydration mismatches
+  useEffect(() => {
+    setMessages([
+      {
+        role: "model",
+        text: "Welcome to Clean Beautiful Properties! I am Clean & Beautiful AI, your luxury real estate assistant. How can I help you find your dream home or profitable investment today?",
+      },
+    ]);
+
+    // Show popup notification after 2 seconds
+    const timer = setTimeout(() => {
+      setShowNotification(true);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
@@ -42,6 +56,7 @@ export default function AIChatbot() {
     setMessages((prev) => [...prev, userMessage]);
     setInputValue("");
     setIsLoading(true);
+    setShowNotification(false);
 
     // Call Gemini API action
     const apiHistory = [...messages, userMessage].map((m) => ({
@@ -59,7 +74,7 @@ export default function AIChatbot() {
         ...prev,
         {
           role: "model",
-          text: "I apologize, but I'm having a connection issue. Please connect with our lead agent on WhatsApp at https://wa.me/2348000000000 for instant response!",
+          text: "I apologize, but I'm having a connection issue. Please connect with our lead agent on WhatsApp at https://wa.link/a0m76f for instant response!",
         },
       ]);
     }
@@ -67,18 +82,41 @@ export default function AIChatbot() {
 
   return (
     <div className="fixed bottom-64 sm:bottom-72 right-6 z-[9999] flex flex-col items-end">
+      {/* 1. Popup Speech Notification Bubble */}
+      {showNotification && !isOpen && (
+        <div className="absolute bottom-full right-0 mb-3 bg-slate-950/95 border border-[#b88f3a]/30 text-slate-100 text-xs px-4 py-2.5 rounded-2xl shadow-xl whitespace-nowrap animate-bounce flex items-center gap-2.5 backdrop-blur-md">
+          <span className="size-2 rounded-full bg-emerald-500 inline-block"></span>
+          <span>Need investment guidance? Chat with Clean & Beautiful AI!</span>
+          <button 
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowNotification(false);
+            }} 
+            className="text-slate-400 hover:text-slate-200 ml-1 cursor-pointer"
+          >
+            <X size={12} />
+          </button>
+        </div>
+      )}
+
       {/* Chat Window Panel */}
       {isOpen && (
-        <div className="w-[90vw] sm:w-[380px] h-[500px] bg-slate-950/95 border border-amber-500/30 rounded-2xl shadow-2xl flex flex-col overflow-hidden mb-4 animate-in fade-in slide-in-from-bottom-5 duration-300 backdrop-blur-xl">
+        <div className="w-[90vw] sm:w-[380px] h-[500px] bg-slate-950/95 border border-[#b88f3a]/30 rounded-2xl shadow-2xl flex flex-col overflow-hidden mb-4 animate-in fade-in slide-in-from-bottom-5 duration-300 backdrop-blur-xl">
           {/* Header */}
-          <div className="bg-gradient-to-r from-slate-900 to-amber-950 p-4 border-b border-amber-500/20 flex justify-between items-center">
+          <div className="bg-gradient-to-r from-slate-900 to-amber-950 p-4 border-b border-[#b88f3a]/20 flex justify-between items-center">
             <div className="flex items-center gap-2.5">
-              <div className="size-9 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
-                <Sparkles size={16} className="animate-pulse" />
+              <div className="size-9 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center overflow-hidden">
+                <Image
+                  src="/assets/logo.png"
+                  alt="Clean & Beautiful AI"
+                  width={28}
+                  height={28}
+                  className="object-contain"
+                />
               </div>
               <div>
                 <h3 className="font-bold text-sm text-slate-100 flex items-center gap-1">
-                  Pristine AI <span className="size-1.5 rounded-full bg-emerald-500 inline-block animate-ping"></span>
+                  Clean & Beautiful AI <span className="size-1.5 rounded-full bg-emerald-500 inline-block animate-ping"></span>
                 </h3>
                 <p className="text-[10px] text-slate-400">Luxury Assistant • Online</p>
               </div>
@@ -102,8 +140,14 @@ export default function AIChatbot() {
                 )}
               >
                 {msg.role === "model" && (
-                  <div className="size-6 shrink-0 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
-                    <Bot size={12} />
+                  <div className="size-6 shrink-0 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center overflow-hidden">
+                    <Image
+                      src="/assets/logo.png"
+                      alt="AI"
+                      width={16}
+                      height={16}
+                      className="object-contain"
+                    />
                   </div>
                 )}
                 <div
@@ -122,12 +166,18 @@ export default function AIChatbot() {
             {/* Typing Loader */}
             {isLoading && (
               <div className="flex items-start gap-2 max-w-[85%] mr-auto">
-                <div className="size-6 shrink-0 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
-                  <Bot size={12} />
+                <div className="size-6 shrink-0 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center overflow-hidden">
+                  <Image
+                    src="/assets/logo.png"
+                    alt="AI"
+                    width={16}
+                    height={16}
+                    className="object-contain"
+                  />
                 </div>
                 <div className="bg-slate-900 text-slate-400 p-3 rounded-2xl rounded-tl-none border border-slate-800 flex items-center gap-2">
                   <Loader2 size={12} className="animate-spin text-amber-500" />
-                  <span>Pristine AI is thinking...</span>
+                  <span>Clean & Beautiful AI is thinking...</span>
                 </div>
               </div>
             )}
@@ -154,7 +204,7 @@ export default function AIChatbot() {
           <div className="px-4 py-2 bg-amber-500/5 border-t border-amber-500/10 flex justify-between items-center text-[10px] text-slate-400">
             <span>Need Lauretta directly?</span>
             <a
-              href="https://wa.me/2348000000000"
+              href="https://wa.link/a0m76f"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1 text-amber-400 font-bold hover:text-amber-300"
@@ -192,16 +242,31 @@ export default function AIChatbot() {
 
       {/* Floating Toggle Bubble */}
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => {
+          setIsOpen(!isOpen);
+          setShowNotification(false);
+        }}
         className={cn(
-          "size-14 rounded-full flex items-center justify-center text-slate-950 shadow-2xl hover:scale-105 transition-all active:scale-95 border cursor-pointer border-amber-500/20",
+          "size-14 rounded-full flex items-center justify-center text-slate-950 shadow-2xl hover:scale-105 transition-all active:scale-95 border cursor-pointer border-[#b88f3a]/30 overflow-hidden",
           isOpen
             ? "bg-slate-900 text-amber-500 hover:bg-slate-800"
             : "bg-amber-500 text-slate-950 hover:bg-amber-400"
         )}
-        title="Pristine AI Concierge"
+        title="Clean & Beautiful AI"
       >
-        {isOpen ? <X size={22} /> : <MessageSquare size={22} />}
+        {isOpen ? (
+          <X size={22} className="text-amber-500" />
+        ) : (
+          <div className="size-14 flex items-center justify-center p-0.5 bg-slate-950 rounded-full">
+            <Image
+              src="/assets/logo.png"
+              alt="Clean & Beautiful AI Logo"
+              width={40}
+              height={40}
+              className="object-contain"
+            />
+          </div>
+        )}
       </button>
     </div>
   );
