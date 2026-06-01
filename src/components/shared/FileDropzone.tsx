@@ -11,7 +11,7 @@ import config from '@/lib/config';
 import { Button } from '../ui/button';
 import { useProductProvider } from '../providers/StoreProvider';
 
-const MAX_SIZE = 2 * 1024 * 1024; // 2MB
+const MAX_SIZE = 20 * 1024 * 1024; // 20MB
 
 export default function FileDropzone({ onFileChangeAction, onRemoveAction, imgUrl }: { onFileChangeAction: Dispatch<File>; imgUrl: string; onRemoveAction: () => void }) {
   // global product store
@@ -28,7 +28,7 @@ export default function FileDropzone({ onFileChangeAction, onRemoveAction, imgUr
     if (file.size > MAX_SIZE) {
       toast({
         title: 'File too large',
-        description: `Maximum size is 1MB. ${file.name} is ${(file.size / 1024 / 1024).toFixed(2)}MB`,
+        description: `Maximum size is 20MB. ${file.name} is ${(file.size / 1024 / 1024).toFixed(2)}MB`,
         variant: 'destructive',
       });
       return;
@@ -44,7 +44,7 @@ export default function FileDropzone({ onFileChangeAction, onRemoveAction, imgUr
         if (e.code === 'file-too-large') {
           toast({
             title: 'File too large',
-            description: `Maximum size is 1MB. ${file.name} is ${(file.size / 1024 / 1024).toFixed(2)}MB`,
+            description: `Maximum size is 20MB. ${file.name} is ${(file.size / 1024 / 1024).toFixed(2)}MB`,
             variant: 'destructive',
           });
         } else if (e.code === 'file-invalid-type') {
@@ -70,7 +70,7 @@ export default function FileDropzone({ onFileChangeAction, onRemoveAction, imgUr
     accept: {
       'image/*': ['.jpeg', '.jpg', '.png']
     },
-    maxSize: MAX_SIZE// 2MB max
+    maxSize: MAX_SIZE// 20MB max
   })
 
   return (

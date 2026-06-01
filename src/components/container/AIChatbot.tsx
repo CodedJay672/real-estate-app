@@ -23,6 +23,12 @@ export default function AIChatbot() {
   const [showNotification, setShowNotification] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
 
+  // Dragging States for custom floating physics
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const dragStart = useRef({ x: 0, y: 0 });
+  const startClickPos = useRef({ x: 0, y: 0 });
+
   // Initialize welcome message dynamically to prevent hydration mismatches
   useEffect(() => {
     setMessages([
@@ -48,6 +54,88 @@ export default function AIChatbot() {
       chatEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages, isLoading]);
+
+  // Drag listeners
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDragging) return;
+      setPosition({
+        x: e.clientX - dragStart.current.x,
+        y: e.clientY - dragStart.current.y,
+      });
+    };
+
+    const handleMouseUp = () => {
+      setIsDragging(false);
+    };
+
+    if (isDragging) {
+      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mouseup", handleMouseUp);
+    }
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [isDragging]);
+
+  useEffect(() => {
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!isDragging) return;
+      const touch = e.touches[0];
+      setPosition({
+        x: touch.clientX - dragStart.current.x,
+        y: touch.clientY - dragStart.current.y,
+      });
+    };
+
+    const handleTouchEnd = () => {
+      setIsDragging(false);
+    };
+
+    if (isDragging) {
+      window.addEventListener("touchmove", handleTouchMove, { passive: false });
+      window.addEventListener("touchend", handleTouchEnd);
+    }
+    return () => {
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("touchend", handleTouchEnd);
+    };
+  }, [isDragging]);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    dragStart.current = { x: e.clientX - position.x, y: e.clientY - position.y };
+    startClickPos.current = { x: e.clientX, y: e.clientY };
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    const touch = e.touches[0];
+    setIsDragging(true);
+    dragStart.current = { x: touch.clientX - position.x, y: touch.clientY - position.y };
+    startClickPos.current = { x: touch.clientX, y: touch.clientY };
+  };
+
+  const handleMouseUpAndClick = (e: React.MouseEvent) => {
+    setIsDragging(false);
+    const dx = Math.abs(e.clientX - startClickPos.current.x);
+    const dy = Math.abs(e.clientY - startClickPos.current.y);
+    if (dx < 8 && dy < 8) {
+      setIsOpen(!isOpen);
+      setShowNotification(false);
+    }
+  };
+
+  const handleTouchEndAndClick = (e: React.TouchEvent) => {
+    setIsDragging(false);
+    const touch = e.changedTouches[0];
+    const dx = Math.abs(touch.clientX - startClickPos.current.x);
+    const dy = Math.abs(touch.clientY - startClickPos.current.y);
+    if (dx < 8 && dy < 8) {
+      setIsOpen(!isOpen);
+      setShowNotification(false);
+    }
+  };
 
   const handleSend = async (textToSend: string) => {
     if (!textToSend.trim() || isLoading) return;
@@ -81,10 +169,16 @@ export default function AIChatbot() {
   };
 
   return (
-    <div className="fixed bottom-64 sm:bottom-72 right-6 z-[9999] flex flex-col items-end">
+    <div 
+      className="fixed bottom-64 sm:bottom-72 right-6 z-[9999] flex flex-col items-end select-none"
+      style={{
+        transform: `translate(${position.x}px, ${position.y}px)`,
+        touchAction: "none"
+      }}
+    >
       {/* 1. Popup Speech Notification Bubble */}
       {showNotification && !isOpen && (
-        <div className="absolute bottom-full right-0 mb-3 bg-slate-950/95 border border-[#b88f3a]/30 text-slate-100 text-xs px-4 py-2.5 rounded-2xl shadow-xl whitespace-nowrap animate-bounce flex items-center gap-2.5 backdrop-blur-md">
+        <div className="absolute bottom-full right-0 mb-3 bg-[#000a24]/95 border border-[#b88f3a]/30 text-slate-100 text-xs px-4 py-2.5 rounded-2xl shadow-xl whitespace-nowrap animate-bounce flex items-center gap-2.5 backdrop-blur-md">
           <span className="size-2 rounded-full bg-emerald-500 inline-block"></span>
           <span>Need investment guidance? Chat with Clean & Beautiful AI!</span>
           <button 
@@ -103,9 +197,9 @@ export default function AIChatbot() {
       {isOpen && (
         <div className="w-[90vw] sm:w-[380px] h-[500px] bg-slate-950/95 border border-[#b88f3a]/30 rounded-2xl shadow-2xl flex flex-col overflow-hidden mb-4 animate-in fade-in slide-in-from-bottom-5 duration-300 backdrop-blur-xl">
           {/* Header */}
-          <div className="bg-gradient-to-r from-slate-900 to-amber-950 p-4 border-b border-[#b88f3a]/20 flex justify-between items-center">
+          <div className="bg-gradient-to-r from-[#000a24] to-amber-950 p-4 border-b border-[#b88f3a]/20 flex justify-between items-center cursor-move" onMouseDown={handleMouseDown} onTouchStart={handleTouchStart}>
             <div className="flex items-center gap-2.5">
-              <div className="size-9 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center overflow-hidden">
+              <div className="size-9 rounded-full bg-[#07163c] border border-amber-500/30 flex items-center justify-center overflow-hidden">
                 <Image
                   src="/assets/logo.png"
                   alt="Clean & Beautiful AI"
@@ -140,7 +234,7 @@ export default function AIChatbot() {
                 )}
               >
                 {msg.role === "model" && (
-                  <div className="size-6 shrink-0 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center overflow-hidden">
+                  <div className="size-6 shrink-0 rounded-full bg-[#07163c] border border-amber-500/20 flex items-center justify-center overflow-hidden">
                     <Image
                       src="/assets/logo.png"
                       alt="AI"
@@ -155,7 +249,7 @@ export default function AIChatbot() {
                     "p-3 rounded-2xl leading-relaxed whitespace-pre-line shadow-sm",
                     msg.role === "user"
                       ? "bg-amber-500 text-slate-950 rounded-tr-none font-medium"
-                      : "bg-slate-900 text-slate-100 border border-slate-800 rounded-tl-none"
+                      : "bg-[#000a24] text-slate-100 border border-slate-800 rounded-tl-none"
                   )}
                 >
                   {msg.text}
@@ -166,7 +260,7 @@ export default function AIChatbot() {
             {/* Typing Loader */}
             {isLoading && (
               <div className="flex items-start gap-2 max-w-[85%] mr-auto">
-                <div className="size-6 shrink-0 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center overflow-hidden">
+                <div className="size-6 shrink-0 rounded-full bg-[#07163c] border border-amber-500/20 flex items-center justify-center overflow-hidden">
                   <Image
                     src="/assets/logo.png"
                     alt="AI"
@@ -175,7 +269,7 @@ export default function AIChatbot() {
                     className="object-contain"
                   />
                 </div>
-                <div className="bg-slate-900 text-slate-400 p-3 rounded-2xl rounded-tl-none border border-slate-800 flex items-center gap-2">
+                <div className="bg-[#000a24] text-slate-400 p-3 rounded-2xl rounded-tl-none border border-slate-800 flex items-center gap-2">
                   <Loader2 size={12} className="animate-spin text-amber-500" />
                   <span>Clean & Beautiful AI is thinking...</span>
                 </div>
@@ -227,7 +321,7 @@ export default function AIChatbot() {
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               placeholder="Ask about listings, pricing, tours..."
-              className="flex-1 bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-500/50"
+              className="flex-1 bg-[#000a24] border border-slate-800 rounded-xl px-3.5 py-2 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-500/50"
             />
             <button
               type="submit"
@@ -240,30 +334,30 @@ export default function AIChatbot() {
         </div>
       )}
 
-      {/* Floating Toggle Bubble */}
+      {/* Floating Toggle Bubble (Draggable & Clickable) */}
       <button
-        onClick={() => {
-          setIsOpen(!isOpen);
-          setShowNotification(false);
-        }}
+        onMouseDown={handleMouseDown}
+        onTouchStart={handleTouchStart}
+        onMouseUp={handleMouseUpAndClick}
+        onTouchEnd={handleTouchEndAndClick}
         className={cn(
-          "size-14 rounded-full flex items-center justify-center text-slate-950 shadow-2xl hover:scale-105 transition-all active:scale-95 border cursor-pointer border-[#b88f3a]/30 overflow-hidden",
+          "size-14 rounded-full flex items-center justify-center text-slate-950 shadow-2xl hover:scale-105 transition-all active:scale-95 border cursor-grab border-[#b88f3a]/40 overflow-hidden",
           isOpen
-            ? "bg-slate-900 text-amber-500 hover:bg-slate-800"
-            : "bg-amber-500 text-slate-950 hover:bg-amber-400"
+            ? "bg-[#07163c] text-amber-500 hover:bg-[#000a24]"
+            : "bg-[#07163c] text-slate-950 hover:bg-[#0b2259]"
         )}
         title="Clean & Beautiful AI"
       >
         {isOpen ? (
           <X size={22} className="text-amber-500" />
         ) : (
-          <div className="size-14 flex items-center justify-center p-0.5 bg-slate-950 rounded-full">
+          <div className="size-14 flex items-center justify-center p-0.5 bg-[#07163c] rounded-full overflow-hidden">
             <Image
               src="/assets/logo.png"
               alt="Clean & Beautiful AI Logo"
-              width={40}
-              height={40}
-              className="object-contain"
+              width={56}
+              height={56}
+              className="object-cover size-full scale-105"
             />
           </div>
         )}

@@ -81,6 +81,10 @@ const ProductForm = ({
     },
   });
 
+  const currentCategoryId = form.watch("categoryId");
+  const selectedCategory = productCategories?.find((c) => c.value === currentCategoryId);
+  const isPostingCategory = selectedCategory?.label?.toLowerCase() === "posting";
+
   const handleSubmit = async (values: z.infer<typeof productSchema>) => {
     try {
       const response =
@@ -94,10 +98,11 @@ const ProductForm = ({
           description: response.message,
           variant: "destructive",
         });
+        return;
       }
 
       toast({
-        title: "Success!!",
+        title: "Success!! 🎉",
         description: response.message,
       });
 
@@ -112,9 +117,19 @@ const ProductForm = ({
     }
   };
 
+  const handleValidationError = (errors: any) => {
+    console.error("Form validation errors:", errors);
+    const errorFields = Object.keys(errors).join(", ");
+    toast({
+      title: "Validation Error ⚠️",
+      description: `Please check the following fields: ${errorFields}`,
+      variant: "destructive",
+    });
+  };
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(handleSubmit, handleValidationError)} className="space-y-4">
         <CustomInput
           name="name"
           label="Name (Optional)"
@@ -122,13 +137,15 @@ const ProductForm = ({
           control={form.control}
           placeholder="Enter name or title"
         />
-        <CustomInput
-          name="location"
-          label="Location (Optional)"
-          type="text"
-          control={form.control}
-          placeholder="e.g. Lekki Phase 1"
-        />
+        {!isPostingCategory && (
+          <CustomInput
+            name="location"
+            label="Location (Optional)"
+            type="text"
+            control={form.control}
+            placeholder="e.g. Lekki Phase 1"
+          />
+        )}
         <div className="flex items-center justify-between gap-2">
           <CustomInput
             name="title"
@@ -159,62 +176,66 @@ const ProductForm = ({
             )}
           />
         </div>
-        <div className="w-full flex items-center justify-between gap-2">
-          <FormField
-            control={form.control}
-            name="listingStatus"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel className="capitalize font-light text-sm">
-                  Property Status (Optional)
-                </FormLabel>
-                <FormControl>
-                  <CustomSelect
-                    value={field.value}
-                    options={[
-                      { value: "selling", label: "Selling" },
-                      { value: "sold out", label: "Sold Out" },
-                      { value: "reopened", label: "Reopened" },
-                    ]}
-                    onChange={field.onChange}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <CustomInput
-            name="price"
-            label="Price (Optional)"
-            type="number"
-            control={form.control}
-            placeholder="Enter price..."
-          />
-        </div>
-        <div className="flex items-center justify-between gap-2">
-          <CustomInput
-            name="bedrooms"
-            label="Bedrooms (Optional)"
-            type="number"
-            control={form.control}
-            placeholder="Bedrooms"
-          />
-          <CustomInput
-            name="bathrooms"
-            label="Bathrooms (Optional)"
-            type="number"
-            control={form.control}
-            placeholder="Bathrooms"
-          />
+        {!isPostingCategory && (
+          <div className="w-full flex items-center justify-between gap-2">
+            <FormField
+              control={form.control}
+              name="listingStatus"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel className="capitalize font-light text-sm">
+                    Property Status (Optional)
+                  </FormLabel>
+                  <FormControl>
+                    <CustomSelect
+                      value={field.value}
+                      options={[
+                        { value: "selling", label: "Selling" },
+                        { value: "sold out", label: "Sold Out" },
+                        { value: "reopened", label: "Reopened" },
+                      ]}
+                      onChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <CustomInput
+              name="price"
+              label="Price (Optional)"
+              type="number"
+              control={form.control}
+              placeholder="Enter price..."
+            />
+          </div>
+        )}
+        {!isPostingCategory && (
+          <div className="flex items-center justify-between gap-2">
+            <CustomInput
+              name="bedrooms"
+              label="Bedrooms (Optional)"
+              type="number"
+              control={form.control}
+              placeholder="Bedrooms"
+            />
+            <CustomInput
+              name="bathrooms"
+              label="Bathrooms (Optional)"
+              type="number"
+              control={form.control}
+              placeholder="Bathrooms"
+            />
 
-          <CustomInput
-            name="size"
-            label="Size (Optional)"
-            type="number"
-            control={form.control}
-            placeholder="Size in sqm"
-          />
-        </div>
+            <CustomInput
+              name="size"
+              label="Size (Optional)"
+              type="number"
+              control={form.control}
+              placeholder="Size in sqm"
+            />
+          </div>
+        )}
 
         <FormField
           control={form.control}
@@ -245,7 +266,7 @@ const ProductForm = ({
               </FormControl>
               <FormMessage />
               <FormDescription>
-                (Only JPEG and PNG files are acceptable. Max 2MB)
+                (Only JPEG and PNG files are acceptable. Max 20MB)
               </FormDescription>
             </FormItem>
           )}

@@ -27,6 +27,21 @@ export const getAllCategories = async (): Promise<
         message: "Failed to get categories",
       };
 
+    const hasPosting = response.some(c => c.name.toLowerCase() === "posting");
+    if (!hasPosting) {
+      try {
+        const inserted = await db.insert(categoriesTable).values({
+          name: "Posting",
+          description: "General social media flyer posts with title, description, and image only."
+        }).returning({ id: categoriesTable.id, name: categoriesTable.name });
+        if (inserted && inserted.length > 0) {
+          response.push(inserted[0]);
+        }
+      } catch (err) {
+        console.error("Failed to auto-create Posting category:", err);
+      }
+    }
+
     return {
       success: true,
       message: "Categories fetched",
@@ -55,6 +70,21 @@ export const getAllAdminCategories = cache(
           success: false,
           message: "Failed to get categories",
         };
+
+      const hasPosting = response.some(c => c.name.toLowerCase() === "posting");
+      if (!hasPosting) {
+        try {
+          const inserted = await db.insert(categoriesTable).values({
+            name: "Posting",
+            description: "General social media flyer posts with title, description, and image only."
+          }).returning();
+          if (inserted && inserted.length > 0) {
+            response.push(inserted[0]);
+          }
+        } catch (err) {
+          console.error("Failed to auto-create Posting category:", err);
+        }
+      }
 
       return {
         success: true,
