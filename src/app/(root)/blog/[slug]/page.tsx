@@ -1,9 +1,10 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Calendar, Clock, User, Tag, MapPin, Share2 } from "lucide-react";
+import { ArrowLeft, Calendar, Clock, User, Tag, MapPin } from "lucide-react";
 import type { Metadata } from "next";
 
 import { getBlogPostBySlug, blogPosts } from "@/lib/data/blog.data";
+import ShareButton from "@/components/shared/ShareButton";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -90,18 +91,7 @@ export default async function BlogPostDetailsPage({ params }: Props) {
               </div>
             </div>
 
-            <button 
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-primary border border-slate-200 rounded-full px-4 py-2 hover:bg-slate-50 transition-all cursor-pointer"
-              onClick={() => {
-                if (typeof window !== "undefined") {
-                  navigator.clipboard.writeText(window.location.href);
-                  alert("Link copied to clipboard! Share the luxury insights.");
-                }
-              }}
-            >
-              <Share2 size={13} />
-              Share Article
-            </button>
+            <ShareButton />
           </div>
         </header>
 
