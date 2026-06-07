@@ -24,8 +24,9 @@ export default function BlogPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {blogPosts.map((post, idx) => (
             <article key={idx} className="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:border-[#b88f3a]/30 transition-all duration-300 group flex flex-col">
-              <div className="h-48 bg-slate-800 relative overflow-hidden flex items-center justify-center p-6 text-center">
-                <div className="absolute inset-0 bg-linear-to-tr from-[#0f172a]/95 to-[#1e293b]/70 group-hover:scale-105 transition-transform duration-700" />
+              <div className="h-48 relative overflow-hidden flex items-center justify-center p-6 text-center">
+                <img src={post.image} alt={post.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-slate-900/60" />
                 <div className="relative z-10">
                   <span className="text-amber-400 text-xs font-bold uppercase tracking-widest block mb-2">{post.category}</span>
                   <h4 className="text-slate-100 font-bold text-base leading-snug line-clamp-2">{post.title}</h4>
