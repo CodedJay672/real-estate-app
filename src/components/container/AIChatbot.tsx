@@ -120,7 +120,7 @@ export default function AIChatbot() {
     setIsDragging(false);
     const dx = Math.abs(e.clientX - startClickPos.current.x);
     const dy = Math.abs(e.clientY - startClickPos.current.y);
-    if (dx < 8 && dy < 8) {
+    if (dx < 15 && dy < 15) {
       setIsOpen(!isOpen);
       setShowNotification(false);
     }
@@ -131,7 +131,7 @@ export default function AIChatbot() {
     const touch = e.changedTouches[0];
     const dx = Math.abs(touch.clientX - startClickPos.current.x);
     const dy = Math.abs(touch.clientY - startClickPos.current.y);
-    if (dx < 8 && dy < 8) {
+    if (dx < 25 && dy < 25) {
       setIsOpen(!isOpen);
       setShowNotification(false);
     }
@@ -195,11 +195,11 @@ export default function AIChatbot() {
 
       {/* Chat Window Panel */}
       {isOpen && (
-        <div className="w-[90vw] sm:w-[380px] h-[500px] bg-slate-950/95 border border-[#b88f3a]/30 rounded-2xl shadow-2xl flex flex-col overflow-hidden mb-4 animate-in fade-in slide-in-from-bottom-5 duration-300 backdrop-blur-xl">
+        <div className="w-[90vw] sm:w-[380px] h-[500px] bg-white border border-slate-200 rounded-2xl shadow-2xl flex flex-col overflow-hidden mb-4 animate-in fade-in slide-in-from-bottom-5 duration-300">
           {/* Header */}
-          <div className="bg-gradient-to-r from-[#000a24] to-amber-950 p-4 border-b border-[#b88f3a]/20 flex justify-between items-center cursor-move" onMouseDown={handleMouseDown} onTouchStart={handleTouchStart}>
+          <div className="bg-slate-50 p-4 border-b border-slate-200/60 flex justify-between items-center cursor-move" onMouseDown={handleMouseDown} onTouchStart={handleTouchStart}>
             <div className="flex items-center gap-2.5">
-              <div className="size-9 rounded-full bg-[#07163c] border border-amber-500/30 flex items-center justify-center overflow-hidden">
+              <div className="size-9 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center overflow-hidden">
                 <Image
                   src="/assets/logo.png"
                   alt="Clean & Beautiful AI"
@@ -209,22 +209,22 @@ export default function AIChatbot() {
                 />
               </div>
               <div>
-                <h3 className="font-bold text-sm text-slate-100 flex items-center gap-1">
+                <h3 className="font-bold text-sm text-slate-800 flex items-center gap-1">
                   Clean & Beautiful AI <span className="size-1.5 rounded-full bg-emerald-500 inline-block animate-ping"></span>
                 </h3>
-                <p className="text-[10px] text-slate-400">Luxury Assistant • Online</p>
+                <p className="text-[10px] text-slate-500">Luxury Assistant • Online</p>
               </div>
             </div>
             <button
               onClick={() => setIsOpen(false)}
-              className="text-slate-400 hover:text-slate-100 p-1 rounded-full transition-colors cursor-pointer"
+              className="text-slate-400 hover:text-slate-600 hover:bg-slate-100 p-1.5 rounded-full transition-colors cursor-pointer"
             >
               <X size={18} />
             </button>
           </div>
 
           {/* Messages Window */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 text-xs scrollbar-thin scrollbar-thumb-amber-500/20">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 text-xs scrollbar-thin scrollbar-thumb-slate-200 bg-slate-50/50">
             {messages.map((msg, index) => (
               <div
                 key={index}
@@ -234,7 +234,7 @@ export default function AIChatbot() {
                 )}
               >
                 {msg.role === "model" && (
-                  <div className="size-6 shrink-0 rounded-full bg-[#07163c] border border-amber-500/20 flex items-center justify-center overflow-hidden">
+                  <div className="size-6 shrink-0 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center overflow-hidden">
                     <Image
                       src="/assets/logo.png"
                       alt="AI"
@@ -246,10 +246,10 @@ export default function AIChatbot() {
                 )}
                 <div
                   className={cn(
-                    "p-3 rounded-2xl leading-relaxed whitespace-pre-line shadow-sm",
+                    "p-3 rounded-2xl leading-relaxed whitespace-pre-line shadow-sm border",
                     msg.role === "user"
-                      ? "bg-amber-500 text-slate-950 rounded-tr-none font-medium"
-                      : "bg-[#000a24] text-slate-100 border border-slate-800 rounded-tl-none"
+                      ? "bg-amber-500 text-white border-amber-600 rounded-tr-none font-medium"
+                      : "bg-white text-slate-800 border-slate-200/80 rounded-tl-none"
                   )}
                 >
                   {msg.text}
@@ -260,7 +260,7 @@ export default function AIChatbot() {
             {/* Typing Loader */}
             {isLoading && (
               <div className="flex items-start gap-2 max-w-[85%] mr-auto">
-                <div className="size-6 shrink-0 rounded-full bg-[#07163c] border border-amber-500/20 flex items-center justify-center overflow-hidden">
+                <div className="size-6 shrink-0 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center overflow-hidden">
                   <Image
                     src="/assets/logo.png"
                     alt="AI"
@@ -269,7 +269,7 @@ export default function AIChatbot() {
                     className="object-contain"
                   />
                 </div>
-                <div className="bg-[#000a24] text-slate-400 p-3 rounded-2xl rounded-tl-none border border-slate-800 flex items-center gap-2">
+                <div className="bg-white text-slate-500 p-3 rounded-2xl rounded-tl-none border border-slate-200/80 flex items-center gap-2">
                   <Loader2 size={12} className="animate-spin text-amber-500" />
                   <span>Clean & Beautiful AI is thinking...</span>
                 </div>
@@ -281,12 +281,12 @@ export default function AIChatbot() {
 
           {/* Quick Prompts Panel */}
           {messages.length === 1 && !isLoading && (
-            <div className="p-3 border-t border-slate-900 bg-slate-950 flex flex-wrap gap-1.5">
+            <div className="p-3 border-t border-slate-100 bg-white flex flex-wrap gap-1.5">
               {QUICK_PROMPTS.map((prompt) => (
                 <button
                   key={prompt.label}
                   onClick={() => handleSend(prompt.text)}
-                  className="text-[10px] bg-slate-900 text-slate-300 hover:text-amber-400 hover:border-amber-500/30 border border-slate-800 px-2 py-1 rounded-full transition-all cursor-pointer"
+                  className="text-[10px] bg-slate-50 text-slate-600 hover:text-amber-600 hover:bg-amber-50 hover:border-amber-500/30 border border-slate-200/80 px-2 py-1 rounded-full transition-all cursor-pointer"
                 >
                   {prompt.label}
                 </button>
@@ -295,13 +295,13 @@ export default function AIChatbot() {
           )}
 
           {/* Direct WhatsApp Concierge CTA */}
-          <div className="px-4 py-2 bg-amber-500/5 border-t border-amber-500/10 flex justify-between items-center text-[10px] text-slate-400">
+          <div className="px-4 py-2 bg-amber-50 border-t border-slate-100 flex justify-between items-center text-[10px] text-slate-600">
             <span>Need Lauretta directly?</span>
             <a
               href="https://wa.link/a0m76f"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1 text-amber-400 font-bold hover:text-amber-300"
+              className="flex items-center gap-1 text-amber-600 font-bold hover:text-amber-700"
             >
               <PhoneCall size={10} />
               Open WhatsApp
@@ -314,19 +314,19 @@ export default function AIChatbot() {
               e.preventDefault();
               handleSend(inputValue);
             }}
-            className="p-3 bg-slate-950 border-t border-slate-900 flex gap-2"
+            className="p-3 bg-white border-t border-slate-100 flex gap-2"
           >
             <input
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               placeholder="Ask about listings, pricing, tours..."
-              className="flex-1 bg-[#000a24] border border-slate-800 rounded-xl px-3.5 py-2 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-500/50"
+              className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-850 placeholder-slate-400 focus:outline-none focus:border-amber-500/50"
             />
             <button
               type="submit"
               disabled={!inputValue.trim() || isLoading}
-              className="bg-amber-500 hover:bg-amber-400 disabled:opacity-50 text-slate-950 p-2 rounded-xl transition-all cursor-pointer"
+              className="bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-white p-2 rounded-xl transition-all cursor-pointer"
             >
               <Send size={14} />
             </button>
