@@ -9,6 +9,7 @@ export default function DraggableWhatsApp() {
   const [initialPosition, setInitialPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStarted, setDragStarted] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const elementRef = useRef<HTMLDivElement>(null);
   const dragOffsetRef = useRef({ x: 0, y: 0 });
   const activePointerIdRef = useRef<number | null>(null);
@@ -16,6 +17,7 @@ export default function DraggableWhatsApp() {
   const animationFrameRef = useRef<number | null>(null);
 
   useEffect(() => {
+    setIsMounted(true);
     if (typeof window !== "undefined") {
       const initialX = Math.max(window.innerWidth - 96, 12);
       const initialY = Math.max(window.innerHeight - 112, 12);
@@ -152,6 +154,8 @@ export default function DraggableWhatsApp() {
       stopDragging(true);
     }
   }, [isDragging, stopDragging]);
+
+  if (!isMounted) return null;
 
   return (
     <div

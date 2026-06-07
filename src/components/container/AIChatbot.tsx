@@ -22,6 +22,7 @@ export default function AIChatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [isMounted, setIsMounted] = useState(false);
 
   // Dragging States for custom floating physics
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -31,6 +32,7 @@ export default function AIChatbot() {
 
   // Initialize welcome message dynamically to prevent hydration mismatches
   useEffect(() => {
+    setIsMounted(true);
     setMessages([
       {
         role: "model",
@@ -167,6 +169,8 @@ export default function AIChatbot() {
       ]);
     }
   };
+
+  if (!isMounted) return null;
 
   return (
     <div 

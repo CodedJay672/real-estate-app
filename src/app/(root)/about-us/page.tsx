@@ -55,7 +55,7 @@ export default function AboutUs() {
             <h2 className="text-3xl md:text-5xl font-bold text-[#0f172a]">Meet The Team</h2>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-6xl mx-auto">
             {teamMembers.map((member, index) => (
               <div key={index} className="group bg-white rounded-3xl border border-slate-200 shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:border-[#b88f3a]/30 transition-all duration-500 overflow-hidden">
                 <div className="h-32 bg-[#0f172a] relative">
@@ -157,6 +157,12 @@ const teamMembers = [
     bio: "Ensures operational excellence and strategic growth across all Clean Beautiful Properties projects, delivering a stress-free and secure experience for every client.",
     image: "/assets/team/michael.jpg" // Assuming image mapping
   },
+  {
+    name: "Emmanuel Synergy",
+    role: "Digital Marketer",
+    bio: "Spearheads digital marketing, search engine optimization (SEO), and international brand growth to connect high-net-worth investors with premium assets.",
+    image: "/assets/avatar.png"
+  }
 ];
 
 const services = [
