@@ -20,6 +20,8 @@ interface CRMLead {
 
 interface CrmDashboardProps {
   initialLeads: CRMLead[];
+  isBrevoConfigured: boolean;
+  googleAnalyticsId: string;
 }
 
 const CRM_STAGES = [
@@ -29,7 +31,7 @@ const CRM_STAGES = [
   { id: "closed", name: "Deal Closed", color: "border-t-emerald-500 bg-emerald-500/5 text-emerald-700" },
 ];
 
-export default function CrmDashboard({ initialLeads }: CrmDashboardProps) {
+export default function CrmDashboard({ initialLeads, isBrevoConfigured, googleAnalyticsId }: CrmDashboardProps) {
   const { toast } = useToast();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<"buyer" | "renter" | "seller">("buyer");
@@ -48,6 +50,15 @@ export default function CrmDashboard({ initialLeads }: CrmDashboardProps) {
     setUpdatingId(null);
 
     if (response.success) {
+      // Trigger Google Analytics lead conversion/status update event
+      if (typeof window !== "undefined" && (window as any).gtag) {
+        (window as any).gtag("event", "lead_status_update", {
+          lead_id: leadId,
+          new_status: newStatus,
+          lead_type: activeTab,
+        });
+      }
+
       toast({
         title: "Status Updated",
         description: `Lead moved to ${newStatus.toUpperCase()}`,
@@ -68,6 +79,22 @@ export default function CrmDashboard({ initialLeads }: CrmDashboardProps) {
 
   return (
     <div className="w-full space-y-6">
+      {/* Integration Badges */}
+      <div className="flex flex-wrap gap-3 mb-2">
+        <div className="flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-semibold bg-emerald-500/10 text-emerald-600 border-emerald-500/20 shadow-xs">
+          <span className="size-2 rounded-full bg-emerald-500 inline-block animate-pulse"></span>
+          Google Analytics Active: {googleAnalyticsId}
+        </div>
+        <div className={`flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-semibold ${
+          isBrevoConfigured 
+            ? "bg-emerald-500/10 text-emerald-600 border-emerald-500/20" 
+            : "bg-amber-500/10 text-amber-600 border-amber-500/20"
+        }`}>
+          <span className={`size-2 rounded-full inline-block ${isBrevoConfigured ? "bg-emerald-500" : "bg-amber-500 animate-pulse"}`}></span>
+          Brevo Email Automation: {isBrevoConfigured ? "Connected" : "Connected (Sandbox/Mock)"}
+        </div>
+      </div>
+
       {/* Lead Type Tabs */}
       <div className="flex gap-2 border-b border-slate-200 pb-2">
         {(["buyer", "renter", "seller"] as const).map((tab) => (

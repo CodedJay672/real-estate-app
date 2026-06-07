@@ -31,8 +31,8 @@ export const properties = [
     listingStatus: "For Sale",
     listingDate: "2023-01-15",
     images: [
-      "https://placehold.co/600x400.jpg",
-      "https://placehold.co/600x400.jpg",
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80",
     ],
     amenities: [
       "Garage",
@@ -61,8 +61,8 @@ export const properties = [
     listingStatus: "For Sale",
     listingDate: "2023-03-20",
     images: [
-      "https://placehold.co/600x400.jpg",
-      "https://placehold.co/600x400.jpg",
+      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80",
     ],
     amenities: ["Gym", "Rooftop Terrace", "24/7 Security"],
   },
@@ -86,8 +86,8 @@ export const properties = [
     listingStatus: "For Sale",
     listingDate: "2023-02-10",
     images: [
-      "https://placehold.co/600x400.jpg",
-      "https://placehold.co/600x400.jpg",
+      "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=800&q=80",
     ],
     amenities: ["Garage", "Community Pool", "Playground"],
   },
@@ -111,8 +111,8 @@ export const properties = [
     listingStatus: "For Sale",
     listingDate: "2023-04-05",
     images: [
-      "https://placehold.co/600x400.jpg",
-      "https://placehold.co/600x400.jpg",
+      "https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1472224371017-08207f84aaae?auto=format&fit=crop&w=800&q=80",
     ],
     amenities: ["Fireplace", "Wood Burning Stove", "Outdoor Deck"],
   },
@@ -136,8 +136,8 @@ export const properties = [
     listingStatus: "For Sale",
     listingDate: "2023-05-12",
     images: [
-      "https://placehold.co/600x400.jpg",
-      "https://placehold.co/600x400.jpg",
+      "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80",
     ],
     amenities: [
       "Pool",
@@ -166,8 +166,8 @@ export const properties = [
     listingStatus: "For Rent",
     listingDate: "2023-06-01",
     images: [
-      "https://placehold.co/600x400.jpg",
-      "https://placehold.co/600x400.jpg",
+      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
     ],
     amenities: ["Gym", "Laundry Facilities", "Rooftop Lounge"],
   },

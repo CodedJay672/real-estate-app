@@ -34,9 +34,9 @@ const Herosection = () => {
         <div className="mt-10 sm:mt-12 flex flex-col items-center gap-3 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
           <div className="flex -space-x-3">
             <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Client" className="w-10 h-10 rounded-full border-2 border-[#0f172a] object-cover" />
-            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Client" className="w-10 h-10 rounded-full border-2 border-[#0f172a] object-cover" />
-            <img src="https://randomuser.me/api/portraits/men/46.jpg" alt="Client" className="w-10 h-10 rounded-full border-2 border-[#0f172a] object-cover" />
+            <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?fit=crop&w=100&h=100&q=80" alt="Client" className="w-10 h-10 rounded-full border-2 border-[#0f172a] object-cover" />
             <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Client" className="w-10 h-10 rounded-full border-2 border-[#0f172a] object-cover" />
+            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?fit=crop&w=100&h=100&q=80" alt="Client" className="w-10 h-10 rounded-full border-2 border-[#0f172a] object-cover" />
             <div className="w-10 h-10 rounded-full border-2 border-[#0f172a] bg-linear-to-br from-[#f5c344] to-[#b88f3a] flex items-center justify-center text-[11px] font-bold text-[#0f172a] shadow-inner">
               100+
             </div>

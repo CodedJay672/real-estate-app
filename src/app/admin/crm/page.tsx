@@ -35,7 +35,11 @@ export default async function AdminCrmPage() {
       </div>
 
       <div className="w-full bg-slate-50/50 border border-slate-200/80 rounded-2xl p-6 shadow-sm">
-        <CrmDashboard initialLeads={allLeads} />
+        <CrmDashboard 
+          initialLeads={allLeads} 
+          isBrevoConfigured={!!process.env.BREVO_API_KEY && process.env.BREVO_API_KEY !== "dummy"} 
+          googleAnalyticsId="G-J0GW3P8MNY"
+        />
       </div>
     </section>
   );

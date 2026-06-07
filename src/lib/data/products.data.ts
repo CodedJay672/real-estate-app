@@ -1,6 +1,6 @@
 import "server-only";
 
-import { and, count, desc, eq, gte, ilike } from "drizzle-orm";
+import { and, count, desc, eq, gte, ilike, ne, isNotNull } from "drizzle-orm";
 import { after } from "next/server";
 import { cache } from "react";
 
@@ -33,6 +33,8 @@ export const getAllProducts = cache(
         query?.baths ? eq(products.bathrooms, query.baths) : undefined,
         query?.category ? eq(products.categoryId, query.category) : undefined,
         normalizedDate ? gte(products.createdAt, normalizedDate) : undefined,
+        ne(products.imageUrl, ""),
+        isNotNull(products.imageUrl)
       );
 
       const [totalCount, allProducts] = await Promise.all([
@@ -151,6 +153,8 @@ export const getAdminProductsWithCategories = cache(
         query.baths ? eq(products.bathrooms, query.baths) : undefined,
         query.category ? eq(products.categoryId, query.category) : undefined,
         normalizedDate ? gte(products.createdAt, normalizedDate) : undefined,
+        ne(products.imageUrl, ""),
+        isNotNull(products.imageUrl)
       );
 
       // Run count and data queries concurrently for better performance
