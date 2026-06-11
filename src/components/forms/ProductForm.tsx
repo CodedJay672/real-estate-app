@@ -86,11 +86,15 @@ const ProductForm = ({
   const isPostingCategory = selectedCategory?.label?.toLowerCase() === "posting";
 
   const handleSubmit = async (values: z.infer<typeof productSchema>) => {
+    const finalValues = {
+      ...values,
+      listingStatus: isPostingCategory ? "none" as const : values.listingStatus,
+    };
     try {
       const response =
         type === "add-new" || !productId
-          ? await uploadProducts({ ...values, imageId: productImageId })
-          : await updateProductById(productId, { ...values, imageId: productImageId });
+          ? await uploadProducts({ ...finalValues, imageId: productImageId })
+          : await updateProductById(productId, { ...finalValues, imageId: productImageId });
 
       if (!response.success) {
         toast({
@@ -193,6 +197,7 @@ const ProductForm = ({
                         { value: "selling", label: "Selling" },
                         { value: "sold out", label: "Sold Out" },
                         { value: "reopened", label: "Reopened" },
+                        { value: "none", label: "None / Hide Status" },
                       ]}
                       onChange={field.onChange}
                     />
@@ -266,7 +271,7 @@ const ProductForm = ({
               </FormControl>
               <FormMessage />
               <FormDescription>
-                (Only JPEG and PNG files are acceptable. Max 20MB)
+                (Only JPEG, PNG images and videos are acceptable. Max 200MB)
               </FormDescription>
             </FormItem>
           )}

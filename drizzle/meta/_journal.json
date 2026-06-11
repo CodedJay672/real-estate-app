@@ -92,6 +92,13 @@
       "when": 1774017906702,
       "tag": "0012_fixed_may_parker",
       "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1781187378499,
+      "tag": "0013_chubby_eddie_brock",
+      "breakpoints": true
     }
   ]
 }

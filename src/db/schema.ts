@@ -27,6 +27,7 @@ export const LISTING_STATUS = pgEnum("status", [
   "selling",
   "sold out",
   "reopened",
+  "none",
 ]);
 
 export const products = pgTable(

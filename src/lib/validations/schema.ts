@@ -26,7 +26,7 @@ export const productSchema = z.object({
   bathrooms: z.coerce.number().optional(),
   size: z.coerce.number().optional(),
   categoryId: z.string().optional(),
-  listingStatus: z.enum(["selling", "sold out", "reopened"]).default("selling").optional(),
+  listingStatus: z.enum(["selling", "sold out", "reopened", "none"]).default("selling").optional(),
   imageUrl: z.string().optional(),
   imageId: z.string().optional(),
   tags: z.string().optional(),

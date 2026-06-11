@@ -73,3 +73,15 @@ export const generateSlug = (name: string) => {
 
   return `${normalized}-${random8DigitNumber()}`;
 };
+
+export const isVideo = (url?: string | null) => {
+  if (!url) return false;
+  const extension = url.split("?")[0].split(".").pop()?.toLowerCase();
+  return ["mp4", "mov", "avi", "mkv", "webm"].includes(extension || "");
+};
+
+export const getFullImageUrl = (url?: string | null, urlEndpoint?: string) => {
+  if (!url) return "";
+  if (url.startsWith("http://") || url.startsWith("https://")) return url;
+  return `${urlEndpoint || ""}${url}`;
+};

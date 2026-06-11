@@ -10,8 +10,9 @@ import { toast } from '@/hooks/use-toast';
 import config from '@/lib/config';
 import { Button } from '../ui/button';
 import { useProductProvider } from '../providers/StoreProvider';
+import { isVideo, getFullImageUrl } from '@/lib/utils';
 
-const MAX_SIZE = 20 * 1024 * 1024; // 20MB
+const MAX_SIZE = 200 * 1024 * 1024; // 200MB
 
 export default function FileDropzone({ onFileChangeAction, onRemoveAction, imgUrl }: { onFileChangeAction: Dispatch<File>; imgUrl: string; onRemoveAction: () => void }) {
   // global product store
@@ -28,7 +29,7 @@ export default function FileDropzone({ onFileChangeAction, onRemoveAction, imgUr
     if (file.size > MAX_SIZE) {
       toast({
         title: 'File too large',
-        description: `Maximum size is 20MB. ${file.name} is ${(file.size / 1024 / 1024).toFixed(2)}MB`,
+        description: `Maximum size is 200MB. ${file.name} is ${(file.size / 1024 / 1024).toFixed(2)}MB`,
         variant: 'destructive',
       });
       return;
@@ -44,13 +45,13 @@ export default function FileDropzone({ onFileChangeAction, onRemoveAction, imgUr
         if (e.code === 'file-too-large') {
           toast({
             title: 'File too large',
-            description: `Maximum size is 20MB. ${file.name} is ${(file.size / 1024 / 1024).toFixed(2)}MB`,
+            description: `Maximum size is 200MB. ${file.name} is ${(file.size / 1024 / 1024).toFixed(2)}MB`,
             variant: 'destructive',
           });
         } else if (e.code === 'file-invalid-type') {
           toast({
             title: 'Invalid file type',
-            description: `Only JPEG, JPG and PNG images are allowed.`,
+            description: `Only JPEG, JPG, PNG images and video files are allowed.`,
             variant: 'destructive',
           });
         } else {
@@ -68,9 +69,10 @@ export default function FileDropzone({ onFileChangeAction, onRemoveAction, imgUr
     onDrop,
     onDropRejected,
     accept: {
-      'image/*': ['.jpeg', '.jpg', '.png']
+      'image/*': ['.jpeg', '.jpg', '.png'],
+      'video/*': ['.mp4', '.mov', '.avi', '.mkv', '.webm']
     },
-    maxSize: MAX_SIZE// 20MB max
+    maxSize: MAX_SIZE// 200MB max
   })
 
   return (
@@ -81,7 +83,11 @@ export default function FileDropzone({ onFileChangeAction, onRemoveAction, imgUr
             {isDeleting ? <Loader size={44} className='animate-spin text-light-50' /> : <X size={28} />}
           </Button>
 
-          <Image urlEndpoint={config.env.imagekit.urlEndpoint} src={imgUrl} alt='product img' sizes='(min-width: 360px) 100%' fill priority className='object-cover' />
+          {isVideo(imgUrl) ? (
+            <video src={getFullImageUrl(imgUrl, config.env.imagekit.urlEndpoint)} controls className='w-full h-full object-cover' />
+          ) : (
+            <Image urlEndpoint={config.env.imagekit.urlEndpoint} src={imgUrl} alt='product img' sizes='(min-width: 360px) 100%' fill priority className='object-cover' />
+          )}
 
         </>
         :

@@ -21,7 +21,7 @@ type listings = {
   title: string;
   price: number;
   location: string;
-  listingStatus: "selling" | "sold out" | "reopened";
+  listingStatus: "selling" | "sold out" | "reopened" | "none";
   size: number | null;
   categoryId: string | null;
   createdAt: Date;

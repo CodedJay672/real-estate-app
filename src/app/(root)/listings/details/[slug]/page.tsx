@@ -9,6 +9,7 @@ import Back from "@/components/shared/Back";
 import config from "@/lib/config";
 import { getProductBySlug, getProductDetailsWithLikes } from "@/lib/data/products.data";
 import CeoSpeech from "@/components/shared/ceo-speech";
+import { isVideo, getFullImageUrl } from "@/lib/utils";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -56,15 +57,24 @@ const PropertyDetails = async ({ params }: { params: Promise<{ slug: string }> }
                 className="relative overflow-hidden flex items-center justify-center mx-auto"
                 style={isFlyer ? { width: '6in', height: '7in', maxWidth: '100%' } : { width: '100%', height: '27.5rem' }}
               >
-                <Image
-                  urlEndpoint={config.env.imagekit.urlEndpoint}
-                  src={productDetails.data.imageUrl}
-                  alt={productDetails.data.name ?? "Property image"}
-                  sizes="(max-width: 300px) 30em, 100%"
-                  fill
-                  priority
-                  className="object-contain"
-                />
+                {isVideo(productDetails.data.imageUrl) ? (
+                  <video
+                    src={getFullImageUrl(productDetails.data.imageUrl, config.env.imagekit.urlEndpoint)}
+                    controls
+                    playsInline
+                    className="w-full h-full object-contain"
+                  />
+                ) : (
+                  <Image
+                    urlEndpoint={config.env.imagekit.urlEndpoint}
+                    src={productDetails.data.imageUrl}
+                    alt={productDetails.data.name ?? "Property image"}
+                    sizes="(max-width: 300px) 30em, 100%"
+                    fill
+                    priority
+                    className="object-contain"
+                  />
+                )}
               </div>
             ) : (
               <div className="h-96" />

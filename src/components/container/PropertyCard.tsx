@@ -6,6 +6,7 @@ import { Suspense } from "react";
 import config from "@/lib/config";
 import Likes from "@/components/shared/Likes";
 import PropertyCategory from "../shared/PropertyCategory";
+import { isVideo, getFullImageUrl } from "@/lib/utils";
 
 const PropertyCard = (props: listings & {
   likes: TLikesResponse[];
@@ -24,24 +25,36 @@ const PropertyCard = (props: listings & {
       >
         <Link href={`listings/details/${props.slug}`} className="absolute inset-0 z-0">
           <div className="absolute left-4 top-4 z-10 flex flex-wrap gap-2 pointer-events-none">
-            <span className="rounded-full bg-linear-to-r from-[#f5c344] to-[#b88f3a] px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-[#0f172a] shadow-sm">
-              {props.listingStatus || "Available"}
-            </span>
+            {!isFlyer && props.listingStatus !== "none" && (
+              <span className="rounded-full bg-linear-to-r from-[#f5c344] to-[#b88f3a] px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-[#0f172a] shadow-sm">
+                {props.listingStatus || "Available"}
+              </span>
+            )}
             <Suspense fallback={<Loader2 size={16} className="animate-spin text-white" />}>
               <PropertyCategory catId={props.categoryId ?? ""} />
             </Suspense>
           </div>
 
           {props.imageUrl ? (
-            <Image
-              src={props.imageUrl}
-              urlEndpoint={config.env.imagekit.urlEndpoint}
-              alt={props.name ?? "Property image"}
-              loading="lazy"
-              sizes="(max-width: 780px) 100%, (max-width: 1200px) 50%, 25%"
-              fill
-              className={isFlyer ? "object-contain transition-transform duration-700 group-hover:scale-105" : "object-cover transition-transform duration-700 group-hover:scale-105"}
-            />
+            isVideo(props.imageUrl) ? (
+              <video
+                src={getFullImageUrl(props.imageUrl, config.env.imagekit.urlEndpoint)}
+                controls
+                playsInline
+                className="w-full h-full object-cover"
+                onClick={(e) => e.stopPropagation()}
+              />
+            ) : (
+              <Image
+                src={props.imageUrl}
+                urlEndpoint={config.env.imagekit.urlEndpoint}
+                alt={props.name ?? "Property image"}
+                loading="lazy"
+                sizes="(max-width: 780px) 100%, (max-width: 1200px) 50%, 25%"
+                fill
+                className={isFlyer ? "object-contain transition-transform duration-700 group-hover:scale-105" : "object-cover transition-transform duration-700 group-hover:scale-105"}
+              />
+            )
           ) : (
             <div className="h-full w-full bg-slate-200" />
           )}
