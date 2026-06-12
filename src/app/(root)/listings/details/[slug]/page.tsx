@@ -162,7 +162,7 @@ const PropertyDetails = async ({ params }: { params: Promise<{ slug: string }> }
       <div className="w-full p-4 bg-primary md:p-6 rounded-2xl border border-border">
         <h1 className="text-xl text-center text-accent-bright font-medium">Meet the Agent</h1>
         <CeoSpeech
-          imgUrl="/assets/team/ceo.png"
+          imgUrl="/assets/team/ceo.jpeg"
           name="Lauretta Asemota"
           speech="CLEAN AND BEAUTIFUL PROPERTIES LIMITED is a real estate consulting firm with a mission to create the paradise you truly deserve, with a perfect blend of Nature, technology, Luxury and sophistication.
           
