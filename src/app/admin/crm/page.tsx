@@ -23,6 +23,11 @@ export default async function AdminCrmPage() {
     .from(messages)
     .orderBy(desc(messages.createdAt));
 
+  const serializedLeads = allLeads.map((lead) => ({
+    ...lead,
+    createdAt: lead.createdAt.toISOString(),
+  }));
+
   return (
     <section className="wrapper">
       <div className="w-full lg:max-w-(--breakpoint-md) mb-6">
@@ -36,7 +41,7 @@ export default async function AdminCrmPage() {
 
       <div className="w-full bg-slate-50/50 border border-slate-200/80 rounded-2xl p-6 shadow-sm">
         <CrmDashboard 
-          initialLeads={allLeads} 
+          initialLeads={serializedLeads} 
           isBrevoConfigured={!!process.env.BREVO_API_KEY && process.env.BREVO_API_KEY !== "dummy"} 
           googleAnalyticsId="G-J0GW3P8MNY"
         />

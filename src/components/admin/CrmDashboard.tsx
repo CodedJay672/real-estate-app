@@ -15,7 +15,7 @@ interface CRMLead {
   status: string | null;
   propertyName: string | null;
   message: string;
-  createdAt: Date;
+  createdAt: string;
 }
 
 interface CrmDashboardProps {
