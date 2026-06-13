@@ -3,8 +3,29 @@ import { QuoteIcon, Home, Search, TrendingUp, Handshake, ShieldCheck, Smartphone
 import Link from "next/link";
 
 export default function AboutUs() {
+  const aboutSchema = {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "name": "About Clean Beautiful Properties Limited",
+    "description": "Clean Beautiful Properties Limited is a luxury real estate consulting firm. Our mission is to seamlessly blend nature, cutting-edge technology, and unmatched luxury to deliver the sophistication you deserve.",
+    "mainEntity": {
+      "@type": "Organization",
+      "name": "Clean Beautiful Properties Limited",
+      "founder": {
+        "@type": "Person",
+        "name": "Pst. Lauretta Asemota",
+        "jobTitle": "CEO & Founder",
+        "image": "https://cleanbeautifulproperties.com/assets/team/ceo.jpeg"
+      }
+    }
+  };
+
   return (
     <div className="w-full bg-[#f8fafc]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }}
+      />
       {/* Premium Hero Section */}
       <section className="relative bg-[#0f172a] text-white py-24 lg:py-32 overflow-hidden">
         {/* Luxury Background Accents */}

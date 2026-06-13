@@ -28,6 +28,52 @@ const inter = Inter({
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={inter.variable}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "RealEstateAgent",
+              "name": "Clean Beautiful Properties Limited",
+              "alternateName": "CBPL",
+              "url": "https://cleanbeautifulproperties.com",
+              "logo": "https://cleanbeautifulproperties.com/assets/logo.png",
+              "image": "https://cleanbeautifulproperties.com/assets/team/ceo.jpeg",
+              "description": "Clean Beautiful Properties Limited is a premium real estate consulting firm specializing in luxury properties in Lagos, Nigeria, London, UK, and Dubai. Led by CEO Lauretta Asemota.",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Lekki Phase 1",
+                "addressRegion": "Lagos",
+                "addressCountry": "Nigeria"
+              },
+              "telephone": "+2348000000000",
+              "founder": {
+                "@type": "Person",
+                "name": "Lauretta Asemota",
+                "jobTitle": "CEO & Founder",
+                "image": "https://cleanbeautifulproperties.com/assets/team/ceo.jpeg",
+                "sameAs": [
+                  "https://www.instagram.com/laurettaasemota",
+                  "https://www.tiktok.com/@laurettaasemota"
+                ]
+              },
+              "sameAs": [
+                "https://www.instagram.com/laurettaasemota",
+                "https://www.tiktok.com/@laurettaasemota"
+              ],
+              "knowsAbout": [
+                "Luxury Real Estate Lagos",
+                "Land documentation in Nigeria",
+                "Certificate of Occupancy (C of O)",
+                "Governor's Consent",
+                "Deed of Assignment",
+                "Lekki property investment"
+              ]
+            })
+          }}
+        />
+      </head>
       <body className="font-sans antialiased">
         <LayoutProvider>
           <ProductStoreProvider>

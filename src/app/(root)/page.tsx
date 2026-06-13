@@ -9,10 +9,28 @@ import BlogSlider from "@/components/container/BlogSlider";
 import ListingsSlider from "@/components/container/ListingsSlider";
 import Searchbar from "@/components/shared/Searchbar";
 import { getAllCategories } from "@/lib/data/category.data";
+import { FAQItems } from "@/constants";
 
 export default async function Home() {
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": FAQItems.map((item) => ({
+      "@type": "Question",
+      "name": item.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": item.answer,
+      },
+    })),
+  };
+
   return (
     <section className="w-full">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       {/* 1. Hero Section (Result) */}
       <Herosection />
 

@@ -43,8 +43,40 @@ const PropertyDetails = async ({ params }: { params: Promise<{ slug: string }> }
   const paragraphs = (productDetails.data.description ?? "").split(/\r?\n/).filter(Boolean);
   const isFlyer = !productDetails.data.bedrooms && !productDetails.data.bathrooms && (!productDetails.data.price || productDetails.data.price === 0);
 
+  const propertySchema = {
+    "@context": "https://schema.org",
+    "@type": "SingleFamilyResidence",
+    "name": productDetails.data.name,
+    "description": productDetails.data.description,
+    "image": productDetails.data.imageUrl ? getFullImageUrl(productDetails.data.imageUrl, config.env.imagekit.urlEndpoint) : undefined,
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": productDetails.data.location,
+      "addressRegion": "Lagos",
+      "addressCountry": "Nigeria"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": productDetails.data.price,
+      "priceCurrency": "NGN",
+      "availability": "https://schema.org/InStock",
+      "validFrom": productDetails.data.createdAt
+    },
+    "numberOfBedrooms": productDetails.data.bedrooms,
+    "numberOfBathrooms": productDetails.data.bathrooms,
+    "floorSize": productDetails.data.size ? {
+      "@type": "QuantitativeValue",
+      "value": productDetails.data.size,
+      "unitCode": "MTK"
+    } : undefined
+  };
+
   return (
     <section className="container mx-auto py-24 px-4 md:px-10 space-y-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(propertySchema) }}
+      />
       <div className="grid gap-10 lg:grid-cols-[1.5fr_0.7fr]">
         <article className="space-y-8 rounded-[2rem] border border-slate-200/70 bg-white dark:border-slate-800 dark:bg-slate-950/95">
           <div className="relative overflow-hidden rounded-[1.5rem] bg-slate-100 shadow-sm flex items-center justify-center p-4">
