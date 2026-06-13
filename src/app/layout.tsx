@@ -108,7 +108,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         strategy="afterInteractive"
       />
       <Script
-        id="downtown-analytics"
+        id="ga4-analytics"
         strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: `
